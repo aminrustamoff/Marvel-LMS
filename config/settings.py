@@ -103,7 +103,7 @@ DATABASES = {
 AUTH_USER_MODEL = "accounts.User"
 
 LOGIN_URL = "accounts:login"
-LOGIN_REDIRECT_URL = "dashboard"       # login'dan keyin qayerga
+LOGIN_REDIRECT_URL = "dashboard:index"       # login'dan keyin qayerga
 LOGOUT_REDIRECT_URL = "accounts:login"
 
 # Xavfsizlik (production uchun)
