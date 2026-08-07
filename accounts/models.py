@@ -15,7 +15,7 @@ class User(AbstractUser):
     )
 
     phone_number = models.CharField(max_length=20, blank=True, null=True)
-    avatar = models.ImageField(upload_to="media/avatars/", blank=True, null=True)
+    avatar = models.ImageField(upload_to="avatars/", blank=True, null=True)
 
     # Email talab qilinmaydi, lekin AbstractUser'da mavjud — shart emas qilib qo'yamiz
     email = models.EmailField(blank=True)
