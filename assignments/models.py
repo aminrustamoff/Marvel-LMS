@@ -10,34 +10,9 @@ class Assignment(models.Model):
         on_delete=models.CASCADE,
         related_name="assignments",
     )
-    article = models.ForeignKey(
-        "reading.ReadingArticle",
-        on_delete=models.CASCADE,
-        blank=True,
-        null=True,
-        related_name="assignments",
-    )
-    reading_passage = models.ForeignKey(
-        "reading.ReadingPassage",
-        on_delete=models.CASCADE,
-        blank=True,
-        null=True,
-        related_name="assignments",
-    )
-    listening = models.ForeignKey(
-        "listening.Listening",
-        on_delete=models.CASCADE,
-        blank=True,
-        null=True,
-        related_name="assignments",
-    )
-    video = models.ForeignKey(
-        "videos.ListeningPodcast",
-        on_delete=models.CASCADE,
-        blank=True,
-        null=True,
-        related_name="assignments",
-    )
+
+
+    
     assigned_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         limit_choices_to={"role": "TEACHER"},
@@ -57,3 +32,83 @@ class Assignment(models.Model):
 
     def __str__(self):
         return self.title
+
+class ArticleTask(models.Model):
+    assignment = models.ForeignKey(
+        Assignment,
+        on_delete=models.CASCADE,
+        related_name="article_tasks",
+    )
+
+    task = models.ForeignKey(
+        "reading.ReadingArticle",
+        on_delete=models.CASCADE,
+        related_name="article_tasks",
+    )
+    
+    class Meta:
+        verbose_name = "Assignment Task"
+        verbose_name_plural = "Assignment Tasks"
+
+    def __str__(self):
+        return f"{self.assignment.title} - {self.task.title}"
+
+class PassageTask(models.Model):
+    assignment = models.ForeignKey(
+        Assignment,
+        on_delete=models.CASCADE,
+        related_name="passage_tasks",
+    )
+
+    task = models.ForeignKey(
+        "reading.ReadingPassage",
+        on_delete=models.CASCADE,
+        related_name="passage_tasks",
+    )
+    
+    class Meta:
+        verbose_name = "Assignment Task"
+        verbose_name_plural = "Assignment Tasks"
+
+    def __str__(self):
+        return f"{self.assignment.title} - {self.task.title}"
+
+class ListeningTask(models.Model):
+    assignment = models.ForeignKey(
+        Assignment,
+        on_delete=models.CASCADE,
+        related_name="listening_tasks",
+    )
+
+    task = models.ForeignKey(
+        "listening.Listening",
+        on_delete=models.CASCADE,
+        related_name="listening_tasks",
+    )
+    
+    class Meta:
+        verbose_name = "Assignment Task"
+        verbose_name_plural = "Assignment Tasks"
+
+    def __str__(self):
+        return f"{self.assignment.title} - {self.task.title}"
+
+class PodcastTask(models.Model):
+    assignment = models.ForeignKey(
+        Assignment,
+        on_delete=models.CASCADE,
+        related_name="podcast_tasks",
+    )
+
+    task = models.ForeignKey(
+        "videos.ListeningPodcast",
+        on_delete=models.CASCADE,
+        related_name="podcast_tasks",
+    )
+    
+    class Meta:
+        verbose_name = "Assignment Task"
+        verbose_name_plural = "Assignment Tasks"
+
+    def __str__(self):
+        return f"{self.assignment.title} - {self.task.title}"

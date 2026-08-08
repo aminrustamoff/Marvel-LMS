@@ -1,6 +1,24 @@
 from django.contrib import admin
 
-from .models import Assignment
+from .models import ArticleTask, Assignment, ListeningTask, PassageTask, PodcastTask
+
+class ArticleTaskInline(admin.TabularInline):
+    model = ArticleTask
+    extra = 1
+
+class PassageTaskInline(admin.TabularInline):
+    model = PassageTask
+    extra = 1
+
+class ListeningTaskInline(admin.TabularInline):
+    model = ListeningTask
+    extra = 1
+
+class PodcastTaskInline(admin.TabularInline):
+    model = PodcastTask
+    extra = 1
+    
+
 
 
 @admin.register(Assignment)
@@ -8,7 +26,7 @@ class AssignmentAdmin(admin.ModelAdmin):
     list_display = ("title", "group", "assigned_by", "due_date", "created_at")
     list_filter = ("group", "assigned_by", "due_date")
     search_fields = ("title", "description")
-    raw_id_fields = ("group", "article", "reading_passage", "listening", "video")
+    inlines = (ArticleTaskInline, PassageTaskInline, ListeningTaskInline, PodcastTaskInline)
     readonly_fields = ("assigned_by",)
 
     def save_model(self, request, obj, form, change):
