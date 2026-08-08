@@ -8,6 +8,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/", include("accounts.urls")),
     path("dashboard/", include("dashboard.urls")),  # boshqa app'lar
+    path("groups/", include("groups.urls")),
     path("reading/", include("reading.urls")),
 ]
 

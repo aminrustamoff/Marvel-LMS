@@ -22,10 +22,11 @@
                 {% if user.role == "STUDENT" %}
                     <a href="#">Reading</a>
                     <a href="#">Listening</a>
-                    <a href="#">Assignments</a>
+                    <a href="{% url 'assignments:list' %}">Assignments</a>
                     <a href="#">Notes</a>
                     <a href="#">Videos</a>
                 {% elif user.role == "TEACHER" %}
+                    <a href="{% url 'groups:list' %}">Groups</a>
                     <a href="{% url 'admin:index' %}">Admin</a>
                 {% endif %}
             </nav>
