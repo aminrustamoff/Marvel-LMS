@@ -20,7 +20,7 @@ class ReadingPassageImageInline(admin.TabularInline):
 
 @admin.register(ReadingArticle)
 class ReadingArticleAdmin(admin.ModelAdmin):
-    list_display = ("title", "subtitle", "created_by", "created_at", "updated_at")
+    list_display = ("title", "created_by", "created_at", "updated_at")
     search_fields = ("title", "subtitle", "content")
     list_filter = ("created_by", "created_at")
     inlines = (ReadingArticleImageInline,)
@@ -34,9 +34,9 @@ class ReadingArticleAdmin(admin.ModelAdmin):
 
 @admin.register(ReadingPassage)
 class ReadingPassageAdmin(admin.ModelAdmin):
-    list_display = ("title", "subtitle", "created_by", "created_at", "updated_at")
+    list_display = ("title", "passage", "created_by", "created_at", "updated_at")
     search_fields = ("title", "subtitle", "passage_text", "question_text")
-    list_filter = ("created_by", "created_at")
+    list_filter = ("created_by", "created_at", "passage")
     inlines = (ReadingPassageImageInline,)
     readonly_fields = ("created_by",)
 

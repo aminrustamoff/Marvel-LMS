@@ -51,8 +51,16 @@ class ReadingArticleImage(models.Model):
 # ============================================================
 
 class ReadingPassage(models.Model):
+
+    PART_CHOICES = [
+            ("Passage 1", "Passage 1"),
+            ("Passage 2", "Passage 2"),
+            ("Passage 3", "Passage 3"),
+        ]
+
     title = models.CharField(max_length=255)
     subtitle = models.CharField(max_length=255, null=True, blank=True)
+    passage = models.CharField(max_length=50, choices=PART_CHOICES, default="Passage 1")
     image = models.ImageField(upload_to="reading/passages/", null=True, blank=True)
 
     passage_text = models.TextField()

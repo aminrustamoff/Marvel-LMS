@@ -14,7 +14,7 @@ class ListeningPodcast(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
         null=True,
-        related_name="created_articles",
+        related_name="listening_podcast_created",
         limit_choices_to={"role": "TEACHER"},
     )
     created_at = models.DateTimeField(auto_now_add=True)

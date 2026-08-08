@@ -3,7 +3,7 @@ from .models import ListeningPodcast
 
 @admin.register(ListeningPodcast)
 class ListeningPodcastAdmin(admin.ModelAdmin):
-    list_display = ('title', 'url', 'created_by', 'created_at')
+    list_display = ('title', 'url', 'created_by', 'created_at', 'updated_at')
     search_fields = ('title', 'description', 'url')
     list_filter = ('created_by', 'created_at')
 
