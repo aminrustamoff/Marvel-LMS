@@ -1,11 +1,15 @@
 from django.shortcuts import render
 
+from accounts.decorators import teacher_required
+
 from .models import *
 
+@teacher_required
 def assignment_list(request):
     assignments = Assignment.objects.all()
     return render(request, 'assignments/assignment_list.html', {'assignments': assignments})
 
+@teacher_required
 def assignment_detail(request, pk):
     assignment = Assignment.objects.get(pk=pk)
     listening_tasks = ListeningTask.objects.filter(assignment=assignment)
