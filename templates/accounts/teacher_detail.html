@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Teacher: {{ teacher.first_name }} {{ teacher.last_name }}{% endblock %}
+
+{% block content %}
+    {% if teacher.avatar %}
+        <img src="{{ teacher.avatar.url }}" alt="{{ teacher.first_name }} {{ teacher.last_name }}" class="profile-picture">
+    {% endif %}
+    <h1>{{ teacher.first_name }} {{ teacher.last_name }}</h1>
+    <p><strong>Email:</strong> {{ teacher.email }}</p>
+    <p><strong>Active:</strong> {{ teacher.is_active|yesno:"Yes,No" }}</p>
+    <p><strong>Phone:</strong> {{ teacher.phone_number }}</p>
+{% endblock %}

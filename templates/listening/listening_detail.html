@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <h2>{{ listening_detail.title }} - {{ listening_detail.part }}</h2>
+    <audio controls>
+        <source src="{{ listening_detail.audio_file.url }}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <p>{{ listening_detail.question }}</p>
+    <p>{{ listening_detail.answer }}</p>
+    <p>{{ listening_detail.created_by }}</p>
+    <p>{{ listening_detail.created_at }}</p>
+    <p>{{ listening_detail.updated_at }}</p>
+
+{% endblock %}

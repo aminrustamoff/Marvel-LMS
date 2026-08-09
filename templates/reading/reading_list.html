@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <h2>Reading Passages</h2>
+    <ul>
+        {% for item in reading %}
+            <li>
+                <a href="{% url 'reading:reading_detail' item.pk %}">
+                    <h3>{{ item.title }} - {{ item.passage }}</h3>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

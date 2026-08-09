@@ -12,24 +12,32 @@
 
     <header class="site-header">
         <div class="container header-inner">
-            <a href="{% if user.is_authenticated %}{% url 'dashboard:index' %}{% else %}{% url 'accounts:login' %}{% endif %}" class="logo">
-                MARVEL LC
-            </a>
+            {% if user.is_authenticated and user.role == "TEACHER" %}
+                <a href="{% url 'dashboard:teacher_dashboard' %}" class="logo">
+                    MARVEL LC
+                </a>
+            {% elif user.is_authenticated and user.role == "STUDENT" %}
+                <a href="{% url 'dashboard:student_dashboard' %}" class="logo">
+                    MARVEL LC
+                </a>
+            {% else %}
+                <a href="{% url 'accounts:login' %}" class="logo">
+                    MARVEL LC
+                </a>
+            {% endif %}
+
+            {% if user.is_authenticated and user.role == "TEACHER" %}
+            <nav class="main-nav">
+                <a href="{% url 'dashboard:teacher_dashboard' %}">Dashboard</a>
+                <a href="{% url 'admin:index' %}">Admin</a>
+            </nav>
+            {% elif user.is_authenticated and user.role == "STUDENT" %}
+            <nav class="main-nav">
+                <a href="{% url 'dashboard:student_dashboard' %}">Dashboard</a>
+            </nav>
+            {% endif %}
 
             {% if user.is_authenticated %}
-            <nav class="main-nav">
-                <a href="{% url 'dashboard:index' %}">Dashboard</a>
-                {% if user.role == "STUDENT" %}
-                    <a href="#">Reading</a>
-                    <a href="#">Listening</a>
-                    <a href="{% url 'assignments:list' %}">Assignments</a>
-                    <a href="#">Notes</a>
-                    <a href="#">Videos</a>
-                {% elif user.role == "TEACHER" %}
-                    <a href="{% url 'groups:list' %}">Groups</a>
-                    <a href="{% url 'admin:index' %}">Admin</a>
-                {% endif %}
-            </nav>
             <div class="user-box">
                 <span>{{ user.first_name|default:user.username }}</span>
                 <form method="post" action="{% url 'accounts:logout' %}" class="logout-form">

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+    {% if article %}
+        {% if article.image %}
+            <img src="{{ article.image.url }}" alt="{{ article.title }}" class="article-image">
+        {% endif %}
+        <h2>{{ article.title }}</h2>
+        <p>{{ article.subtitle }}</p>
+        <p>{{ article.content }}</p>
+        <p>Created by: {{ article.created_by }}</p>
+        <p>Created at: {{ article.created_at }}</p>
+        <p>Updated at: {{ article.updated_at }}</p>
+    {% else %}
+        <p>Article not found.</p>
+    {% endif %}
+
+{% endblock %}

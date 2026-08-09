@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <h2>{{ reading_detail.title }}</h2>
+    <h3>{{ reading_detail.subtitle }}</h3>
+    <p>{{ reading_detail.passage_text }}</p>
+    <p>{{ reading_detail.question_text }}</p>
+    <p>{{ reading_detail.answers }}</p>
+    <p>{{ reading_detail.passage }}</p>
+    <p>{{ reading_detail.created_by }}</p>
+    <p>{{ reading_detail.created_at }}</p>
+
+{% endblock %}

@@ -29,7 +29,7 @@ class ReadingArticle(models.Model):
         ordering = ["-created_at"]
 
     def __str__(self):
-        return self.title
+        return f"{self.title} ({self.subtitle})"
 
 
 class ReadingArticleImage(models.Model):
@@ -81,7 +81,7 @@ class ReadingPassage(models.Model):
         ordering = ["-created_at"]
 
     def __str__(self):
-        return self.title
+        return f"{self.title} ({self.passage})"
 
 class ReadingPassageImage(models.Model):
     passage = models.ForeignKey(

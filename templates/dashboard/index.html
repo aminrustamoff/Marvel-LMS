@@ -1,4 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Dashboard</h1>
+
+<a href="{% url 'accounts:student_list' %}" class="btn btn-primary">Students ({{ students_count }})</a>
+<a href="{% url 'accounts:teacher_list' %}" class="btn btn-primary">Teachers ({{ teachers_count }})</a>
+<a href="{% url 'groups:list' %}" class="btn btn-primary">Groups ({{ groups_count }})</a>
+
+</br>
+
+<a href="{% url 'assignment:assignment_list' %}" class="btn btn-primary">Assignments ({{ assignments_count }})</a>
+<a href="{% url 'article:article_list' %}" class="btn btn-primary">Reading Articles ({{ reading_articles_count }})</a>
+<a href="{% url 'reading:reading_list' %}" class="btn btn-primary">Reading Passages ({{ reading_passages_count }})</a>
+<a href="{% url 'listening:listening_list' %}" class="btn btn-primary">Listening ({{ listening_count }})</a>
+<a href="{% url 'podcast:video_list' %}" class="btn btn-primary">Video Podcasts ({{ videos_count }})</a>
+
+
 {% endblock %}

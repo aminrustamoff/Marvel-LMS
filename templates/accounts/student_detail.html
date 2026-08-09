@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Student: {{ student.first_name }} {{ student.last_name }}{% endblock %}
+
+{% block content %}
+    {% if student.avatar %}
+        <img src="{{ student.avatar.url }}" alt="{{ student.first_name }} {{ student.last_name }}" class="profile-picture">
+    {% else %}
+        <div class="profile-picture profile-placeholder" aria-label="No avatar uploaded">
+            {{ student.first_name|first|upper }}{{ student.last_name|first|upper }} 
+        </div>
+    {% endif %}
+    <h1>{{ student.first_name }} {{ student.last_name }}</h1>
+    <p><strong>Email:</strong> {{ student.email }}</p>
+    <p><strong>Active:</strong> {{ student.is_active|yesno:"Yes,No" }}</p>
+    <p><strong>Phone:</strong> {{ student.phone_number }}</p>
+{% endblock %}
