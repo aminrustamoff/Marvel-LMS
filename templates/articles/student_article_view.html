@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Article: {{ article.title }}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/student_reading_article.css' %}">
+{% endblock %}
+
+{% block content %}
+<article class="reading-article" data-article-id="{{ article.id }}">
+
+    <header class="reading-article__header">
+        <h1 class="reading-article__title">{{ article.title }}</h1>
+        {% if article.subtitle %}
+            <p class="reading-article__subtitle">{{ article.subtitle }}</p>
+        {% endif %}
+
+        <div class="reading-article__meta">
+            {% if article.created_by %}
+                <span class="reading-article__meta-item">
+                    {{ article.created_by.get_full_name|default:article.created_by.username }}
+                </span>
+            {% endif %}
+            <span class="reading-article__meta-item">
+                {{ article.created_at|date:"d M, Y" }}
+            </span>
+            <span class="reading-article__meta-item">
+                <span id="reading-time">—</span> mintues reading.
+            </span>
+        </div>
+    </header>
+
+    {% if article.cover %}
+        <figure class="reading-article__cover">
+            <img src="{{ article.cover.url }}" alt="{{ article.title }}">
+        </figure>
+    {% endif %}
+
+    <div class="reading-article__toolbar">
+        <span class="reading-article__toolbar-label">Font size:</span>
+        <button type="button" class="font-btn" id="font-decrease" aria-label="Kichraytirish">A-</button>
+        <button type="button" class="font-btn" id="font-reset" aria-label="Standart">A</button>
+        <button type="button" class="font-btn" id="font-increase" aria-label="Kattalashtirish">A+</button>
+    </div>
+
+    <div class="reading-article__progress">
+        <div class="reading-article__progress-bar" id="reading-progress-bar"></div>
+    </div>
+
+    <!-- content HTML formatda keladi (paragraf, rasm, jadval va h.k. bo'lishi mumkin) -->
+    <div class="reading-article__content" id="article-content">
+        {{ article.content|safe }}
+    </div>
+
+    {% if article.images.exists %}
+        <section class="reading-article__gallery">
+            <h2 class="reading-article__gallery-title">Pictures</h2>
+            <div class="reading-article__gallery-grid">
+                {% for img in article.images.all %}
+                    <figure class="gallery-item" data-lightbox-src="{{ img.image.url }}">
+                        <img src="{{ img.image.url }}" alt="{{ img.caption|default:article.title }}" loading="lazy">
+                        {% if img.caption %}
+                            <figcaption>{{ img.caption }}</figcaption>
+                        {% endif %}
+                    </figure>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+
+</article>
+
+<div class="lightbox" id="lightbox">
+    <button class="lightbox__close" id="lightbox-close" aria-label="Yopish">&times;</button>
+    <img class="lightbox__image" id="lightbox-image" src="" alt="">
+</div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/reading_article.js' %}" defer></script>
+{% endblock %}

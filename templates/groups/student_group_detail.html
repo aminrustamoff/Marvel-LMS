@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ group.name }}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/student_group.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="group-page">
+
+    <header class="group-page__header">
+        <h2 class="group-page__title">{{ group.name }}</h2>
+        {% if group.description %}
+            <p class="group-page__description">{{ group.description }}</p>
+        {% endif %}
+        <span class="group-page__date">Created: {{ group.created_at|date:"d M, Y" }}</span>
+    </header>
+
+    <section class="task-section">
+        <h3 class="task-section__title">Assignments</h3>
+        {% if group.assignments.all %}
+            <ul class="task-list">
+                {% for assignment in group.assignments.all %}
+                    <li class="task-card">
+                        <a href="{% url 'assignment:student_assignment_detail' assignment.pk %}" class="task-card__link">
+                            <div class="task-card__thumb">
+                                <span class="task-card__icon">📝</span>
+                            </div>
+                            <div class="task-card__body">
+                                <span class="task-card__type">Assignment</span>
+                                <h4 class="task-card__title">{{ assignment }}</h4>
+                            </div>
+                            <span class="task-card__status task-card__status--placeholder">{# status shu yerga qo'shiladi #}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="task-section__empty">No assignments yet.</p>
+        {% endif %}
+    </section>
+
+    <section class="member-section">
+        <h3 class="task-section__title">Group Members ({{ group.member_count }})</h3>
+        {% if group.members.all %}
+            <ul class="member-list">
+                {% for member in group.members.all %}
+                    <li class="member-card">
+                        <div class="member-card__avatar">
+                            {% if member.avatar %}
+                                <img src="{{ member.avatar.url }}" alt="{{ member }}">
+                            {% else %}
+                                <span class="member-card__initial">{{ member|slice:":1"|upper }}</span>
+                            {% endif %}
+                        </div>
+                        <span class="member-card__name">{{ member }}</span>
+                        <span class="member-card__status member-card__status--placeholder">{# online/offline belgisi shu yerga #}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="task-section__empty">No members yet.</p>
+        {% endif %}
+    </section>
+
+</div>
+{% endblock %}

@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Student: {{ assignment }}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/student_assignment.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="assignment-page">
+
+    <h2 class="assignment-page__title">{{ assignment }}</h2>
+
+    {% if article_tasks %}
+        <section class="task-section">
+            <h3 class="task-section__title">Articles</h3>
+            <ul class="task-list">
+                {% for task in article_tasks %}
+                    <li class="task-card task-card--article">
+                        <a href="{% url 'article:student_article_view' task.task.pk %}" class="task-card__link">
+                            <div class="task-card__thumb">
+                                {% if task.task.cover %}
+                                    <img src="{{ task.task.cover.url }}" alt="{{ task.task.title }}">
+                                {% else %}
+                                    <span class="task-card__icon">📄</span>
+                                {% endif %}
+                            </div>
+                            <div class="task-card__body">
+                                <span class="task-card__type">Article</span>
+                                <h4 class="task-card__title">{{ task.task.title }}</h4>
+                                {% if task.task.subtitle %}
+                                    <p class="task-card__subtitle">{{ task.task.subtitle }}</p>
+                                {% endif %}
+                            </div>
+                            <span class="task-card__status task-card__status--placeholder">{# status shu yerga qo'shiladi #}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    {% endif %}
+
+    {% if passage_tasks %}
+        <section class="task-section">
+            <h3 class="task-section__title">Reading</h3>
+            <ul class="task-list">
+                {% for task in passage_tasks %}
+                    <li class="task-card task-card--reading">
+                        <a href="{% url 'reading:student_reading_view' task.task.pk %}" class="task-card__link">
+                            <div class="task-card__thumb">
+                                {% if task.task.cover %}
+                                    <img src="{{ task.task.cover.url }}" alt="{{ task.task.title }}">
+                                {% else %}
+                                    <span class="task-card__icon">📖</span>
+                                {% endif %}
+                            </div>
+                            <div class="task-card__body">
+                                <span class="task-card__type">Reading {{ task.task.passage }}</span>
+                                <h4 class="task-card__title">{{ task.task.title }}</h4>
+                            </div>
+                            <span class="task-card__status task-card__status--placeholder">{# status shu yerga qo'shiladi #}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    {% endif %}
+
+    {% if podcast_tasks %}
+        <section class="task-section">
+            <h3 class="task-section__title">Podcasts</h3>
+            <ul class="task-list">
+                {% for task in podcast_tasks %}
+                    <li class="task-card task-card--podcast">
+                        <a href="{% url 'podcast:student_podcast_view' task.task.pk %}" class="task-card__link">
+                            <div class="task-card__thumb">
+                                {% if task.task.cover %}
+                                    <img src="{{ task.task.cover.url }}" alt="{{ task.task.title }}">
+                                {% else %}
+                                    <span class="task-card__icon">🎙️</span>
+                                {% endif %}
+                            </div>
+                            <div class="task-card__body">
+                                <span class="task-card__type">Podcast</span>
+                                <h4 class="task-card__title">{{ task.task.title }}</h4>
+                                {% if task.task.description %}
+                                    <p class="task-card__subtitle">{{ task.task.description|truncatechars:80 }}</p>
+                                {% endif %}
+                            </div>
+                            <span class="task-card__status task-card__status--placeholder">{# status shu yerga qo'shiladi #}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    {% endif %}
+
+    {% if listening_tasks %}
+        <section class="task-section">
+            <h3 class="task-section__title">Listening</h3>
+            <ul class="task-list">
+                {% for task in listening_tasks %}
+                    <li class="task-card task-card--listening">
+                        <a href="{% url 'listening:student_listening_view' task.task.pk %}" class="task-card__link">
+                            <div class="task-card__thumb">
+                                {% if task.task.cover %}
+                                    <img src="{{ task.task.cover.url }}" alt="{{ task.task.title }}">
+                                {% else %}
+                                    <span class="task-card__icon">🎧</span>
+                                {% endif %}
+                            </div>
+                            <div class="task-card__body">
+                                <span class="task-card__type">Listening {{ task.task.part }}</span>
+                                <h4 class="task-card__title">{{ task.task.title }}</h4>
+                            </div>
+                            <span class="task-card__status task-card__status--placeholder">{# status shu yerga qo'shiladi #}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    {% endif %}
+
+</div>
+{% endblock %}

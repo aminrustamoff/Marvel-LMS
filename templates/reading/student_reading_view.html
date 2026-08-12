@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Reading: {{reading.title}}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/student_reading_test.css' %}"> 
+{% endblock extra_css %}
+
+{% block content %}
+
+
+<div id="test-content">
+    <div id="main-wrapper">
+
+        <div class="reading-wrapper" id="reading-wrapper">
+
+            <!-- ── PASSAGE 1 ────────────────────────── -->
+            <div class="passage-panel" id="passage1">
+                <div class="instruction">
+                    <div class="instruction-title">{{reading.passage}}</div>
+                    <p>Read the text and answer questions. {{ reading.created_by }}   {{ reading.created_at }}
+                </div>
+                <div class="split-container">
+                    <div class="split-left" id="left1">
+                        <h2>{{ reading.title }}</h2><br/>
+                        <i class="reading-subtitle">{{ reading.subtitle }}</i>
+                        <br/>{{ passage|safe }}</div>
+                    <div class="resizer" data-panel="1"></div>
+                    <div class="split-right" id="right1">{{ question|safe }}</div>
+                </div>
+            </div>
+        </div><!-- /reading-wrapper -->
+    </div><!-- /main-wrapper -->
+</div>
+
+{% endblock %}
+
+
+{% block extra_js %}
+    <script src="{% static 'js/student_reading_test.js' %}" defer></script>
+{% endblock %}

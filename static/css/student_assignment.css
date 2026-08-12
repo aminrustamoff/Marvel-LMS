@@ -1,0 +1,161 @@
+.assignment-page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2rem 1rem 4rem;
+    font-family: "Segoe UI", Roboto, sans-serif;
+}
+
+.assignment-page__title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: #1f2937;
+}
+
+.task-section {
+    margin-bottom: 2.2rem;
+}
+
+.task-section__title {
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #6b7280;
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.task-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+.task-card {
+    border-radius: 10px;
+    overflow: hidden;
+    border-left: 4px solid transparent;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.task-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.task-card__link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.8rem 1rem;
+    text-decoration: none;
+    color: inherit;
+}
+
+.task-card__thumb {
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.04);
+}
+
+.task-card__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.task-card__icon {
+    font-size: 1.5rem;
+}
+
+.task-card__body {
+    flex: 1;
+    min-width: 0;
+}
+
+.task-card__type {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    opacity: 0.75;
+    margin-bottom: 0.15rem;
+}
+
+.task-card__title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+    color: #1f2937;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.task-card__subtitle {
+    font-size: 0.82rem;
+    color: #6b7280;
+    margin: 0.2rem 0 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ---------- Status badge (hozircha placeholder) ---------- */
+.task-card__status {
+    flex-shrink: 0;
+    min-width: 10px;
+    min-height: 10px;
+    border-radius: 999px;
+}
+
+/* Statusni keyinchalik shu turdagi classlar bilan bog'lash mumkin, masalan:
+   .task-card__status--done { background: #22c55e; }
+   .task-card__status--pending { background: #f59e0b; }
+   .task-card__status--not-started { background: #d1d5db; }
+*/
+.task-card__status--placeholder {
+    background: transparent;
+}
+
+/* ---------- Har bir tur uchun rang farqi ---------- */
+.task-card--article {
+    background: #eff6ff;
+    border-left-color: #3b82f6;
+}
+.task-card--article .task-card__type { color: #2563eb; }
+
+.task-card--reading {
+    background: #f0fdf4;
+    border-left-color: #22c55e;
+}
+.task-card--reading .task-card__type { color: #16a34a; }
+
+.task-card--podcast {
+    background: #fdf4ff;
+    border-left-color: #a855f7;
+}
+.task-card--podcast .task-card__type { color: #9333ea; }
+
+.task-card--listening {
+    background: #fff7ed;
+    border-left-color: #f97316;
+}
+.task-card--listening .task-card__type { color: #ea580c; }
+
+@media (max-width: 480px) {
+    .task-card__thumb { width: 46px; height: 46px; }
+    .task-card__title { font-size: 0.92rem; }
+}

@@ -11,18 +11,21 @@
 <body>
 
     <header class="site-header">
-        <div class="container header-inner">
+        <div class="container-header header-inner">
             {% if user.is_authenticated and user.role == "TEACHER" %}
                 <a href="{% url 'dashboard:teacher_dashboard' %}" class="logo">
-                    MARVEL LC
+                    <img src="{% static 'img/logo.png' %}" alt="Marvel LC" class="logo__image">
+                    <span class="logo__text">MARVEL LC</span>
                 </a>
             {% elif user.is_authenticated and user.role == "STUDENT" %}
                 <a href="{% url 'dashboard:student_dashboard' %}" class="logo">
-                    MARVEL LC
+                    <img src="{% static 'img/logo.png' %}" alt="Marvel LC" class="logo__image">
+                    <span class="logo__text">MARVEL LC</span>
                 </a>
             {% else %}
                 <a href="{% url 'accounts:login' %}" class="logo">
-                    MARVEL LC
+                    <img src="{% static 'img/logo.png' %}" alt="Marvel LC" class="logo__image">
+                    <span class="logo__text">MARVEL LC</span>
                 </a>
             {% endif %}
 
@@ -39,7 +42,16 @@
 
             {% if user.is_authenticated %}
             <div class="user-box">
-                <span>{{ user.first_name|default:user.username }}</span>
+                <div class="user-box__profile">
+                    <div class="user-box__avatar">
+                        {% if user.avatar %}
+                            <img src="{{ user.avatar.url }}" alt="{{ user.first_name|default:user.username }}">
+                        {% else %}
+                            <span class="user-box__initial">{{ user.first_name|default:user.username|slice:":1"|upper }}</span>
+                        {% endif %}
+                    </div>
+                    <span class="user-box__name">{{ user.first_name|default:user.username }}</span>
+                </div>
                 <form method="post" action="{% url 'accounts:logout' %}" class="logout-form">
                     {% csrf_token %}
                     <button type="submit" class="logout-btn">Chiqish</button>
@@ -61,12 +73,6 @@
         {% block content %}
         {% endblock %}
     </main>
-
-    <footer class="site-footer">
-        <div class="container">
-            <p>&copy; {% now "Y" %} Ta'lim Platformasi</p>
-        </div>
-    </footer>
 
     {% block extra_js %}{% endblock %}
 </body>

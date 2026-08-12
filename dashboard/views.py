@@ -36,4 +36,7 @@ def teacher_dashboard(request):
 
 @login_required
 def student_dashboard(request):
-    return render(request, "dashboard/student_dashboard.html")
+    groups = request.user.student_groups.all()
+    return render(request, "dashboard/student_dashboard.html", {
+        "groups": groups,
+    })
