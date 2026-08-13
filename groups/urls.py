@@ -6,5 +6,6 @@ app_name = "groups"
 
 urlpatterns = [
     path("", views.group_list, name="list"),
-    path("<int:pk>/", views.group_detail, name="detail"),
+    path("detail/<int:pk>/", views.group_detail, name="detail"),
+    path("student/detail/<int:pk>/", views.student_group_detail, name="student_detail"),
 ]

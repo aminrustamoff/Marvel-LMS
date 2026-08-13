@@ -1,0 +1,51 @@
+/* ================================================================== */
+/*                  TABLE DESIGN CSS                                  */
+/* ================================================================== */
+
+/* table_parser.css
+   parse_tables_in_text() / restore_tables() natijasida chiqadigan
+   <table class="parsed-table"> uchun stillar. */
+
+.parsed-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.95rem;
+    font-family: inherit;
+}
+
+.parsed-table thead th {
+    background-color: #f4f6f8;
+    color: #1a1a1a;
+    font-weight: 600;
+    text-align: left;
+    padding: 0.6rem 0.9rem;
+    border-bottom: 2px solid #d0d5db;
+}
+
+.parsed-table tbody td {
+    padding: 0.55rem 0.9rem;
+    border-bottom: 1px solid #e2e5e9;
+    color: #333;
+}
+
+.parsed-table tbody tr:nth-child(even) {
+    background-color: #fafbfc;
+}
+
+.parsed-table tbody tr:hover {
+    background-color: #f0f4ff;
+}
+
+.parsed-table th:not(:last-child),
+.parsed-table td:not(:last-child) {
+    border-right: 1px solid #edf0f3;
+}
+
+@media (max-width: 600px) {
+    .parsed-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}

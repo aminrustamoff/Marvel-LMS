@@ -9,7 +9,7 @@ from django.db import models
 class ReadingArticle(models.Model):
     title = models.CharField(max_length=255)
     subtitle = models.CharField(max_length=255, null=True, blank=True)
-    image = models.ImageField(upload_to="reading/articles/", null=True, blank=True)
+    cover = models.ImageField(upload_to="reading/articles/", null=True, blank=True)
 
     content = models.TextField(help_text="Maqola matni (oddiy text yoki paragraflar)")
     # An article can have multiple images; use a separate model ReadingArticleImage
@@ -29,7 +29,7 @@ class ReadingArticle(models.Model):
         ordering = ["-created_at"]
 
     def __str__(self):
-        return self.title
+        return f"{self.title} ({self.subtitle})"
 
 
 class ReadingArticleImage(models.Model):
@@ -81,7 +81,7 @@ class ReadingPassage(models.Model):
         ordering = ["-created_at"]
 
     def __str__(self):
-        return self.title
+        return f"{self.title} ({self.passage})"
 
 class ReadingPassageImage(models.Model):
     passage = models.ForeignKey(

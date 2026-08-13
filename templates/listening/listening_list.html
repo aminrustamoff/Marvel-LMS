@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Listening tests{% endblock  %}
+
+{% block content %}
+
+    <h2>Listening Exercises</h2>
+
+    {% for item in listening %}
+        <li>
+            <a href="{% url 'listening:listening_detail' item.pk %}">
+                <h3>{{ item.title }} - {{ item.part }}</h3>
+            </a>
+        </li>
+    {% endfor %}
+
+{% endblock %}

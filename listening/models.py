@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 
 class Listening(models.Model):
+    """Listening testlar uchun klass"""
     PART_CHOICES = [
         ("Part 1", "Part 1"),
         ("Part 2", "Part 2"),

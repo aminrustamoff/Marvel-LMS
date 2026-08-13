@@ -11,27 +11,47 @@
 <body>
 
     <header class="site-header">
-        <div class="container header-inner">
-            <a href="{% if user.is_authenticated %}{% url 'dashboard:index' %}{% else %}{% url 'accounts:login' %}{% endif %}" class="logo">
-                MARVEL LC
-            </a>
+        <div class="container-header header-inner">
+            {% if user.is_authenticated and user.role == "TEACHER" %}
+                <a href="{% url 'dashboard:teacher_dashboard' %}" class="logo">
+                    <img src="{% static 'icons/marvel-logo.png' %}" alt="Marvel LC" class="logo__image">
+                    <span class="logo__text">MARVEL ACADEMY LC</span>
+                </a>
+            {% elif user.is_authenticated and user.role == "STUDENT" %}
+                <a href="{% url 'dashboard:student_dashboard' %}" class="logo">
+                    <img src="{% static 'icons/marvel-logo.png' %}" alt="Marvel LC" class="logo__image">
+                    <span class="logo__text">MARVEL ACADEMY LC</span>
+                </a>
+            {% else %}
+                <a href="{% url 'accounts:login' %}" class="logo">
+                    <img src="{% static 'icons/marvel-logo.png' %}" alt="Marvel LC" class="logo__image">
+                    <span class="logo__text">MARVEL ACADEMY LC</span>
+                </a>
+            {% endif %}
+
+            {% if user.is_authenticated and user.role == "TEACHER" %}
+            <nav class="main-nav">
+                <a href="{% url 'dashboard:teacher_dashboard' %}">Dashboard</a>
+                <a href="{% url 'admin:index' %}">Admin</a>
+            </nav>
+            {% elif user.is_authenticated and user.role == "STUDENT" %}
+            <nav class="main-nav">
+                <a href="{% url 'dashboard:student_dashboard' %}">Dashboard</a>
+            </nav>
+            {% endif %}
 
             {% if user.is_authenticated %}
-            <nav class="main-nav">
-                <a href="{% url 'dashboard:index' %}">Dashboard</a>
-                {% if user.role == "STUDENT" %}
-                    <a href="#">Reading</a>
-                    <a href="#">Listening</a>
-                    <a href="{% url 'assignments:list' %}">Assignments</a>
-                    <a href="#">Notes</a>
-                    <a href="#">Videos</a>
-                {% elif user.role == "TEACHER" %}
-                    <a href="{% url 'groups:list' %}">Groups</a>
-                    <a href="{% url 'admin:index' %}">Admin</a>
-                {% endif %}
-            </nav>
             <div class="user-box">
-                <span>{{ user.first_name|default:user.username }}</span>
+                <div class="user-box__profile">
+                    <div class="user-box__avatar">
+                        {% if user.avatar %}
+                            <img src="{{ user.avatar.url }}" alt="{{ user.first_name|default:user.username }}">
+                        {% else %}
+                            <span class="user-box__initial">{{ user.first_name|default:user.username|slice:":1"|upper }}</span>
+                        {% endif %}
+                    </div>
+                    <span class="user-box__name">{{ user.first_name|default:user.username }}</span>
+                </div>
                 <form method="post" action="{% url 'accounts:logout' %}" class="logout-form">
                     {% csrf_token %}
                     <button type="submit" class="logout-btn">Chiqish</button>
@@ -53,12 +73,6 @@
         {% block content %}
         {% endblock %}
     </main>
-
-    <footer class="site-footer">
-        <div class="container">
-            <p>&copy; {% now "Y" %} Ta'lim Platformasi</p>
-        </div>
-    </footer>
 
     {% block extra_js %}{% endblock %}
 </body>

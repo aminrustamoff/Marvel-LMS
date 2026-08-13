@@ -29,7 +29,9 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG")
 
-ALLOWED_HOSTS = []
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+ALLOWED_HOSTS = ['localhost', '*']
 
 
 # Application definition
@@ -50,8 +52,6 @@ INSTALLED_APPS = [
     "reading",
     "listening",
     "videos",
-    "notes",
-    "common",
 ]
 
 MIDDLEWARE = [
@@ -107,7 +107,6 @@ DATABASES = {
 AUTH_USER_MODEL = "accounts.User"
 
 LOGIN_URL = "accounts:login"
-LOGIN_REDIRECT_URL = "dashboard:index"       # login'dan keyin qayerga
 LOGOUT_REDIRECT_URL = "accounts:login"
 
 # Xavfsizlik (production uchun)

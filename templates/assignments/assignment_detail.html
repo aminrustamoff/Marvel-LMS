@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}{{ assignment.title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ assignment.title }}</h1>
+    <p>{{ assignment.description }}</p>
+    <p>Group: {{ assignment.group }} - assigned by {{ assignment.assigned_by }}</p>
+    <p>Due Date: {{ assignment.due_date }}</p>
+    <p>Created: {{ assignment.created_at }}</p>
+    <p>Updated: {{ assignment.updated_at }}</p>
+
+    <h2>Tasks</h2>
+    <h3>Articles</h3>
+    <ul>
+        {% for task in article_tasks %}
+            <li><a href="{% url 'article:article_detail' task.task.pk %}">{{ task.task }}</a></li>
+        {% empty %}
+            <li>No article tasks assigned.</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Passage Tasks</h3>
+    <ul>
+        {% for task in passage_tasks %}
+            <li><a href="{% url 'reading:reading_detail' task.task.pk %}">{{ task.task }}</a></li>
+        {% empty %}
+            <li>No passage tasks assigned.</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Podcast Tasks</h3>
+    <ul>
+        {% for task in podcast_tasks %}
+            <li><a href="{% url 'podcast:video_detail' task.task.pk %}">{{ task.task }}</a></li>
+        {% empty %}
+            <li>No podcast tasks assigned.</li>
+        {% endfor %}
+    </ul>
+    <h3>Listening Tasks</h3>
+    <ul>
+        {% for task in listening_tasks %}
+            <li><a href="{% url 'listening:listening_detail' task.task.pk %}">{{ task.task }}</a></li>
+        {% empty %}
+            <li>No listening tasks assigned.</li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <h2>Podcasts</h2>
+    <ul>
+        {% for video in videos %}
+            <li>
+                <a href="{% url 'podcast:video_detail' video.pk %}">
+                    <h3>{{ video.title }}</h3>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

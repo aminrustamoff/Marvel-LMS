@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Student Dashboard{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/student_dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+
+    <header class="dashboard__header">
+        <h2 class="dashboard__title">Welcome back{% if request.user.first_name %}, {{ request.user.first_name }}{% endif %} 👋</h2>
+        <p class="dashboard__subtitle">Here are the groups you're part of.</p>
+    </header>
+
+    <div class="dashboard__stats">
+        <div class="stat-card">
+            <span class="stat-card__value">{{ groups|length }}</span>
+            <span class="stat-card__label">Groups</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-card__value">{{ pending_assignments_count|default:"—" }}</span>
+            <span class="stat-card__label">Pending assignments</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-card__value">{{ completed_assignments_count|default:"—" }}</span>
+            <span class="stat-card__label">Completed</span>
+        </div>
+    </div>
+
+    <section class="dashboard__groups">
+        <h3 class="dashboard__section-title">Your Groups</h3>
+
+        {% if groups %}
+            <div class="group-grid">
+                {% for group in groups %}
+                    {% cycle 'color-1' 'color-2' 'color-3' 'color-4' 'color-5' 'color-6' as group_color silent %}
+                    <a href="{% url 'groups:student_detail' group.pk %}" class="group-card group-card--{{ group_color }}">
+                        <div class="group-card__icon">👥</div>
+                        <div class="group-card__body">
+                            <h4 class="group-card__name">{{ group }}</h4>
+                            {% if group.description %}
+                                <p class="group-card__description">{{ group.description|truncatechars:60 }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="group-card__footer">
+                            <span class="group-card__meta">{{ group.member_count|default:0 }} members</span>
+                            {% if group.assignments.count %}
+                                <span class="group-card__meta">{{ group.assignments.count }} assignments</span>
+                            {% endif %}
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <span class="empty-state__icon">📭</span>
+                <p>No groups found.</p>
+            </div>
+        {% endif %}
+    </section>
+
+</div>
+{% endblock %}
