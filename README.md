@@ -6,8 +6,7 @@ An online platform for English teachers and students.
 
 - Authentication
 - Homework
+- Article
 - Reading
 - Listening
 - YouTube Analysis
-- Notes
-- Highlights
