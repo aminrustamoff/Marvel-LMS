@@ -21,6 +21,7 @@ Inline formatting (works everywhere):
 
 import re
 from typing import Optional
+from .table_parser import parse_table_block
 
 
 # ---------------------------------------------------------------------------
@@ -328,6 +329,13 @@ def parse_block(raw: str, images: dict = {}) -> str:
     m = re.match(r'^img\s+(\w+)\s*$', raw, re.IGNORECASE)
     if m:
         return render_img(m.group(1), images)
+
+    # ---- [table ( {Col 1}{Item1}... ) ( {Col 2}{Item2}... ) ] ----
+    # Har bir katakcha ichidagi kontent convert() orqali rekursiv qayta
+    # ishlanadi, shu sababli [fill], [mchq], [img] va h.k. bloklar jadval
+    # ichida qolib ketmasdan to'liq render bo'ladi.
+    if re.match(r'^table\b', raw, re.IGNORECASE):
+        return parse_table_block(f'[{raw}]', item_parser=lambda cell: convert(cell, images))
 
     return f'<!-- UNKNOWN BLOCK: [{raw}] -->'
 

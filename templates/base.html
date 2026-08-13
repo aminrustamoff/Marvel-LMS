@@ -14,18 +14,18 @@
         <div class="container-header header-inner">
             {% if user.is_authenticated and user.role == "TEACHER" %}
                 <a href="{% url 'dashboard:teacher_dashboard' %}" class="logo">
-                    <img src="{% static 'img/logo.png' %}" alt="Marvel LC" class="logo__image">
-                    <span class="logo__text">MARVEL LC</span>
+                    <img src="{% static 'icons/marvel-logo.png' %}" alt="Marvel LC" class="logo__image">
+                    <span class="logo__text">MARVEL ACADEMY LC</span>
                 </a>
             {% elif user.is_authenticated and user.role == "STUDENT" %}
                 <a href="{% url 'dashboard:student_dashboard' %}" class="logo">
-                    <img src="{% static 'img/logo.png' %}" alt="Marvel LC" class="logo__image">
-                    <span class="logo__text">MARVEL LC</span>
+                    <img src="{% static 'icons/marvel-logo.png' %}" alt="Marvel LC" class="logo__image">
+                    <span class="logo__text">MARVEL ACADEMY LC</span>
                 </a>
             {% else %}
                 <a href="{% url 'accounts:login' %}" class="logo">
-                    <img src="{% static 'img/logo.png' %}" alt="Marvel LC" class="logo__image">
-                    <span class="logo__text">MARVEL LC</span>
+                    <img src="{% static 'icons/marvel-logo.png' %}" alt="Marvel LC" class="logo__image">
+                    <span class="logo__text">MARVEL ACADEMY LC</span>
                 </a>
             {% endif %}
 
