@@ -49,6 +49,7 @@ class ArticleTask(models.Model):
     class Meta:
         verbose_name = "Assignment Task"
         verbose_name_plural = "Assignment Tasks"
+        unique_together = ("assignment", "task")
 
     def __str__(self):
         return f"{self.assignment.title} - {self.task.title}"
@@ -69,6 +70,7 @@ class PassageTask(models.Model):
     class Meta:
         verbose_name = "Assignment Task"
         verbose_name_plural = "Assignment Tasks"
+        unique_together = ("assignment", "task")
 
     def __str__(self):
         return f"{self.assignment.title} - {self.task.title}"
@@ -89,6 +91,7 @@ class ListeningTask(models.Model):
     class Meta:
         verbose_name = "Assignment Task"
         verbose_name_plural = "Assignment Tasks"
+        unique_together = ("assignment", "task")
 
     def __str__(self):
         return f"{self.assignment.title} - {self.task.title}"
@@ -109,6 +112,7 @@ class PodcastTask(models.Model):
     class Meta:
         verbose_name = "Assignment Task"
         verbose_name_plural = "Assignment Tasks"
+        unique_together = ("assignment", "task")
 
     def __str__(self):
         return f"{self.assignment.title} - {self.task.title}"

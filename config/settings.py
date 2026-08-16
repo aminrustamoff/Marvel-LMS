@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     "reading",
     "listening",
     "videos",
+    "progress",
 ]
 
 MIDDLEWARE = [
@@ -135,6 +136,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+TIME_ZONE = "Asia/Tashkent"  # o'zingiz kerakli vaqt zonasini qo'ying
 
 
 # Static files (CSS, JavaScript, Images)

@@ -18,7 +18,7 @@
             <ul class="task-list">
                 {% for task in article_tasks %}
                     <li class="task-card task-card--article">
-                        <a href="{% url 'article:student_article_view' task.task.pk %}" class="task-card__link">
+                        <a href="{% url 'article:student_article_view' assignment.pk task.task.pk %}" class="task-card__link">
                             <div class="task-card__thumb">
                                 {% if task.task.cover %}
                                     <img src="{{ task.task.cover.url }}" alt="{{ task.task.title }}">
@@ -47,7 +47,7 @@
             <ul class="task-list">
                 {% for task in passage_tasks %}
                     <li class="task-card task-card--reading">
-                        <a href="{% url 'reading:student_reading_view' task.task.pk %}" class="task-card__link">
+                        <a href="{% url 'reading:student_reading_view' assignment.pk task.task.pk %}" class="task-card__link">
                             <div class="task-card__thumb">
                                 {% if task.task.cover %}
                                     <img src="{{ task.task.cover.url }}" alt="{{ task.task.title }}">
@@ -73,7 +73,7 @@
             <ul class="task-list">
                 {% for task in podcast_tasks %}
                     <li class="task-card task-card--podcast">
-                        <a href="{% url 'podcast:student_podcast_view' task.task.pk %}" class="task-card__link">
+                        <a href="{% url 'podcast:student_podcast_view' assignment.pk task.task.pk %}" class="task-card__link">
                             <div class="task-card__thumb">
                                 {% if task.task.cover %}
                                     <img src="{{ task.task.cover.url }}" alt="{{ task.task.title }}">
@@ -102,7 +102,7 @@
             <ul class="task-list">
                 {% for task in listening_tasks %}
                     <li class="task-card task-card--listening">
-                        <a href="{% url 'listening:student_listening_view' task.task.pk %}" class="task-card__link">
+                        <a href="{% url 'listening:student_listening_view' assignment.pk task.task.pk %}" class="task-card__link">
                             <div class="task-card__thumb">
                                 {% if task.task.cover %}
                                     <img src="{{ task.task.cover.url }}" alt="{{ task.task.title }}">
