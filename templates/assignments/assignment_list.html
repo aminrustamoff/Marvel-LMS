@@ -3,16 +3,44 @@
 
 {% block title %}Assignments{% endblock %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/teacher_assignment_list.css' %}">
+{% endblock %}
+
 {% block content %}
-    <h1>Assignments</h1>
-    <ul>
-        {% for assignment in assignments %}
-            <li>
-                <a href="{% url 'assignment:assignment_detail' assignment.pk %}">{{ assignment.title }}</a> 
-                (Due: {{ assignment.due_date|date:"F j, Y" }}) - {{assignment.group}} - assigned by {{ assignment.assigned_by }}
-            </li>
-        {% empty %}
-            <li>No assignments available.</li>
-        {% endfor %}
-    </ul>
+<div class="list-page">
+
+    <h1 class="list-page__title">Assignments</h1>
+
+    {% if assignments %}
+        <ul class="assignment-list">
+            {% for assignment in assignments %}
+                <li class="assignment-card">
+                    <a href="{% url 'assignment:assignment_detail' assignment.pk %}" class="assignment-card__link">
+                        <span class="assignment-card__icon">📝</span>
+                        <div class="assignment-card__body">
+                            <span class="assignment-card__title">{{ assignment.title }}</span>
+                            <div class="assignment-card__meta">
+                                {% if assignment.due_date %}
+                                    <span class="assignment-card__due">Due {{ assignment.due_date|date:"F j, Y" }}</span>
+                                {% endif %}
+                                {% if assignment.group %}
+                                    <span class="assignment-card__group">{{ assignment.group }}</span>
+                                {% endif %}
+                                {% if assignment.assigned_by %}
+                                    <span class="assignment-card__author">by {{ assignment.assigned_by }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            {% empty %}
+                <li class="list-page__empty">No assignments available.</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="list-page__empty">No assignments available.</p>
+    {% endif %}
+
+</div>
 {% endblock %}

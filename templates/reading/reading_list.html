@@ -1,17 +1,42 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block title %}Reading Passages{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/teacher_reading_list.css' %}">
+{% endblock %}
+
 {% block content %}
+<div class="list-page">
 
-    <h2>Reading Passages</h2>
-    <ul>
-        {% for item in reading %}
-            <li>
-                <a href="{% url 'reading:reading_detail' item.pk %}">
-                    <h3>{{ item.title }} - {{ item.passage }}</h3>
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
+    <h1 class="list-page__title">Reading Passages</h1>
 
+    {% if reading %}
+        <ul class="content-list">
+            {% for item in reading %}
+                <li class="content-card">
+                    <a href="{% url 'reading:reading_detail' item.pk %}" class="content-card__link">
+                        <div class="content-card__thumb">
+                            {% if item.cover %}
+                                <img src="{{ item.cover.url }}" alt="{{ item.title }}">
+                            {% else %}
+                                <span class="content-card__icon">📖</span>
+                            {% endif %}
+                        </div>
+                        <div class="content-card__body">
+                            <span class="content-card__type">Passage {{ item.passage }}</span>
+                            <h3 class="content-card__title">{{ item.title }}</h3>
+                        </div>
+                    </a>
+                </li>
+            {% empty %}
+                <li class="list-page__empty">No reading passages available.</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="list-page__empty">No reading passages available.</p>
+    {% endif %}
+
+</div>
 {% endblock %}

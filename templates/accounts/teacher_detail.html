@@ -3,12 +3,46 @@
 
 {% block title %}Teacher: {{ teacher.first_name }} {{ teacher.last_name }}{% endblock %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/teacher_student_detail.css' %}">
+{% endblock %}
+
 {% block content %}
-    {% if teacher.avatar %}
-        <img src="{{ teacher.avatar.url }}" alt="{{ teacher.first_name }} {{ teacher.last_name }}" class="profile-picture">
-    {% endif %}
-    <h1>{{ teacher.first_name }} {{ teacher.last_name }}</h1>
-    <p><strong>Email:</strong> {{ teacher.email }}</p>
-    <p><strong>Active:</strong> {{ teacher.is_active|yesno:"Yes,No" }}</p>
-    <p><strong>Phone:</strong> {{ teacher.phone_number }}</p>
+<div class="profile-page">
+
+    <div class="profile-card">
+        <span class="profile-card__edit profile-card__edit--placeholder" title="Edit (coming soon)">✏️ Edit</span>
+
+        <div class="profile-card__header">
+            {% if teacher.avatar %}
+                <img src="{{ teacher.avatar.url }}" alt="{{ teacher.first_name }} {{ teacher.last_name }}" class="profile-picture">
+            {% else %}
+                <div class="profile-picture profile-placeholder" aria-label="No avatar uploaded">
+                    {{ teacher.first_name|first|upper }}{{ teacher.last_name|first|upper }}
+                </div>
+            {% endif %}
+
+            <h1 class="profile-card__name">{{ teacher.first_name }} {{ teacher.last_name }}</h1>
+            <span class="profile-card__status {% if teacher.is_active %}profile-card__status--active{% else %}profile-card__status--inactive{% endif %}">
+                {{ teacher.is_active|yesno:"Active,Inactive" }}
+            </span>
+        </div>
+
+        <div class="profile-card__info">
+            <div class="info-row">
+                <span class="info-row__label">Role</span>
+                <span class="info-row__value">{{ teacher.role|default:"—" }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-row__label">Email</span>
+                <span class="info-row__value">{{ teacher.email|default:"—" }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-row__label">Phone</span>
+                <span class="info-row__value">{{ teacher.phone_number|default:"—" }}</span>
+            </div>
+        </div>
+    </div>
+
+</div>
 {% endblock %}

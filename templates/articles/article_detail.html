@@ -1,20 +1,52 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block title %}{% if article %}{{ article.title }}{% else %}Article{% endif %}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/teacher_article_detail.css' %}">
+{% endblock %}
+
 {% block content %}
+<div class="article-page">
 
     {% if article %}
-        {% if article.cover %}
-            <img src="{{ article.cover.url }}" alt="{{ article.title }}" class="article-image">
-        {% endif %}
-        <h2>{{ article.title }}</h2>
-        <p>{{ article.subtitle }}</p>
-        <p>{{ article.content }}</p>
-        <p>Created by: {{ article.created_by }}</p>
-        <p>Created at: {{ article.created_at }}</p>
-        <p>Updated at: {{ article.updated_at }}</p>
+        <article class="article-detail">
+
+            <header class="article-detail__header">
+                <h1 class="article-detail__title">{{ article.title }}</h1>
+                {% if article.subtitle %}
+                    <p class="article-detail__subtitle">{{ article.subtitle }}</p>
+                {% endif %}
+
+                <div class="article-detail__meta">
+                    {% if article.created_by %}
+                        <span class="article-detail__meta-item">By {{ article.created_by }}</span>
+                    {% endif %}
+                    <span class="article-detail__meta-item">{{ article.created_at|date:"d M, Y" }}</span>
+                    {% if article.updated_at %}
+                        <span class="article-detail__meta-item">Updated {{ article.updated_at|date:"d M, Y" }}</span>
+                    {% endif %}
+                </div>
+            </header>
+
+            {% if article.cover %}
+                <figure class="article-detail__cover">
+                    <img src="{{ article.cover.url }}" alt="{{ article.title }}" class="article-image">
+                </figure>
+            {% endif %}
+
+            <div class="article-detail__content">
+                {{ article.content|safe }}
+            </div>
+
+        </article>
     {% else %}
-        <p>Article not found.</p>
+        <div class="article-page__not-found">
+            <span class="article-page__not-found-icon">🔍</span>
+            <p>Article not found.</p>
+        </div>
     {% endif %}
 
+</div>
 {% endblock %}

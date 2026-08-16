@@ -1,0 +1,94 @@
+.dashboard {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 1rem 4rem;
+    font-family: "Segoe UI", Roboto, sans-serif;
+}
+
+.dashboard__header {
+    margin-bottom: 2rem;
+}
+
+.dashboard__title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1f2933;
+    margin-bottom: 0.3rem;
+}
+
+.dashboard__subtitle {
+    font-size: 0.92rem;
+    color: #6b7280;
+}
+
+.dashboard__section {
+    margin-bottom: 2.2rem;
+}
+
+.dashboard__section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #6b7280;
+    margin-bottom: 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+/* ---------- Menu cards ---------- */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1rem;
+}
+
+.menu-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+    padding: 1.2rem;
+    border-radius: 14px;
+    text-decoration: none;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.menu-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.menu-card__icon {
+    font-size: 1.6rem;
+    margin-bottom: 0.4rem;
+}
+
+.menu-card__count {
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.menu-card__label {
+    font-size: 0.85rem;
+    opacity: 0.95;
+}
+
+/* ---------- Rang variantlari ---------- */
+.menu-card--color-1 { background: linear-gradient(135deg, #eb2525, #c81e1e); }
+.menu-card--color-2 { background: linear-gradient(135deg, #6366f1, #4f46e5); }
+.menu-card--color-3 { background: linear-gradient(135deg, #ec4899, #db2777); }
+.menu-card--color-4 { background: linear-gradient(135deg, #f97316, #ea580c); }
+.menu-card--color-5 { background: linear-gradient(135deg, #22c55e, #16a34a); }
+.menu-card--color-6 { background: linear-gradient(135deg, #14b8a6, #0d9488); }
+.menu-card--color-7 { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+.menu-card--color-8 { background: linear-gradient(135deg, #a855f7, #9333ea); }
+
+@media (max-width: 560px) {
+    .menu-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

@@ -1,17 +1,71 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/teacher_dashboard.css' %}">
+{% endblock %}
+
 {% block content %}
+<div class="dashboard">
 
-<a href="{% url 'accounts:student_list' %}" class="btn btn-primary">Students ({{ students_count }})</a>
-<a href="{% url 'accounts:teacher_list' %}" class="btn btn-primary">Teachers ({{ teachers_count }})</a>
-<a href="{% url 'groups:list' %}" class="btn btn-primary">Groups ({{ groups_count }})</a>
+    <header class="dashboard__header">
+        <h2 class="dashboard__title">Dashboard</h2>
+        <p class="dashboard__subtitle">Manage people and content from here.</p>
+    </header>
 
-</br>
+    <section class="dashboard__section">
+        <h3 class="dashboard__section-title">People</h3>
+        <div class="menu-grid">
+            <a href="{% url 'accounts:student_list' %}" class="menu-card menu-card--color-1">
+                <span class="menu-card__icon">🎓</span>
+                <span class="menu-card__count">{{ students_count }}</span>
+                <span class="menu-card__label">Students</span>
+            </a>
+            <a href="{% url 'accounts:teacher_list' %}" class="menu-card menu-card--color-2">
+                <span class="menu-card__icon">👨‍🏫</span>
+                <span class="menu-card__count">{{ teachers_count }}</span>
+                <span class="menu-card__label">Teachers</span>
+            </a>
+            <a href="{% url 'groups:list' %}" class="menu-card menu-card--color-3">
+                <span class="menu-card__icon">👥</span>
+                <span class="menu-card__count">{{ groups_count }}</span>
+                <span class="menu-card__label">Groups</span>
+            </a>
+        </div>
+    </section>
 
-<a href="{% url 'assignment:assignment_list' %}" class="btn btn-primary">Assignments ({{ assignments_count }})</a>
-<a href="{% url 'article:article_list' %}" class="btn btn-primary">Reading Articles ({{ reading_articles_count }})</a>
-<a href="{% url 'reading:reading_list' %}" class="btn btn-primary">Reading Passages ({{ reading_passages_count }})</a>
-<a href="{% url 'listening:listening_list' %}" class="btn btn-primary">Listening ({{ listening_count }})</a>
-<a href="{% url 'podcast:video_list' %}" class="btn btn-primary">Video Podcasts ({{ videos_count }})</a>
+    <section class="dashboard__section">
+        <h3 class="dashboard__section-title">Content</h3>
+        <div class="menu-grid">
+            <a href="{% url 'assignment:assignment_list' %}" class="menu-card menu-card--color-4">
+                <span class="menu-card__icon">📝</span>
+                <span class="menu-card__count">{{ assignments_count }}</span>
+                <span class="menu-card__label">Assignments</span>
+            </a>
+            <a href="{% url 'article:article_list' %}" class="menu-card menu-card--color-5">
+                <span class="menu-card__icon">📄</span>
+                <span class="menu-card__count">{{ reading_articles_count }}</span>
+                <span class="menu-card__label">Reading Articles</span>
+            </a>
+            <a href="{% url 'reading:reading_list' %}" class="menu-card menu-card--color-6">
+                <span class="menu-card__icon">📖</span>
+                <span class="menu-card__count">{{ reading_passages_count }}</span>
+                <span class="menu-card__label">Reading Passages</span>
+            </a>
+            <a href="{% url 'listening:listening_list' %}" class="menu-card menu-card--color-7">
+                <span class="menu-card__icon">🎧</span>
+                <span class="menu-card__count">{{ listening_count }}</span>
+                <span class="menu-card__label">Listening</span>
+            </a>
+            <a href="{% url 'podcast:video_list' %}" class="menu-card menu-card--color-8">
+                <span class="menu-card__icon">🎙️</span>
+                <span class="menu-card__count">{{ videos_count }}</span>
+                <span class="menu-card__label">Video Podcasts</span>
+            </a>
+        </div>
+    </section>
 
-
+</div>
 {% endblock %}

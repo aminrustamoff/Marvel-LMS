@@ -1,0 +1,142 @@
+.list-page {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 1rem 4rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.list-page__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1f2933;
+    margin-bottom: 1.5rem;
+}
+
+.list-page__empty {
+    color: #9ca3af;
+    font-size: 0.9rem;
+    list-style: none;
+}
+
+/* ---------- Person list ---------- */
+.person-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.person-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 0.7rem 1rem;
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.person-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    transform: translateY(-1px);
+}
+
+.person-card--inactive {
+    opacity: 0.65;
+}
+
+.person-card__main {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    text-decoration: none;
+    color: inherit;
+    flex: 1;
+    min-width: 0;
+}
+
+/* ---------- Avatar ---------- */
+.person-card__avatar {
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eb2525;
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.person-card__avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ---------- Body ---------- */
+.person-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+}
+
+.person-card__name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1f2933;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.person-card__status {
+    width: fit-content;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.1rem 0.5rem;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.person-card__status--active {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.person-card__status--inactive {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* ---------- Edit icon (o'ng burchak, hozircha placeholder) ---------- */
+.person-card__edit {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    color: #94a3b8;
+    cursor: default;
+}
+
+.person-card__edit--placeholder {
+    /* View tayyor bo'lganda buni <a href="{% url 'accounts:student_edit' pk=student.pk %}"> ga o'rab,
+       cursor: pointer va hover effekt qo'shing */
+}
+
+@media (max-width: 480px) {
+    .person-card__name { font-size: 0.88rem; }
+    .person-card__avatar { width: 36px; height: 36px; }
+}

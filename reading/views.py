@@ -13,8 +13,10 @@ def reading_list(request):
 
 @teacher_required
 def reading_detail(request, pk):
-    reading_detail = models.ReadingPassage.objects.get(pk=pk)
-    return render(request, 'reading/reading_detail.html', {'reading_detail': reading_detail})
+    reading = models.ReadingPassage.objects.get(pk=pk)
+    question = convert(reading.question_text)
+    passage = convert(reading.passage_text)
+    return render(request, 'reading/reading_detail.html', {'reading': reading, 'question' : question, 'passage' : passage})
 
 @login_required
 def student_reading_test_view(request, pk):

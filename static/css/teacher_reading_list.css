@@ -1,0 +1,103 @@
+.list-page {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 1rem 4rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.list-page__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1f2933;
+    margin-bottom: 1.5rem;
+}
+
+.list-page__empty {
+    color: #9ca3af;
+    font-size: 0.9rem;
+    list-style: none;
+}
+
+/* ---------- Content list (article_list.css bilan bir xil naqsh, faqat rang farqi) ---------- */
+.content-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.content-card {
+    background: #f0fdf4;
+    border-left: 4px solid #22c55e;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.content-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    transform: translateY(-1px);
+}
+
+.content-card__link {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.7rem 1rem;
+    text-decoration: none;
+    color: inherit;
+}
+
+.content-card__thumb {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: rgba(34, 197, 94, 0.12);
+}
+
+.content-card__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.content-card__icon {
+    font-size: 1.4rem;
+}
+
+.content-card__body {
+    flex: 1;
+    min-width: 0;
+}
+
+.content-card__type {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #16a34a;
+    margin-bottom: 0.15rem;
+}
+
+.content-card__title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1f2933;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 480px) {
+    .content-card__thumb { width: 44px; height: 44px; }
+    .content-card__title { font-size: 0.88rem; }
+}

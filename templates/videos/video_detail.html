@@ -1,19 +1,52 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block title %}Podcast: {{ podcast.title }}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/teacher_listening_podcast.css' %}">
+{% endblock %}
+
 {% block content %}
-    <h2>{{ video.title }}</h2>
-    <p>{{ video.description }}</p>
+<article class="podcast">
 
-    <iframe 
-        width="560" 
-        height="315" 
-        src="https://www.youtube.com/embed/{{ youtube_id }}" 
-        title="YouTube video player" 
-        frameborder="0" 
-        referrerpolicy="strict-origin-when-cross-origin"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-        allowfullscreen>
-    </iframe>
+    <header class="podcast__header">
+        <h1 class="podcast__title">{{ podcast.title }}</h1>
+        <div class="podcast__meta">
+            {% if podcast.created_by %}
+                <span class="podcast__meta-item">
+                    Added by {{ podcast.created_by.get_full_name|default:podcast.created_by.username }}
+                </span>
+            {% endif %}
+            <span class="podcast__meta-item">{{ podcast.created_at|date:"d M, Y" }}</span>
+        </div>
+    </header>
 
+    {% if youtube_id %}
+        <div class="podcast__video-wrapper">
+            <iframe
+                class="podcast__video"
+                src="https://www.youtube.com/embed/{{ youtube_id }}"
+                title="{{ podcast.title }}"
+                frameborder="0"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen>
+            </iframe>
+        </div>
+    {% else %}
+        <p class="podcast__video-error">
+            Video could not be loaded. Please open the original link:
+            <a href="{{ podcast.url }}" target="_blank" rel="noopener noreferrer">{{ podcast.url }}</a>
+        </p>
+    {% endif %}
+
+    {% if podcast.description %}
+        <section class="podcast__description">
+            <h2>Description</h2>
+            <p>{{ podcast.description|linebreaks }}</p>
+        </section>
+    {% endif %}
+
+</article>
 {% endblock %}

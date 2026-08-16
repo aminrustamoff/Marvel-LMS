@@ -16,7 +16,7 @@ def video_list(request):
 def video_detail(request, pk):
     video = ListeningPodcast.objects.get(pk=pk)
     youtube_id = youtube_id_extracter.extract_youtube_id(video.url)
-    return render(request, 'videos/video_detail.html', {'video': video, 'youtube_id' : youtube_id})
+    return render(request, 'videos/video_detail.html', {'podcast': video, 'youtube_id' : youtube_id})
 
 @login_required
 def student_podcast_view(request, pk):

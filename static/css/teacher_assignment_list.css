@@ -1,0 +1,109 @@
+.list-page {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 1rem 4rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.list-page__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1f2933;
+    margin-bottom: 1.5rem;
+}
+
+.list-page__empty {
+    color: #9ca3af;
+    font-size: 0.9rem;
+    list-style: none;
+}
+
+/* ---------- Assignment list ---------- */
+.assignment-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.assignment-card {
+    background: #fef2f2;
+    border-left: 4px solid #eb2525;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.assignment-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    transform: translateY(-1px);
+}
+
+.assignment-card__link {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.7rem 1rem;
+    text-decoration: none;
+    color: inherit;
+}
+
+.assignment-card__icon {
+    flex-shrink: 0;
+    font-size: 1.2rem;
+}
+
+.assignment-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+}
+
+.assignment-card__title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1f2933;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.assignment-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    font-size: 0.78rem;
+}
+
+.assignment-card__due {
+    color: #b91c1c;
+    font-weight: 600;
+}
+
+.assignment-card__group {
+    color: #6b7280;
+}
+
+.assignment-card__group::before {
+    content: "•";
+    margin-right: 0.6rem;
+    color: #d1d5db;
+}
+
+.assignment-card__author {
+    color: #9ca3af;
+}
+
+.assignment-card__author::before {
+    content: "•";
+    margin-right: 0.6rem;
+    color: #d1d5db;
+}
+
+@media (max-width: 480px) {
+    .assignment-card__title { font-size: 0.88rem; }
+    .assignment-card__meta { gap: 0.4rem; }
+}

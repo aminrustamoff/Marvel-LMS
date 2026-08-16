@@ -1,49 +1,128 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}{{ assignment.title }}{% endblock %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/teacher_assignment_detail.css' %}">
+{% endblock %}
+
 {% block content %}
-    <h1>{{ assignment.title }}</h1>
-    <p>{{ assignment.description }}</p>
-    <p>Group: {{ assignment.group }} - assigned by {{ assignment.assigned_by }}</p>
-    <p>Due Date: {{ assignment.due_date }}</p>
-    <p>Created: {{ assignment.created_at }}</p>
-    <p>Updated: {{ assignment.updated_at }}</p>
+<div class="assignment-page">
 
-    <h2>Tasks</h2>
-    <h3>Articles</h3>
-    <ul>
-        {% for task in article_tasks %}
-            <li><a href="{% url 'article:article_detail' task.task.pk %}">{{ task.task }}</a></li>
-        {% empty %}
-            <li>No article tasks assigned.</li>
-        {% endfor %}
-    </ul>
+    <header class="assignment-page__header">
+        <h1 class="assignment-page__title">{{ assignment.title }}</h1>
+        {% if assignment.description %}
+            <p class="assignment-page__description">{{ assignment.description }}</p>
+        {% endif %}
 
-    <h3>Passage Tasks</h3>
-    <ul>
-        {% for task in passage_tasks %}
-            <li><a href="{% url 'reading:reading_detail' task.task.pk %}">{{ task.task }}</a></li>
-        {% empty %}
-            <li>No passage tasks assigned.</li>
-        {% endfor %}
-    </ul>
+        <div class="assignment-page__meta">
+            {% if assignment.group %}
+                <span class="assignment-page__meta-item">Group: {{ assignment.group }}</span>
+            {% endif %}
+            {% if assignment.assigned_by %}
+                <span class="assignment-page__meta-item">Assigned by {{ assignment.assigned_by }}</span>
+            {% endif %}
+            {% if assignment.due_date %}
+                <span class="assignment-page__meta-item assignment-page__meta-item--due">Due {{ assignment.due_date|date:"F j, Y" }}</span>
+            {% endif %}
+        </div>
 
-    <h3>Podcast Tasks</h3>
-    <ul>
-        {% for task in podcast_tasks %}
-            <li><a href="{% url 'podcast:video_detail' task.task.pk %}">{{ task.task }}</a></li>
-        {% empty %}
-            <li>No podcast tasks assigned.</li>
-        {% endfor %}
-    </ul>
-    <h3>Listening Tasks</h3>
-    <ul>
-        {% for task in listening_tasks %}
-            <li><a href="{% url 'listening:listening_detail' task.task.pk %}">{{ task.task }}</a></li>
-        {% empty %}
-            <li>No listening tasks assigned.</li>
-        {% endfor %}
-    </ul>
+        <div class="assignment-page__dates">
+            <span>Created: {{ assignment.created_at|date:"d M, Y" }}</span>
+            <span>Updated: {{ assignment.updated_at|date:"d M, Y" }}</span>
+        </div>
+    </header>
 
+    <h2 class="assignment-page__tasks-title">Tasks</h2>
+
+    {% if article_tasks %}
+        <section class="task-section">
+            <h3 class="task-section__title">Articles</h3>
+            <ul class="task-list">
+                {% for task in article_tasks %}
+                    <li class="task-card task-card--article">
+                        <a href="{% url 'article:article_detail' task.task.pk %}" class="task-card__link">
+                            <span class="task-card__icon">📄</span>
+                            <span class="task-card__title">{{ task.task }}</span>
+                            <span class="task-card__status task-card__status--placeholder">{# status shu yerga qo'shiladi #}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    {% else %}
+        <section class="task-section">
+            <h3 class="task-section__title">Articles</h3>
+            <p class="task-section__empty">No article tasks assigned.</p>
+        </section>
+    {% endif %}
+
+    {% if passage_tasks %}
+        <section class="task-section">
+            <h3 class="task-section__title">Passage Tasks</h3>
+            <ul class="task-list">
+                {% for task in passage_tasks %}
+                    <li class="task-card task-card--reading">
+                        <a href="{% url 'reading:reading_detail' task.task.pk %}" class="task-card__link">
+                            <span class="task-card__icon">📖</span>
+                            <span class="task-card__title">{{ task.task }}</span>
+                            <span class="task-card__status task-card__status--placeholder">{# status shu yerga qo'shiladi #}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    {% else %}
+        <section class="task-section">
+            <h3 class="task-section__title">Passage Tasks</h3>
+            <p class="task-section__empty">No passage tasks assigned.</p>
+        </section>
+    {% endif %}
+
+    {% if podcast_tasks %}
+        <section class="task-section">
+            <h3 class="task-section__title">Podcast Tasks</h3>
+            <ul class="task-list">
+                {% for task in podcast_tasks %}
+                    <li class="task-card task-card--podcast">
+                        <a href="{% url 'podcast:video_detail' task.task.pk %}" class="task-card__link">
+                            <span class="task-card__icon">🎙️</span>
+                            <span class="task-card__title">{{ task.task }}</span>
+                            <span class="task-card__status task-card__status--placeholder">{# status shu yerga qo'shiladi #}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    {% else %}
+        <section class="task-section">
+            <h3 class="task-section__title">Podcast Tasks</h3>
+            <p class="task-section__empty">No podcast tasks assigned.</p>
+        </section>
+    {% endif %}
+
+    {% if listening_tasks %}
+        <section class="task-section">
+            <h3 class="task-section__title">Listening Tasks</h3>
+            <ul class="task-list">
+                {% for task in listening_tasks %}
+                    <li class="task-card task-card--listening">
+                        <a href="{% url 'listening:listening_detail' task.task.pk %}" class="task-card__link">
+                            <span class="task-card__icon">🎧</span>
+                            <span class="task-card__title">{{ task.task }}</span>
+                            <span class="task-card__status task-card__status--placeholder">{# status shu yerga qo'shiladi #}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    {% else %}
+        <section class="task-section">
+            <h3 class="task-section__title">Listening Tasks</h3>
+            <p class="task-section__empty">No listening tasks assigned.</p>
+        </section>
+    {% endif %}
+
+</div>
 {% endblock %}

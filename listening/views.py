@@ -14,8 +14,11 @@ def listening_list(request):
 
 @teacher_required
 def listening_detail(request, pk):
-    listening_detail = models.Listening.objects.get(pk=pk)
-    return render(request, 'listening/listening_detail.html', {'listening_detail': listening_detail})
+    listening = get_object_or_404(models.Listening, pk=pk)
+    
+    question = text_to_html.convert(listening.question)
+
+    return render(request, 'listening/listening_detail.html', {'listening' : listening, 'question' : question})
 
 @login_required
 def student_listening_view(request, pk):

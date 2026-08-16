@@ -1,24 +1,69 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}{{ group.name }}{% endblock %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/teacher_group_detail.css' %}">
+{% endblock %}
+
 {% block content %}
-    <h1>{{ group.name }}</h1>
-    <p>{{ group.description|linebreaks }}</p>
-    <h2>Students</h2>
-    <ul>
-        {% for student in group.members.all %}
-            <li>{{ student.get_full_name|default:student.username }} ({{ student.username }})</li>
-        {% empty %}
-            <li>No students in this group.</li>
-        {% endfor %}
-    </ul>
-    <h2>Assignments</h2>
-    <ul>
-        {% for assignment in group.assignments.all %}
-            <li>{{ assignment.title }}{% if assignment.due_date %} — due {{ assignment.due_date }}{% endif %}</li>
-        {% empty %}
-            <li>No assignments have been assigned to this group yet.</li>
-        {% endfor %}
-    </ul>
+<div class="group-page">
+
+    <header class="group-page__header">
+        <h1 class="group-page__title">{{ group.name }}</h1>
+        {% if group.description %}
+            <div class="group-page__description">{{ group.description|linebreaks }}</div>
+        {% endif %}
+    </header>
+
+    <section class="group-section">
+        <h2 class="group-section__title">Students</h2>
+        {% if group.members.all %}
+            <ul class="member-list">
+                {% for student in group.members.all %}
+                    <li class="member-card">
+                        <a href="{% url 'accounts:student_detail' pk=student.pk %}" class="member-card__link">
+                            <div class="member-card__avatar">
+                                {% if student.avatar %}
+                                    <img src="{{ student.avatar.url }}" alt="{{ student.get_full_name|default:student.username }}">
+                                {% else %}
+                                    <span class="member-card__initial">{{ student.get_full_name|default:student.username|slice:":1"|upper }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="member-card__body">
+                                <span class="member-card__name">{{ student.get_full_name|default:student.username }}</span>
+                                <span class="member-card__username">@{{ student.username }}</span>
+                            </div>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="group-section__empty">No students in this group.</p>
+        {% endif %}
+    </section>
+
+    <section class="group-section">
+        <h2 class="group-section__title">Assignments</h2>
+        {% if group.assignments.all %}
+            <ul class="assignment-list">
+                {% for assignment in group.assignments.all %}
+                    <li class="assignment-card">
+                        <span class="assignment-card__icon">📝</span>
+                        <div class="assignment-card__body">
+                            <span class="assignment-card__title">{{ assignment.title }}</span>
+                            {% if assignment.due_date %}
+                                <span class="assignment-card__due">Due {{ assignment.due_date }}</span>
+                            {% endif %}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="group-section__empty">No assignments have been assigned to this group yet.</p>
+        {% endif %}
+    </section>
+
+</div>
 {% endblock %}

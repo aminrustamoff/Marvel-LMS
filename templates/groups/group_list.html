@@ -1,17 +1,37 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Groups{% endblock %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/teacher_group_list.css' %}">
+{% endblock %}
+
 {% block content %}
-    <h1>Groups</h1>
-    <ul>
-        {% for group in groups %}
-            <li>
-                <a href="{% url 'groups:detail' group.pk %}">{{ group.name }}</a> 
-                ({{ group.member_count }} students)
-            </li>
-        {% empty %}
-            <li>No groups yet.</li>
-        {% endfor %}
-    </ul>
+<div class="list-page">
+
+    <h1 class="list-page__title">Groups</h1>
+
+    {% if groups %}
+        <ul class="group-list">
+            {% for group in groups %}
+                <li class="group-card">
+                    <a href="{% url 'groups:detail' group.pk %}" class="group-card__main">
+                        <div class="group-card__icon">👥</div>
+                        <div class="group-card__body">
+                            <span class="group-card__name">{{ group.name }}</span>
+                            <span class="group-card__meta">{{ group.member_count }} students</span>
+                        </div>
+                    </a>
+                    <span class="group-card__edit group-card__edit--placeholder" title="Edit (coming soon)">✏️</span>
+                </li>
+            {% empty %}
+                <li class="list-page__empty">No groups yet.</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="list-page__empty">No groups yet.</p>
+    {% endif %}
+
+</div>
 {% endblock %}

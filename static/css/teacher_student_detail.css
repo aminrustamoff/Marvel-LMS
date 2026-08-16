@@ -1,0 +1,127 @@
+.profile-page {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 2.5rem 1rem 4rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.profile-card {
+    position: relative;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 2rem 1.5rem 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+/* ---------- Edit belgisi (o'ng yuqori burchak, hozircha placeholder) ---------- */
+.profile-card__edit {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 0.82rem;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    cursor: default;
+}
+
+.profile-card__edit--placeholder {
+    /* View tayyor bo'lganda buni <a href="{% url 'accounts:student_edit' pk=student.pk %}">
+       ga o'rab, quyidagi qatorlarni qo'shing:
+       cursor: pointer;
+       color: #eb2525;
+    */
+}
+
+/* ---------- Header (avatar + ism + status) ---------- */
+.profile-card__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 1.8rem;
+}
+
+.profile-picture {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: flex;
+    border: 2px solid #e2e8f0;
+    background: #eb2525;
+    margin-bottom: 1rem;
+}
+
+.profile-placeholder {
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.profile-card__name {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #1f2933;
+    margin-bottom: 0.5rem;
+}
+
+.profile-card__status {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.profile-card__status--active {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.profile-card__status--inactive {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* ---------- Info rows ---------- */
+.profile-card__info {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.92rem;
+}
+
+.info-row__label {
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.info-row__value {
+    color: #1f2933;
+    font-weight: 600;
+    text-align: right;
+}
+
+@media (max-width: 480px) {
+    .profile-picture {
+        width: 110px;
+        height: 110px;
+    }
+    .profile-card__name {
+        font-size: 1.15rem;
+    }
+}

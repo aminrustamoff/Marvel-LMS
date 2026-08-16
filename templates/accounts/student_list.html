@@ -1,15 +1,45 @@
 {% extends "base.html" %}
+{% load static %}
+
 {% block title %}Student List{% endblock %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/teacher_student_list.css' %}">
+{% endblock %}
+
 {% block content %}
+<div class="list-page">
 
-<h1>Student List</h1>
-<ul>
-    {% for student in students %}
-        <li><a href="{% url 'accounts:student_detail' pk=student.pk %}">{{ student.first_name }} {{ student.last_name }} ({{ student.is_active|yesno:"Active,Inactive" }})</a></li>
-    {% empty %}
-        <li>No students found.</li>
-    {% endfor %}
-</ul>
+    <h1 class="list-page__title">All sudents</h1>
 
+    {% if students %}
+        <ul class="person-list">
+            {% for student in students %}
+                <li class="person-card {% if not student.is_active %}person-card--inactive{% endif %}">
+                    <a href="{% url 'accounts:student_detail' pk=student.pk %}" class="person-card__main">
+                        <div class="person-card__avatar">
+                            {% if student.avatar %}
+                                <img src="{{ student.avatar.url }}" alt="{{ student.first_name }} {{ student.last_name }}">
+                            {% else %}
+                                <span class="person-card__initial">{{ student.first_name|default:student.username|slice:":1"|upper }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="person-card__body">
+                            <span class="person-card__name">{{ student.first_name }} {{ student.last_name }}</span>
+                            <span class="person-card__status {% if student.is_active %}person-card__status--active{% else %}person-card__status--inactive{% endif %}">
+                                {{ student.is_active|yesno:"Active,Inactive" }}
+                            </span>
+                        </div>
+                    </a>
+                    <span class="person-card__edit person-card__edit--placeholder" title="Edit (coming soon)">✏️</span>
+                </li>
+            {% empty %}
+                <li class="list-page__empty">No students found.</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="list-page__empty">No students found.</p>
+    {% endif %}
+
+</div>
 {% endblock %}
