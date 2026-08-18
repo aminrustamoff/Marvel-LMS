@@ -12,6 +12,10 @@
 
     <h1 class="list-page__title">Groups</h1>
 
+    <a href="{% url 'groups:group_create' %}" class="group-add-button">
+        ➕ Add a group
+    </a>
+
     {% if groups %}
         <ul class="group-list">
             {% for group in groups %}
@@ -23,7 +27,9 @@
                             <span class="group-card__meta">{{ group.member_count }} students</span>
                         </div>
                     </a>
-                    <span class="group-card__edit group-card__edit--placeholder" title="Edit (coming soon)">✏️</span>
+                    <a href="{% url 'groups:group_update' group.pk %}" class="group-card__edit group-card__edit--placeholder">
+                        <span class="group-card__edit group-card__edit--placeholder" title="Edit">✏️</span>
+                    </a>
                 </li>
             {% empty %}
                 <li class="list-page__empty">No groups yet.</li>

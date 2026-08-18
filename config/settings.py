@@ -114,7 +114,7 @@ AUTHENTICATION_BACKENDS = [
 LOGIN_URL = "accounts:login"
 LOGOUT_REDIRECT_URL = "accounts:login"
 
-# Xavfsizlik (production uchun)
+# Security (for production)
 SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_HTTPONLY = True
 

@@ -24,6 +24,51 @@
     line-height: 1.6;
 }
 
+.group-page__date {
+    display: inline-block;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: #6b7280;
+    line-height: 1.6;
+    background-color: #f8ea97;
+    border-radius: 0.5rem;
+    padding: 0.1rem 0.5rem;
+}
+
+.group-page__update-button {
+    display: inline-flex;           /* flex emas — aks holda tugma butun qatorga cho'ziladi */
+    align-items: right;
+    justify-content: center;        /* matnni gorizontal markazga tekislaydi */
+    gap: 8px;                       /* agar ikonka bo'lsa, matn bilan orasiga joy qoladi */
+    
+    text-decoration: none;
+    color: #ffffff;
+    
+    font-size: 15px;                /* aniq o'lcham belgilanmasa, brauzer defaulti (link uslubi) ishlatiladi */
+    font-weight: 600;                /* button'ga xos qalinroq matn */
+    line-height: 1;                  /* <a> teg default line-height'i tugmani "cho'zilgan" ko'rsatadi */
+    white-space: nowrap;             /* matn ikki qatorga bo'linib ketmasligi uchun */
+    
+    cursor: pointer;
+    text-align: center;
+    background: #9056c7;
+    border: 1px solid #5e2e7a;
+    border-radius: 10px;
+    padding: 0.7rem 5rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.group-page__update-button:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    transform: translateY(-1px);
+}
+
+.group-add-button:visited {
+    color: #ffffff;                  /* visited holatda rang o'zgarib ketmasligi uchun */
+}
+
 .group-section {
     margin-bottom: 2.2rem;
 }

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/group_form.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="card group-form-card group-form-card--delete">
+    <div class="group-form-card__header">
+        <h2 class="group-form-card__title">Delete Group</h2>
+        <p class="group-form-card__subtitle">This action is not reversible!</p>
+    </div>
+
+    <div class="delete-warning">
+        <p>
+            Are you really going to delete <strong>"{{ object.name }}"</strong>? 
+        </p>
+        <p class="delete-warning__meta">
+            This group includes {{ object.member_count }} users.
+            This action may affect the assignments within this group.
+        </p>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="group-form-card__actions">
+            <a href="{% url 'groups:detail' object.pk %}" class="btn-secondary">
+                Cancel
+            </a>
+            <button type="submit" class="btn-danger">
+                Yes, Delete Group
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

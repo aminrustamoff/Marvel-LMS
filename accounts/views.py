@@ -104,7 +104,7 @@ class UserUpdateView(UpdateView):
 def password_reset(request, pk):
     user = get_object_or_404(User, pk=pk)
 
-    # Ixtiyoriy, lekin muhim xavfsizlik: faqat o'z guruhidagi studentga ruxsat
+    # Optional, but important for security: only allow teacher to reset password for students in their own groups
     # if user.teacher != request.user:
     #     return redirect('dashboard')
 

@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/group_form.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="card group-form-card">
+    <div class="group-form-card__header">
+        <h2 class="group-form-card__title">
+            {% if form.instance.pk %}Edit Group{% else %}Create Group{% endif %}
+        </h2>
+        <p class="group-form-card__subtitle">
+            {% if form.instance.pk %}
+                Editing details for "{{ form.instance.name }}"
+            {% else %}
+                Create a new group and assign students
+            {% endif %}
+        </p>
+    </div>
+
+    {% if form.non_field_errors %}
+        <div class="error error--form">{{ form.non_field_errors|striptags }}</div>
+    {% endif %}
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="{{ form.name.id_for_label }}">Group Name</label>
+            {{ form.name }}
+            {% if form.name.errors %}
+                <span class="error">{{ form.name.errors|striptags }}</span>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.description.id_for_label }}">Description</label>
+            {{ form.description }}
+            {% if form.description.errors %}
+                <span class="error">{{ form.description.errors|striptags }}</span>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.members.id_for_label }}">Members</label>
+            {{ form.members }}
+            {% if form.members.errors %}
+                <span class="error">{{ form.members.errors|striptags }}</span>
+            {% endif %}
+        </div>
+
+        <div class="group-form-card__actions">
+            {% if form.instance.pk %}
+                <a href="{% url 'groups:group_delete' form.instance.pk %}" class="btn-danger">
+                    Delete
+                </a>
+            {% endif %}
+            <a href="{% if form.instance.pk %}{% url 'groups:detail' form.instance.pk %}{% else %}{% url 'groups:list' %}{% endif %}"
+               class="btn-secondary">
+                Cancel
+            </a>
+            <button type="submit" class="btn-primary">
+                {% if form.instance.pk %}Save Changes{% else %}Create Group{% endif %}
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            new Choices(document.getElementById("id_members"), {
+                removeItemButton: true,
+                placeholder: true,
+                placeholderValue: "Search for students...",
+                noResultsText: "No results found",
+                noChoicesText: "All students selected",
+                itemSelectText: "Click to select",
+                searchResultLimit: 20,
+                shouldSort: false,
+            });
+        });
+    </script>
+{% endblock %}

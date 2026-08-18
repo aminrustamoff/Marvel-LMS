@@ -155,7 +155,7 @@ select.input-field {
     transform: scale(0.98);
 }
 
-/* Ixtiyoriy: ikki ustunli grid */
+/* Optional: two-column grid */
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;

@@ -18,8 +18,8 @@ def role_required(role):
 teacher_required = role_required("TEACHER")
 student_required = role_required("STUDENT")
 
-'''
-Class-based view uchun mixin:
+
+# Class-based view uchun mixin:
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
@@ -29,7 +29,6 @@ class TeacherRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
 
     def test_func(self):
         return self.request.user.role == "TEACHER"
-'''
 
 
 '''

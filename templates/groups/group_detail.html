@@ -11,10 +11,16 @@
 <div class="group-page">
 
     <header class="group-page__header">
-        <h1 class="group-page__title">{{ group.name }}</h1>
+        <h1 class="group-page__title">{{ group.name|linebreaks }}</h1>
         {% if group.description %}
             <div class="group-page__description">{{ group.description|linebreaks }}</div>
         {% endif %}
+        <div class="group-page__date">Created at {{ group.created_at|date:"d M, Y" }}</div>
+        <br/>
+        <a href="{% url 'groups:group_update' group.pk %}" class="group-page__update-button">
+            Edit
+        </a>
+
     </header>
 
     <section class="group-section">
@@ -33,7 +39,7 @@
                             </div>
                             <div class="member-card__body">
                                 <span class="member-card__name">{{ student.get_full_name|default:student.username }}</span>
-                                <span class="member-card__username">@{{ student.username }}</span>
+                                <span class="member-card__username">@{{ student.username }} | {{ student.is_active|yesno:"Active,Blocked"}} | {% if student.active_until %}{{ student.active_until|date:"d.m.Y" }}{% elif student.is_expired %}Expired{% else %}Unlimited access{% endif %}<span>
                             </div>
                         </a>
                     </li>
