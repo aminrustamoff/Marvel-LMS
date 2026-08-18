@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/assignment_form.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="card assignment-form-card assignment-form-card--delete">
+    <div class="assignment-form-card__header">
+        <h2 class="assignment-form-card__title">Delete Assignment</h2>
+        <p class="assignment-form-card__subtitle">This action cannot be undone</p>
+    </div>
+
+    <div class="delete-warning">
+        <p><strong>"{{ object.title }}"</strong> will be permanently deleted.</p>
+        <p class="delete-warning__meta">
+            Assigned to {{ object.groups.count }} group{{ object.groups.count|pluralize }}.
+            All linked tasks and student progress records will also be removed.
+        </p>
+        <div class="task-summary">
+            {% if object.article_tasks.count %}
+                <span class="task-summary__badge task-summary__badge--article">{{ object.article_tasks.count }} Article{{ object.article_tasks.count|pluralize }}</span>
+            {% endif %}
+            {% if object.passage_tasks.count %}
+                <span class="task-summary__badge task-summary__badge--passage">{{ object.passage_tasks.count }} Passage{{ object.passage_tasks.count|pluralize }}</span>
+            {% endif %}
+            {% if object.listening_tasks.count %}
+                <span class="task-summary__badge task-summary__badge--listening">{{ object.listening_tasks.count }} Listening{{ object.listening_tasks.count|pluralize }}</span>
+            {% endif %}
+            {% if object.podcast_tasks.count %}
+                <span class="task-summary__badge task-summary__badge--podcast">{{ object.podcast_tasks.count }} Podcast{{ object.podcast_tasks.count|pluralize }}</span>
+            {% endif %}
+        </div>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="assignment-form-card__actions">
+            <a href="{% url 'assignment:assignment_detail' object.pk %}" class="btn-secondary">Cancel</a>
+            <button type="submit" class="btn-danger">Yes, Delete Assignment</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

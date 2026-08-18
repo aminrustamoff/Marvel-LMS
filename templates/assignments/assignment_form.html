@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/assignment_form.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="card assignment-form-card">
+    <div class="assignment-form-card__header">
+        <h2 class="assignment-form-card__title">
+            {% if form.instance.pk %}Edit Assignment{% else %}Create Assignment{% endif %}
+        </h2>
+        <p class="assignment-form-card__subtitle">
+            {% if form.instance.pk %}
+                Editing "{{ form.instance.title }}"
+            {% else %}
+                Create a new assignment and attach tasks
+            {% endif %}
+        </p>
+    </div>
+
+    {% if form.non_field_errors %}
+        <div class="error error--form">{{ form.non_field_errors|striptags }}</div>
+    {% endif %}
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="{{ form.title.id_for_label }}">Title</label>
+            {{ form.title }}
+            {% if form.title.errors %}<span class="error">{{ form.title.errors|striptags }}</span>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.description.id_for_label }}">Description</label>
+            {{ form.description }}
+            {% if form.description.errors %}<span class="error">{{ form.description.errors|striptags }}</span>{% endif %}
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="{{ form.due_date.id_for_label }}">Due Date</label>
+                {{ form.due_date }}
+                {% if form.due_date.errors %}<span class="error">{{ form.due_date.errors|striptags }}</span>{% endif %}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.groups.id_for_label }}">Groups</label>
+            {{ form.groups }}
+            {% if form.groups.errors %}<span class="error">{{ form.groups.errors|striptags }}</span>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label>Tasks</label>
+            <div class="task-tabs">
+                <div class="task-tabs__nav">
+                    <button type="button" class="task-tab task-tab--article active" data-target="tab-articles">
+                        Articles <span class="task-tab__count" data-count-for="id_articles">0</span>
+                    </button>
+                    <button type="button" class="task-tab task-tab--passage" data-target="tab-passages">
+                        Passages <span class="task-tab__count" data-count-for="id_passages">0</span>
+                    </button>
+                    <button type="button" class="task-tab task-tab--listening" data-target="tab-listenings">
+                        Listening <span class="task-tab__count" data-count-for="id_listenings">0</span>
+                    </button>
+                    <button type="button" class="task-tab task-tab--podcast" data-target="tab-podcasts">
+                        Podcasts <span class="task-tab__count" data-count-for="id_podcasts">0</span>
+                    </button>
+                </div>
+
+                <div class="task-tabs__panel" id="tab-articles">
+                    {{ form.articles }}
+                    {% if form.articles.errors %}<span class="error">{{ form.articles.errors|striptags }}</span>{% endif %}
+                </div>
+                <div class="task-tabs__panel" id="tab-passages" hidden>
+                    {{ form.passages }}
+                    {% if form.passages.errors %}<span class="error">{{ form.passages.errors|striptags }}</span>{% endif %}
+                </div>
+                <div class="task-tabs__panel" id="tab-listenings" hidden>
+                    {{ form.listenings }}
+                    {% if form.listenings.errors %}<span class="error">{{ form.listenings.errors|striptags }}</span>{% endif %}
+                </div>
+                <div class="task-tabs__panel" id="tab-podcasts" hidden>
+                    {{ form.podcasts }}
+                    {% if form.podcasts.errors %}<span class="error">{{ form.podcasts.errors|striptags }}</span>{% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="assignment-form-card__actions">
+            {% if form.instance.pk %}
+
+                <a href="{% url 'assignment:assignment_delete' form.instance.pk %}"
+               class="btn-danger">
+                    Delete
+                </a>
+
+            {% endif %}
+            <a href="{% if form.instance.pk %}{% url 'assignment:assignment_detail' form.instance.pk %}{% else %}{% url 'assignment:assignment_list' %}{% endif %}"
+               class="btn-secondary">
+                Cancel
+            </a>
+            <button type="submit" class="btn-primary">
+                {% if form.instance.pk %}Save Changes{% else %}Create Assignment{% endif %}
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script src="{% static 'js/assignment_form.js' %}"></script>
+{% endblock %}

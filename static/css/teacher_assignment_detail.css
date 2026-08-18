@@ -12,6 +12,29 @@
     border-bottom: 1px solid #e2e8f0;
 }
 
+.assignment-page__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.assignment-page__head a {
+    display: inline-flex;
+    text-decoration: none;
+    border: 1px solid #b91c1c;
+    color: #b91c1c;
+    border-radius: 0.4rem;
+    padding: 0.1rem 4rem;
+    font-size: 1.2rem;
+    font-family: sans-serif;
+}
+
+.assignment-page__head a:hover {
+    background-color: #b91c1c;
+    color: #f0fdf4;
+}
+
 .assignment-page__title {
     font-size: 1.6rem;
     font-weight: 700;

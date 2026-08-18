@@ -11,7 +11,12 @@
 <div class="assignment-page">
 
     <header class="assignment-page__header">
-        <h1 class="assignment-page__title">{{ assignment.title }}</h1>
+        <div class="assignment-page__head">
+            <h1 class="assignment-page__title">{{ assignment.title }}</h1>
+            <a href="{% url 'assignment:assignment_update' assignment.pk %}">
+                Edit
+            </a>
+        </div>
         {% if assignment.description %}
             <p class="assignment-page__description">{{ assignment.description }}</p>
         {% endif %}
