@@ -18,6 +18,39 @@
     list-style: none;
 }
 
+.user-add-button {
+    display: flex;           /* flex emas — aks holda tugma butun qatorga cho'ziladi */
+    align-items: center;
+    justify-content: center;        /* matnni gorizontal markazga tekislaydi */
+    gap: 8px;                       /* agar ikonka bo'lsa, matn bilan orasiga joy qoladi */
+    
+    text-decoration: none;
+    color: #dcfce7;
+    
+    font-size: 15px;                /* aniq o'lcham belgilanmasa, brauzer defaulti (link uslubi) ishlatiladi */
+    font-weight: 600;                /* button'ga xos qalinroq matn */
+    line-height: 1;                  /* <a> teg default line-height'i tugmani "cho'zilgan" ko'rsatadi */
+    white-space: nowrap;             /* matn ikki qatorga bo'linib ketmasligi uchun */
+    
+    cursor: pointer;
+    text-align: center;
+    background: #ff3232;
+    border: 1px solid #c40000;
+    border-radius: 10px;
+    padding: 0.7rem 1rem;
+    margin-bottom: 1rem;
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.user-add-button:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    transform: translateY(-1px);
+}
+
+.user-add-button:visited {
+    color: #dcfce7;                  /* visited holatda rang o'zgarib ketmasligi uchun */
+}
+
 /* ---------- Person list ---------- */
 .person-list {
     list-style: none;
@@ -131,9 +164,37 @@
     cursor: default;
 }
 
-.person-card__edit--placeholder {
-    /* View tayyor bo'lganda buni <a href="{% url 'accounts:student_edit' pk=student.pk %}"> ga o'rab,
-       cursor: pointer va hover effekt qo'shing */
+.person-card__edit {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    color: #eb2525;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
+}
+
+.person-card__edit:hover {
+    background-color: rgba(235, 37, 37, 0.08);
+    color: #c81d1d;
+}
+
+.person-card__edit:active {
+    transform: scale(0.97);
+}
+
+.person-card__edit-icon {
+    flex-shrink: 0;
+}
+
+/* Dark mode uchun */
+[data-theme="dark"] .person-card__edit:hover {
+    background-color: rgba(235, 37, 37, 0.15);
+    color: #ff5c5c;
 }
 
 @media (max-width: 480px) {

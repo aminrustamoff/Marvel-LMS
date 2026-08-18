@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}{% if object %}Update{% else %}Create{% endif %}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/user_form.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="card">
+  <h2 class="text-[#eb2525]">
+    {% if object %}Update an existing user{% else %}Create a new user{% endif %}
+  </h2>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="form-group">
+      <label for="{{ form.first_name.id_for_label }}">First name</label>
+      {{ form.first_name }}
+      {% if form.first_name.errors %}
+        <span class="error">{{ form.first_name.errors }}</span>
+      {% endif %}
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.last_name.id_for_label }}">Last name</label>
+      {{ form.last_name }}
+      {% if form.last_name.errors %}
+        <span class="error">{{ form.last_name.errors }}</span>
+      {% endif %}
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.username.id_for_label }}">Username</label>
+      {{ form.username }}
+      {% if form.username.errors %}
+        <span class="error">{{ form.username.errors }}</span>
+      {% endif %}
+    </div>
+
+    {% if form.password1 %}
+        <div class="form-group">
+            <label for="{{ form.password1.id_for_label }}">Password</label>
+            {{ form.password1 }}
+            <p class="form-hint">{{ form.password1.help_text }}</p>
+            {% if form.password1.errors %}
+                <span class="error">{{ form.password1.errors|striptags }}</span>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <div class="form-group">
+      <label for="{{ form.role.id_for_label }}">Role</label>
+      {{ form.role }}
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.is_active.id_for_label }}">Status (active/blocked)</label>
+      {{ form.is_active }}
+    </div>
+    
+    <div class="form-group">
+      <label for="{{ form.active_until.id_for_label }}">Active until</label>
+      {{ form.active_until }}
+      {% if form.active_until.errors %}
+        <div class="form-error">
+          {{ form.active_until.errors|striptags }}
+        </div>
+      {% endif %}
+      {% if form.active_until.help_text %}
+        <small class="form-hint">{{ form.active_until.help_text }}</small>
+      {% endif %}
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.phone_number.id_for_label }}">Phone number</label>
+      {{ form.phone_number }}
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.email.id_for_label }}">E-mail</label>
+      {{ form.email }}
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.avatar.id_for_label }}">Profile photo</label>
+      {{ form.avatar }}
+    </div>
+
+    <button type="submit" class="btn-primary">Save</button>
+  </form>
+</div>
+{% endblock %}

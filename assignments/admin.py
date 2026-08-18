@@ -23,8 +23,8 @@ class PodcastTaskInline(admin.TabularInline):
 
 @admin.register(Assignment)
 class AssignmentAdmin(admin.ModelAdmin):
-    list_display = ("title", "group", "assigned_by", "due_date", "created_at")
-    list_filter = ("group", "assigned_by", "due_date")
+    list_display = ("title", "assigned_by", "due_date", "created_at")
+    list_filter = ( "assigned_by", "due_date")
     search_fields = ("title", "description")
     inlines = (ArticleTaskInline, PassageTaskInline, ListeningTaskInline, PodcastTaskInline)
     readonly_fields = ("assigned_by",)

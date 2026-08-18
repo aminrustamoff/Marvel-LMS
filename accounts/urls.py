@@ -7,6 +7,10 @@ from accounts.views import (
     student_detail,
     teacher_list,
     teacher_detail,
+    UserCreateView,
+    UserUpdateView,
+    password_reset,
+    UserDeleteView
 )
 
 app_name = "accounts"
@@ -19,5 +23,10 @@ urlpatterns = [
     path("students/<int:pk>/", student_detail, name="student_detail"),
 
     path("teachers/", teacher_list, name="teacher_list"),
-    path("teachers/<int:pk>/", teacher_detail, name="teacher_detail")
+    path("teachers/<int:pk>/", teacher_detail, name="teacher_detail"),
+
+    path("create-user/", UserCreateView.as_view(), name="create_user"),
+    path("<int:pk>/update-user/", UserUpdateView.as_view(), name="update_user"),
+    path("<int:pk>/reset-password/", password_reset, name="password_reset"),
+    path('<int:pk>/delete/', UserDeleteView.as_view(), name='user_delete'),
 ]

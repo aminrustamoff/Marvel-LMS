@@ -270,3 +270,56 @@ document.querySelectorAll('.resizer').forEach(resizer => {
         document.addEventListener('mouseup',   onUp);
     });
 });
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.mchm').forEach(initMCHM);
+});
+
+function initMCHM(container) {
+  const qids = container.dataset.questionIds.trim().split(/\s+/); // ["question18","question19","question20"]
+  const maxSelect = qids.length;
+  const checkboxes = container.querySelectorAll('input[type="checkbox"]');
+  let orderCounter = 0;
+
+  function getCheckedInOrder() {
+    return Array.from(checkboxes)
+      .filter(cb => cb.checked)
+      .sort((a, b) => Number(a.dataset.selOrder) - Number(b.dataset.selOrder));
+  }
+
+  function update() {
+    const checked = getCheckedInOrder();
+
+    // Tanlash tartibiga qarab to'g'ri question id (name) beriladi
+    checked.forEach((cb, idx) => {
+      cb.name = qids[idx];
+    });
+
+    // Belgilanmagan checkboxlarda name bo'lmasin (formaga noto'g'ri qiymat ketmasin)
+    checkboxes.forEach(cb => {
+      if (!cb.checked) {
+        cb.removeAttribute('name');
+        delete cb.dataset.selOrder;
+      }
+    });
+
+    // Limitga yetganda qolganlarini disable, aks holda hammasini enable qilish
+    const limitReached = checked.length >= maxSelect;
+    checkboxes.forEach(cb => {
+      cb.disabled = limitReached && !cb.checked;
+    });
+  }
+
+  checkboxes.forEach(cb => {
+    cb.addEventListener('change', function () {
+      if (this.checked) {
+        orderCounter++;
+        this.dataset.selOrder = orderCounter;
+      } else {
+        delete this.dataset.selOrder;
+      }
+      update();
+    });
+  });
+}

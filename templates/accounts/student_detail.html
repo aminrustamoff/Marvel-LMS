@@ -11,7 +11,11 @@
 <div class="profile-page">
 
     <div class="profile-card">
-        <span class="profile-card__edit profile-card__edit--placeholder" title="Edit (coming soon)">✏️ Edit</span>
+        <a href="{% url 'accounts:update_user' student.pk %}">
+            <span class="profile-card__edit profile-card__edit--placeholder" title="Edit">
+                ✏️ Edit
+            </span>
+        </a>
 
         <div class="profile-card__header">
             {% if student.avatar %}
@@ -25,6 +29,15 @@
             <h1 class="profile-card__name">{{ student.first_name }} {{ student.last_name }}</h1>
             <span class="profile-card__status {% if student.is_active %}profile-card__status--active{% else %}profile-card__status--inactive{% endif %}">
                 {{ student.is_active|yesno:"Active,Inactive" }}
+            </span>
+            <span class="profile-card__status {% if student.is_expired %}profile-card__status--inactive{% else %}profile-card__status--active{% endif %}">
+                {% if student.is_expired %}
+                    Expired
+                {% elif student.active_until %}
+                    Active until {{ student.active_until|date:"d.m.Y" }}
+                {% else %}
+                    Unlimited access
+                {% endif %}
             </span>
         </div>
 
@@ -42,6 +55,16 @@
                 <span class="info-row__value">{{ student.phone_number|default:"—" }}</span>
             </div>
         </div>
+    </div>
+
+    <div class="buttons">
+        <a href="{% url 'accounts:password_reset' pk=student.pk %}" class="reset-password-button">
+            Reset password
+        </a>
+
+        <a href="{% url 'accounts:user_delete' pk=student.pk %}" class="delete-button">
+            Delete
+        </a>
     </div>
 
 </div>

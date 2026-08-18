@@ -12,6 +12,11 @@
 
     <h1 class="list-page__title">All sudents</h1>
 
+    <a href="{% url 'accounts:create_user' %}" class="user-add-button">
+        ➕ Add a new user
+    </a>
+
+
     {% if students %}
         <ul class="person-list">
             {% for student in students %}
@@ -31,7 +36,9 @@
                             </span>
                         </div>
                     </a>
-                    <span class="person-card__edit person-card__edit--placeholder" title="Edit (coming soon)">✏️</span>
+                    <a href="{% url 'accounts:update_user' student.pk %}">
+                        <span class="person-card__edit person-card__edit--placeholder" title="Edit">✏️</span>
+                    </a>
                 </li>
             {% empty %}
                 <li class="list-page__empty">No students found.</li>

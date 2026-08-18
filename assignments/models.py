@@ -5,14 +5,12 @@ from django.db import models
 class Assignment(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
-    group = models.ForeignKey(
+    groups = models.ManyToManyField(
         "groups.Group",
-        on_delete=models.CASCADE,
         related_name="assignments",
+        blank=True,
     )
 
-
-    
     assigned_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         limit_choices_to={"role": "TEACHER"},

@@ -29,10 +29,10 @@
 
 .profile-card__edit--placeholder {
     /* View tayyor bo'lganda buni <a href="{% url 'accounts:student_edit' pk=student.pk %}">
-       ga o'rab, quyidagi qatorlarni qo'shing:
-       cursor: pointer;
-       color: #eb2525;
-    */
+       ga o'rab, quyidagi qatorlarni qo'shing:*/
+    cursor: pointer;
+    color: #eb2525;
+    
 }
 
 /* ---------- Header (avatar + ism + status) ---------- */
@@ -124,4 +124,72 @@
     .profile-card__name {
         font-size: 1.15rem;
     }
+}
+
+
+.reset-password-button {
+    display: flex;           /* flex emas — aks holda tugma butun qatorga cho'ziladi */
+    align-items: center;
+    justify-content: center;        /* matnni gorizontal markazga tekislaydi */
+    gap: 8px;                       /* agar ikonka bo'lsa, matn bilan orasiga joy qoladi */
+    
+    text-decoration: none;
+    color: #000000;
+    
+    font-size: 15px;                /* aniq o'lcham belgilanmasa, brauzer defaulti (link uslubi) ishlatiladi */
+    font-weight: 600;                /* 'ga xos qalinroq matn */
+    line-height: 1;                  /* <a> teg default line-height'i tugmani "cho'zilgan" ko'rsatadi */
+    white-space: nowrap;             /* matn ikki qatorga bo'linib ketmasligi uchun */
+    
+    cursor: pointer;
+    text-align: center;
+    background: #2ac551;
+    border: 1px solid #00bd10;
+    border-radius: 10px;
+    padding: 0.7rem 1rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.reset-password-button:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    transform: translateY(-1px);
+}
+
+.reset-password-button:visited {
+    color: #000000;                  /* visited holatda rang o'zgarib ketmasligi uchun */
+}
+
+.delete-button {
+    display: flex;           /* flex emas — aks holda tugma butun qatorga cho'ziladi */
+    align-items: center;
+    justify-content: center;        /* matnni gorizontal markazga tekislaydi */
+    gap: 8px;                       /* agar ikonka bo'lsa, matn bilan orasiga joy qoladi */
+    
+    text-decoration: none;
+    color: #ffffff;
+    
+    font-size: 15px;                /* aniq o'lcham belgilanmasa, brauzer defaulti (link uslubi) ishlatiladi */
+    font-weight: 600;                /* 'ga xos qalinroq matn */
+    line-height: 1;                  /* <a> teg default line-height'i tugmani "cho'zilgan" ko'rsatadi */
+    white-space: nowrap;             /* matn ikki qatorga bo'linib ketmasligi uchun */
+    
+    cursor: pointer;
+    text-align: center;
+    background: #c72a2a;
+    border: 1px solid #c40000;
+    border-radius: 10px;
+    padding: 0.7rem 1rem;
+    margin-bottom: 1rem;
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.delete-button:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    transform: translateY(-1px);
+}
+
+.delete-button:visited {
+    color: #ffffff;                  /* visited holatda rang o'zgarib ketmasligi uchun */
 }

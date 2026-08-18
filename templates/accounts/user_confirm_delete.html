@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Deletion{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/user_delete_form.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="card delete-card">
+    <div class="delete-card__header">
+        <div class="delete-card__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+                      stroke="#eb2525" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <div>
+            <h2 class="delete-card__title">Delete User</h2>
+            <p class="delete-card__subtitle">This action cannot be undone.</p>
+        </div>
+    </div>
+
+    <div class="delete-card__target">
+        <div class="avatar-circle">
+            {{ object.first_name|first|upper }}{{ object.last_name|first|upper }}
+        </div>
+        <div>
+            <p class="delete-card__name">{{ object.first_name }} {{ object.last_name }}</p>
+            <p class="delete-card__meta">{{ object.username }} &middot; {{ object.get_role_display }}</p>
+        </div>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert--{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
+            {{ form.password }}
+            <p class="form-hint">{{ form.password.help_text }}</p>
+            {% if form.password.errors %}
+                <span class="error">{{ form.password.errors|striptags }}</span>
+            {% endif %}
+        </div>
+
+        <div class="delete-card__actions">
+            {% if object.is_student %}
+                <a href="{% url 'accounts:student_detail' pk=object.pk %}" class="btn-secondary">
+                    Cancel
+                </a>
+            {% endif %}
+            {% if object.is_teacher %}
+                <a href="{% url 'accounts:teacher_detail' pk=object.pk %}" class="btn-secondary">
+                    Cancel
+                </a>
+            {% endif %}
+            <button type="submit" class="btn-danger">
+                Delete User
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -5,14 +5,14 @@ from .models import User
 
 class UserAdmin(BaseUserAdmin):
     model = User
-    list_display = ("username", "first_name", "last_name", "role", "is_active")
+    list_display = ("username", "first_name", "last_name", "role", "is_active", "active_until")
     list_filter = ("role", "is_active")
 
     fieldsets = BaseUserAdmin.fieldsets + (
-        ("Qo'shimcha ma'lumot", {"fields": ("role", "phone_number", "avatar")}),
+        ("Qo'shimcha ma'lumot", {"fields": ("role", "active_until", "phone_number", "avatar")}),
     )
     add_fieldsets = BaseUserAdmin.add_fieldsets + (
-        ("Qo'shimcha ma'lumot", {"fields": ("role", "phone_number", "avatar", "first_name", "last_name")}),
+        ("Qo'shimcha ma'lumot", {"fields": ("role", "active_until", "phone_number", "avatar", "first_name", "last_name")}),
     )
 
 
