@@ -53,7 +53,9 @@ def student_podcast_view(request, assignment_pk, pk):
             defaults={"is_seen" : True, "seen_at" : timezone.now()},        
         )
 
-        return redirect("assignment:student_assignment_detail", pk=assignment.pk)
+        group = request.user.student_groups.get(pk=pk)
+
+        return redirect("assignment:student_assignment_detail", group_pk=group.pk, pk=assignment.pk)
 
 
     youtube_id = youtube_id_extracter.extract_youtube_id(podcast.url)

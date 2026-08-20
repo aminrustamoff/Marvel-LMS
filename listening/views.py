@@ -58,7 +58,9 @@ def student_listening_view(request, assignment_pk, pk):
             defaults={'answers' : answers, 'submitted_at': timezone.now()}
         )
 
-        return redirect("assignment:student_assignment_detail", assignment.pk)
+        group = request.user.student_groups.get(pk=pk)
+
+        return redirect("assignment:student_assignment_detail", group_pk=group.pk, pk=pk)
 
     question = text_to_html.convert(listening.question)
 

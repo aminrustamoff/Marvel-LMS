@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from accounts.decorators import teacher_required, student_required, TeacherRequiredMixin
 
 from . import models
-from assignments.models import ArticleTask
+from assignments.models import ArticleTask, Assignment
 from progress.models import StudentProgress, ProgressArticle
 
 from .forms import ReadingArticleForm, ReadingArticleImageFormSet, DeleteConfirmForm
@@ -54,7 +54,7 @@ def mark_as_read(request, assignment_pk, pk):
         # ProgressReading modeliga saqlash
         student_progress, _ = StudentProgress.objects.get_or_create(
             user=request.user,
-            assignment=assignment_pk,  # sizning bog'lanishingizga moslang
+            assignment=assignment,  # sizning bog'lanishingizga moslang
         )
         ProgressArticle.objects.update_or_create(
             progress=student_progress,
@@ -62,7 +62,9 @@ def mark_as_read(request, assignment_pk, pk):
             defaults={"is_read" : True,  "read_at": timezone.now()},
         )
 
-        return redirect("assignment:student_assignment_detail", pk=assignment.pk)
+        group = request.user.student_groups.get(pk=pk)
+
+        return redirect("assignment:student_assignment_detail", group_pk=group.pk , pk=pk)
 
     return render(request, "articles/student_article_view.html", {"article": article})
 

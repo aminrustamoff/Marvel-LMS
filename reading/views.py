@@ -86,7 +86,8 @@ def submit_answers(request, assignment_pk, pk):
 
 @student_required
 def student_reading_result(request, pk):
-    return redirect("assignment:student_assignment_detail", pk=pk)
+    group = request.user.student_groups.get(pk=pk)
+    return redirect("assignment:student_assignment_detail", group_pk=group.pk, pk=pk)
 
 
 class ReadingPassageFormsetMixin:
