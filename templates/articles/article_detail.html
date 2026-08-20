@@ -14,7 +14,10 @@
         <article class="article-detail">
 
             <header class="article-detail__header">
-                <h1 class="article-detail__title">{{ article.title }}</h1>
+                <div class="article-detail__head">
+                    <h1 class="article-detail__title">{{ article.title }}</h1>
+                    <a href="{% url 'article:article_update' article.pk %}" class="btn-create">Update</a>
+                </div>
                 {% if article.subtitle %}
                     <p class="article-detail__subtitle">{{ article.subtitle }}</p>
                 {% endif %}
@@ -40,6 +43,23 @@
                 {{ article.content|safe }}
             </div>
 
+            {% if article.images.exists %}
+                <section class="reading-article__gallery">
+                    <h2 class="reading-article__gallery-title">Pictures</h2>
+                    <div class="reading-article__gallery-grid">
+                        {% for img in article.images.all %}
+                            <figure class="gallery-item" data-lightbox-src="{{ img.image.url }}">
+                                <img src="{{ img.image.url }}" alt="{{ img.caption|default:article.title }}" loading="lazy">
+                                {% if img.caption %}
+                                    <figcaption>{{ img.caption }}</figcaption>
+                                {% endif %}
+                            </figure>
+                        {% endfor %}
+                    </div>
+                </section>
+            {% endif %}
+
+
         </article>
     {% else %}
         <div class="article-page__not-found">
@@ -49,4 +69,12 @@
     {% endif %}
 
 </div>
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox__close" id="lightbox-close" aria-label="Yopish">&times;</button>
+        <img class="lightbox__image" id="lightbox-image" src="" alt="">
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/teacher_article_view.js' %}" defer></script>
 {% endblock %}

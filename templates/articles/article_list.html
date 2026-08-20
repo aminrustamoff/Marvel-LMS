@@ -9,9 +9,11 @@
 
 {% block content %}
 <div class="list-page">
-
-    <h1 class="list-page__title">Articles</h1>
-
+    
+    <div class="list-page__header">
+        <h1 class="list-page__title">Articles</h1>
+        <a href="{% url 'article:article_create' %}" class="btn-create">Create</a>
+    </div>
     {% if articles %}
         <ul class="content-list">
             {% for article in articles %}

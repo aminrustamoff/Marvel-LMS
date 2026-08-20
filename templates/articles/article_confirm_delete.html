@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/article_form.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="confirm-delete-page">
+  <h1 class="page-title page-title--danger">Delete the article</h1>
+  <p>Are you really going to delete "<strong>{{ article.title }}</strong>"? This action is not reversible</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="{{ form.password.id_for_label }}">Enter your password to confirm this action.</label>
+      {{ form.password }}
+      {% if form.password.errors %}<p class="form-error">{{ form.password.errors.0 }}</p>{% endif %}
+    </div>
+    <div class="form-actions">
+      <button type="submit" class="btn btn-danger">Yes, delete</button>
+      <a href="{% url 'article:article_detail' article.pk %}" class="btn btn-ghost">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

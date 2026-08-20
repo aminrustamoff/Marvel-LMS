@@ -19,6 +19,16 @@ from accounts.models import User
 class RoleBasedLoginView(LoginView):
     template_name = "accounts/login.html"
 
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            if request.user.role == "STUDENT":
+                return redirect("dashboard:student_dashboard")
+            else:
+                return redirect("dashboard:teacher_dashboard")
+
+        return super().get(request, *args, **kwargs)
+                
+
     def get_success_url(self):
         redirect_to = self.get_redirect_url()
         if redirect_to:

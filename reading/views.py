@@ -21,7 +21,6 @@ def reading_detail(request, pk):
     passage = convert(reading.passage_text)
     return render(request, 'reading/reading_detail.html', {'reading': reading, 'question' : question, 'passage' : passage})
 
-@login_required
 @student_required
 def student_reading_test_view(request, assignment_pk, pk):
     reading_task = get_object_or_404(
@@ -38,7 +37,6 @@ def student_reading_test_view(request, assignment_pk, pk):
     return render(request, 'reading/student_reading_view.html', {'reading' : reading, 'question' : question, 'passage' : passage, 'assignment' : assignment})
 
 
-@login_required
 @student_required
 def submit_answers(request, assignment_pk, pk):
     reading_task = get_object_or_404(
@@ -77,7 +75,6 @@ def submit_answers(request, assignment_pk, pk):
     return render(request, 'reading/student_reading_view.html', {'reading' : reading, 'question' : question, 'passage' : passage, 'assignment' : assignment})
 
 
-@login_required
 @student_required
 def student_reading_result(request, pk):
     return redirect("assignment:student_assignment_detail", pk=pk)

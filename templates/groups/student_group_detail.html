@@ -24,7 +24,7 @@
             <ul class="task-list">
                 {% for assignment in group.assignments.all %}
                     <li class="task-card">
-                        <a href="{% url 'assignment:student_assignment_detail' assignment.pk %}" class="task-card__link">
+                        <a href="{% url 'assignment:student_assignment_detail' group_pk=group.pk pk=assignment.pk %}" class="task-card__link">
                             <div class="task-card__thumb">
                                 <span class="task-card__icon">📝</span>
                             </div>

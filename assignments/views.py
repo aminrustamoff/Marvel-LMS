@@ -37,12 +37,14 @@ def assignment_detail(request, pk):
         }
     )
 
-@login_required
 @student_required
-def student_assignment_detail(request, pk):
+def student_assignment_detail(request, group_pk, pk):
     assignment = get_object_or_404(Assignment, pk=pk)
 
-    if not assignment.group.members.filter(pk=request.user.pk).exists():
+    if not assignment.groups.filter(
+                                    pk=group_pk,
+                                    members__pk=request.user.pk
+                                ).exists():
         raise PermissionDenied
 
     listening_tasks = ListeningTask.objects.filter(assignment=assignment)
