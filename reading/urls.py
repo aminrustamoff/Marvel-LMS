@@ -10,4 +10,8 @@ urlpatterns = [
     path("student/details/<int:assignment_pk>/<int:pk>/", views.student_reading_test_view, name="student_reading_view"),
     path("student/details/<int:assignment_pk>/<int:pk>/submit", views.submit_answers, name="submit_answers"),
     path("student/details/<int:pk>/result", views.student_reading_result, name="result"),
+
+    path("passages/create/", views.ReadingPassageCreateView.as_view(), name="reading_create"),
+    path("passages/<int:pk>/update/", views.ReadingPassageUpdateView.as_view(), name="reading_update"),
+    path("passages/<int:pk>/delete/", views.ReadingPassageDeleteView.as_view(), name="reading_delete"),
 ]

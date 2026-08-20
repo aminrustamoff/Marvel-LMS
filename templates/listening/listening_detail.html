@@ -8,8 +8,10 @@
 {% block title %}Listening: {{listening.title}}{% endblock title %}
 
 {% block content %}
-
-    <h1>{{listening.part}} - {{listening.title}}</h1>
+    <div class="head">
+        <div>{{listening.part}} - {{listening.title}}</div>
+        <a href="{% url 'listening:listening_update' listening.pk %}">Edit</a>
+    </div>
 
     <!-- Sticky bo'lishi uchun sentinel element (player tepasida, ko'rinmas) -->
     <div id="audio-sentinel"></div>

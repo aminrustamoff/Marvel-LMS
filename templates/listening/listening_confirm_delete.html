@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/listening_form.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="card listening-form-card listening-form-card--delete">
+    <div class="listening-form-card__header">
+        <h2 class="listening-form-card__title">Delete Listening Test</h2>
+        <p class="listening-form-card__subtitle">This action cannot be undone</p>
+    </div>
+
+    <div class="delete-warning">
+        <p><strong>"{{ object.title }}"</strong> ({{ object.part }}) will be permanently deleted.</p>
+        <p class="delete-warning__meta">
+            {{ object.images.count }} image{{ object.images.count|pluralize }} attached will also be removed.
+            Enter your password to confirm.
+        </p>
+    </div>
+
+    {% if confirm_form.non_field_errors %}
+        <div class="error error--form">{{ confirm_form.non_field_errors|striptags }}</div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ confirm_form.password.id_for_label }}">{{ confirm_form.password.label }}</label>
+            {{ confirm_form.password }}
+            {% if confirm_form.password.errors %}
+                <span class="error">{{ confirm_form.password.errors|striptags }}</span>
+            {% endif %}
+        </div>
+
+        <div class="listening-form-card__actions">
+            <a href="{% url 'listening:listening_detail' object.pk %}" class="btn-secondary">Cancel</a>
+            <button type="submit" class="btn-danger">Yes, Delete Test</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

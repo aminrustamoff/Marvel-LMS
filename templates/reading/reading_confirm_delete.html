@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/reading_form.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="card passage-form-card passage-form-card--delete">
+    <div class="passage-form-card__header">
+        <h2 class="passage-form-card__title">Delete Reading Passage</h2>
+        <p class="passage-form-card__subtitle">This action cannot be undone</p>
+    </div>
+
+    <div class="delete-warning">
+        <p><strong>"{{ object.title }}"</strong> ({{ object.passage }}) will be permanently deleted.</p>
+        <p class="delete-warning__meta">
+            {{ object.images.count }} additional image{{ object.images.count|pluralize }} will also be removed.
+            Enter your password to confirm.
+        </p>
+    </div>
+
+    {% if confirm_form.non_field_errors %}
+        <div class="error error--form">{{ confirm_form.non_field_errors|striptags }}</div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ confirm_form.password.id_for_label }}">{{ confirm_form.password.label }}</label>
+            {{ confirm_form.password }}
+            {% if confirm_form.password.errors %}
+                <span class="error">{{ confirm_form.password.errors|striptags }}</span>
+            {% endif %}
+        </div>
+
+        <div class="passage-form-card__actions">
+            <a href="{% url 'reading:reading_detail' object.pk %}" class="btn-secondary">Cancel</a>
+            <button type="submit" class="btn-danger">Yes, Delete Passage</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

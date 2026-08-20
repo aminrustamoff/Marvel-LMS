@@ -11,7 +11,10 @@
 <article class="podcast">
 
     <header class="podcast__header">
-        <h1 class="podcast__title">{{ podcast.title }}</h1>
+        <div class="head">
+            <div>{{ podcast.title }}</div>
+            <a href="{% url 'podcast:video_update' podcast.pk %}">Edit</a>
+        </div>
         <div class="podcast__meta">
             {% if podcast.created_by %}
                 <span class="podcast__meta-item">

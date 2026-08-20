@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/listening_form.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="card listening-form-card">
+    <div class="listening-form-card__header">
+        <h2 class="listening-form-card__title">
+            {% if form.instance.pk %}Edit Listening Test{% else %}Create Listening Test{% endif %}
+        </h2>
+        <p class="listening-form-card__subtitle">
+            {% if form.instance.pk %}
+                Editing "{{ form.instance.title }}"
+            {% else %}
+                Add a new listening test with audio and images
+            {% endif %}
+        </p>
+    </div>
+
+    {% if form.non_field_errors %}
+        <div class="error error--form">{{ form.non_field_errors|striptags }}</div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+
+        <div class="form-row">
+            <div class="form-group form-group--grow">
+                <label for="{{ form.title.id_for_label }}">Title</label>
+                {{ form.title }}
+                {% if form.title.errors %}<span class="error">{{ form.title.errors|striptags }}</span>{% endif %}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.part.id_for_label }}">Part</label>
+                {{ form.part }}
+                {% if form.part.errors %}<span class="error">{{ form.part.errors|striptags }}</span>{% endif %}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.audio_file.id_for_label }}">Audio File</label>
+            {% if form.instance.audio_file %}
+                <div class="current-audio">
+                    <audio controls src="{{ form.instance.audio_file.url }}"></audio>
+                    <span class="current-audio__hint">Current file — upload a new one below to replace it</span>
+                </div>
+            {% endif %}
+            {{ form.audio_file }}
+            {% if form.audio_file.errors %}<span class="error">{{ form.audio_file.errors|striptags }}</span>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.question.id_for_label }}">Question</label>
+            {{ form.question }}
+            {% if form.question.errors %}<span class="error">{{ form.question.errors|striptags }}</span>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.answer.id_for_label }}">Answer</label>
+            {{ form.answer }}
+            {% if form.answer.errors %}<span class="error">{{ form.answer.errors|striptags }}</span>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label>Images</label>
+            {{ image_formset.management_form }}
+            {% if image_formset.non_form_errors %}
+                <div class="error error--form">{{ image_formset.non_form_errors|striptags }}</div>
+            {% endif %}
+
+            <div class="image-formset" id="image-formset">
+                {% for image_form in image_formset %}
+                    <div class="image-formset__row">
+                        {{ image_form.id }}
+                        {% if image_form.instance.pk and image_form.instance.image_file %}
+                            <img src="{{ image_form.instance.image_file.url }}" alt="" class="image-formset__preview">
+                        {% else %}
+                            <div class="image-formset__preview image-formset__preview--empty">No image</div>
+                        {% endif %}
+
+                        <div class="image-formset__fields">
+                            <label>Caption</label>
+                            {{ image_form.caption }}
+                            <label>Image</label>
+                            {{ image_form.image_file }}
+                            {% if image_form.image_file.errors %}
+                                <span class="error">{{ image_form.image_file.errors|striptags }}</span>
+                            {% endif %}
+                        </div>
+
+                        {% if image_formset.can_delete %}
+                            <div class="image-formset__delete">
+                                <label>{{ image_form.DELETE }} Remove</label>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <button type="button" id="add-image-form" class="btn-secondary btn-secondary--small">
+                + Add another image
+            </button>
+        </div>
+
+        <div class="listening-form-card__actions">
+            {% if form.instance.pk %}
+                <a href="{% url 'listening:listening_delete' form.instance.pk %}" class="btn-danger">Delete<a>
+            {% endif %}
+            <a href="{% if form.instance.pk %}{% url 'listening:listening_detail' form.instance.pk %}{% else %}{% url 'listening:listening_list' %}{% endif %}"
+               class="btn-secondary">
+                Cancel
+            </a>
+            <button type="submit" class="btn-primary">
+                {% if form.instance.pk %}Save Changes{% else %}Create Listening Test{% endif %}
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/listening_form.js' %}"></script>
+{% endblock %}

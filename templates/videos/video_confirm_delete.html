@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/video_form.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="card video-form-card video-form-card--delete">
+    <div class="video-form-card__header">
+        <h2 class="video-form-card__title">Delete Video Podcast</h2>
+        <p class="video-form-card__subtitle">This action cannot be undone</p>
+    </div>
+
+    <div class="delete-warning">
+        <p><strong>"{{ object.title }}"</strong> will be permanently deleted.</p>
+        <p class="delete-warning__meta">Enter your password to confirm.</p>
+    </div>
+
+    {% if confirm_form.non_field_errors %}
+        <div class="error error--form">{{ confirm_form.non_field_errors|striptags }}</div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ confirm_form.password.id_for_label }}">{{ confirm_form.password.label }}</label>
+            {{ confirm_form.password }}
+            {% if confirm_form.password.errors %}
+                <span class="error">{{ confirm_form.password.errors|striptags }}</span>
+            {% endif %}
+        </div>
+
+        <div class="video-form-card__actions">
+            <a href="{% url 'podcast:video_detail' object.pk %}" class="btn-secondary">Cancel</a>
+            <button type="submit" class="btn-danger">Yes, Delete Video</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

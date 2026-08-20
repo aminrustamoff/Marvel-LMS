@@ -114,6 +114,7 @@
 /* ---------- Article content (HTML kelgan qism) ---------- */
 .reading-article__content {
     font-size: calc(1.05rem * var(--ra-font-scale));
+    text-align: justify;
 }
 
 .reading-article__content h1,

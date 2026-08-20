@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/reading_form.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="card passage-form-card">
+    <div class="passage-form-card__header">
+        <h2 class="passage-form-card__title">
+            {% if form.instance.pk %}Edit Reading Passage{% else %}Create Reading Passage{% endif %}
+        </h2>
+        <p class="passage-form-card__subtitle">
+            {% if form.instance.pk %}
+                Editing "{{ form.instance.title }}"
+            {% else %}
+                Add a new reading passage with questions and answers
+            {% endif %}
+        </p>
+    </div>
+
+    {% if form.non_field_errors %}
+        <div class="error error--form">{{ form.non_field_errors|striptags }}</div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+
+        <div class="form-row">
+            <div class="form-group form-group--grow">
+                <label for="{{ form.title.id_for_label }}">Title</label>
+                {{ form.title }}
+                {% if form.title.errors %}<span class="error">{{ form.title.errors|striptags }}</span>{% endif %}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.passage.id_for_label }}">Passage</label>
+                {{ form.passage }}
+                {% if form.passage.errors %}<span class="error">{{ form.passage.errors|striptags }}</span>{% endif %}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.subtitle.id_for_label }}">Subtitle</label>
+            {{ form.subtitle }}
+            {% if form.subtitle.errors %}<span class="error">{{ form.subtitle.errors|striptags }}</span>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.image.id_for_label }}">Cover Image</label>
+            {% if form.instance.image %}
+                <div class="current-image">
+                    <img src="{{ form.instance.image.url }}" alt="" class="current-image__preview">
+                    <span class="current-image__hint">Current cover — upload a new one below to replace it</span>
+                </div>
+            {% endif %}
+            {{ form.image }}
+            {% if form.image.errors %}<span class="error">{{ form.image.errors|striptags }}</span>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.passage_text.id_for_label }}">Passage Text</label>
+            {{ form.passage_text }}
+            {% if form.passage_text.errors %}<span class="error">{{ form.passage_text.errors|striptags }}</span>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.question_text.id_for_label }}">Question Text</label>
+            {{ form.question_text }}
+            {% if form.question_text.errors %}<span class="error">{{ form.question_text.errors|striptags }}</span>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.answers.id_for_label }}">Answers</label>
+            {{ form.answers }}
+            {% if form.answers.errors %}<span class="error">{{ form.answers.errors|striptags }}</span>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label>Additional Images</label>
+            {{ image_formset.management_form }}
+            {% if image_formset.non_form_errors %}
+                <div class="error error--form">{{ image_formset.non_form_errors|striptags }}</div>
+            {% endif %}
+
+            <div class="image-formset" id="image-formset">
+                {% for image_form in image_formset %}
+                    <div class="image-formset__row">
+                        {{ image_form.id }}
+                        {% if image_form.instance.pk and image_form.instance.image %}
+                            <img src="{{ image_form.instance.image.url }}" alt="" class="image-formset__preview">
+                        {% else %}
+                            <div class="image-formset__preview image-formset__preview--empty">No image</div>
+                        {% endif %}
+
+                        <div class="image-formset__fields">
+                            <label>Caption</label>
+                            {{ image_form.caption }}
+                            <label>Image</label>
+                            {{ image_form.image }}
+                            {% if image_form.image.errors %}
+                                <span class="error">{{ image_form.image.errors|striptags }}</span>
+                            {% endif %}
+                        </div>
+
+                        {% if image_formset.can_delete %}
+                            <div class="image-formset__delete">
+                                <label>{{ image_form.DELETE }} Remove</label>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <button type="button" id="add-image-form" class="btn-secondary btn-secondary--small">
+                + Add another image
+            </button>
+        </div>
+
+        <div class="passage-form-card__actions">
+            {% if form.instance.pk %}
+                <a href="{% url 'reading:reading_delete' form.instance.pk %}" class="btn-danger">Delete</a>
+            {% endif %}
+            <a href="{% if form.instance.pk %}{% url 'reading:reading_detail' form.instance.pk %}{% else %}{% url 'reading:reading_list' %}{% endif %}" class="btn-secondary">
+                Cancel
+            </a>
+            <button type="submit" class="btn-primary">
+                {% if form.instance.pk %}Save Changes{% else %}Create Passage{% endif %}
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/reading_form.js' %}"></script>
+{% endblock %}

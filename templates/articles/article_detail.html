@@ -16,7 +16,7 @@
             <header class="article-detail__header">
                 <div class="article-detail__head">
                     <h1 class="article-detail__title">{{ article.title }}</h1>
-                    <a href="{% url 'article:article_update' article.pk %}" class="btn-create">Update</a>
+                    <a href="{% url 'article:article_update' article.pk %}" class="btn-create">Edit</a>
                 </div>
                 {% if article.subtitle %}
                     <p class="article-detail__subtitle">{{ article.subtitle }}</p>
