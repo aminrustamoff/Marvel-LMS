@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/assignment_group_form.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="card assignment-group-card assignment-group-card--delete">
+    <div class="assignment-group-card__header">
+        <h2 class="assignment-group-card__title">Remove Group</h2>
+        <p class="assignment-group-card__subtitle">This action cannot be undone</p>
+    </div>
+
+    <div class="delete-warning">
+        <p>
+            <strong>"{{ object.group.name }}"</strong> will be removed from
+            "{{ assignment.title }}".
+        </p>
+        <p class="delete-warning__meta">
+            Students in this group will no longer see this assignment.
+            Enter your password to confirm.
+        </p>
+    </div>
+
+    {% if confirm_form.non_field_errors %}
+        <div class="error error--form">{{ confirm_form.non_field_errors|striptags }}</div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ confirm_form.password.id_for_label }}">{{ confirm_form.password.label }}</label>
+            {{ confirm_form.password }}
+            {% if confirm_form.password.errors %}
+                <span class="error">{{ confirm_form.password.errors|striptags }}</span>
+            {% endif %}
+        </div>
+
+        <div class="assignment-group-card__actions">
+            <a href="javascript:history.back()" class="btn-secondary">Cancel</a>
+            <button type="submit" class="btn-danger">Yes, Remove Group</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

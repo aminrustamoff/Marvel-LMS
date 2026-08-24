@@ -24,14 +24,8 @@
                         <div class="assignment-card__body">
                             <span class="assignment-card__title">{{ assignment.title }}</span>
                             <div class="assignment-card__meta">
-                                {% if assignment.due_date %}
-                                    <span class="assignment-card__due">Due {{ assignment.due_date|date:"F j, Y" }}</span>
-                                {% endif %}
-                                {% if assignment.group %}
-                                    <span class="assignment-card__group">{{ assignment.group }}</span>
-                                {% endif %}
                                 {% if assignment.assigned_by %}
-                                    <span class="assignment-card__author">by {{ assignment.assigned_by }}</span>
+                                    <span class="assignment-card__author">Created by {{ assignment.assigned_by }}</span>
                                 {% endif %}
                             </div>
                         </div>

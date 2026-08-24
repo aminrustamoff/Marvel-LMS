@@ -28,11 +28,11 @@
             <span class="profile-card__status {% if teacher.is_active %}profile-card__status--active{% else %}profile-card__status--inactive{% endif %}">
                 {{ teacher.is_active|yesno:"Active,Inactive" }}
             </span>
-            <span class="profile-card__status {% if student.is_expired %}profile-card__status--inactive{% else %}profile-card__status--active{% endif %}">
-                {% if student.is_expired %}
-                    Expired
-                {% elif student.active_until %}
-                    Active until {{ student.active_until|date:"d.m.Y" }}
+            <span class="profile-card__status {% if teacher.is_expired %}profile-card__status--inactive{% else %}profile-card__status--active{% endif %}">
+                {% if teacher.is_expired %}
+                    Expired on {{ teacher.active_until|date:"d.m.Y" }}
+                {% elif teacher.active_until %}
+                    Active until {{ teacher.active_until|date:"d.m.Y" }}
                 {% else %}
                     Unlimited access
                 {% endif %}
@@ -40,6 +40,10 @@
         </div>
 
         <div class="profile-card__info">
+            <div class="info-row">
+                <span class="info-row__label">Username</span>
+                <span class="info-row__value">@{{ teacher.username|default:"—" }}</span>
+            </div>
             <div class="info-row">
                 <span class="info-row__label">Role</span>
                 <span class="info-row__value">{{ teacher.role|default:"—" }}</span>
@@ -51,6 +55,14 @@
             <div class="info-row">
                 <span class="info-row__label">Phone</span>
                 <span class="info-row__value">{{ teacher.phone_number|default:"—" }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-row__label">Joined at</span>
+                <span class="info-row__value">{{ teacher.date_joined|date:"d M, Y" }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-row__label">Last login</span>
+                <span class="info-row__value">{{ teacher.last_login|date:"H:i | d M, Y" }}</span>
             </div>
         </div>
     </div>

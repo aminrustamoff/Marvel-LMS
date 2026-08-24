@@ -150,6 +150,11 @@
     color: #991b1b;
 }
 
+.person-card__status--expired {
+    background: #fef2e2;
+    color: #99771b;
+}   
+
 /* ---------- Edit icon (o'ng burchak, hozircha placeholder) ---------- */
 .person-card__edit {
     flex-shrink: 0;

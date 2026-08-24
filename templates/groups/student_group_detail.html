@@ -20,19 +20,25 @@
 
     <section class="task-section">
         <h3 class="task-section__title">Assignments</h3>
-        {% if group.assignments.all %}
+        {% if assignments %}
             <ul class="task-list">
-                {% for assignment in group.assignments.all %}
+                {% for assignment in assignments %}
                     <li class="task-card">
-                        <a href="{% url 'assignment:student_assignment_detail' group_pk=group.pk pk=assignment.pk %}" class="task-card__link">
+                        <a href="{% url 'assignment:student_assignment_detail' group_pk=group.pk assignment_pk=assignment.pk %}" class="task-card__link">
                             <div class="task-card__thumb">
                                 <span class="task-card__icon">📝</span>
                             </div>
                             <div class="task-card__body">
                                 <span class="task-card__type">Assignment</span>
-                                <h4 class="task-card__title">{{ assignment }}</h4>
+                                <h4 class="task-card__title">{{ assignment.assignment.title }}</h4>
                             </div>
-                            <span class="task-card__status task-card__status--placeholder">{# status shu yerga qo'shiladi #}</span>
+                            <span class="task-card__status task-card__status--placeholder 
+                                        {% if assignment.is_done_for_user and not assignment.is_expired %} task-card__status--done 
+                                        {% elif not assignment.is_done_for_user and not assignment.is_expired %} task-card__status--pending 
+                                        {% elif assignment.is_done_for_user and assignment.is_expired %} task-card__status--done-expired 
+                                        {% else %} task-card__status--expired {% endif %}">
+                                Deadline - {{ assignment.due_date }}
+                            </span>
                         </a>
                     </li>
                 {% endfor %}
@@ -55,8 +61,8 @@
                                 <span class="member-card__initial">{{ member|slice:":1"|upper }}</span>
                             {% endif %}
                         </div>
-                        <span class="member-card__name">{{ member }}</span>
-                        <span class="member-card__status member-card__status--placeholder">{# online/offline belgisi shu yerga #}</span>
+                        <span class="member-card__name">{{ member.first_name }} {{ member.last_name }} (@{{ member.username }})</span>
+                        <span class="member-card__status member-card__status--placeholder">{% if member.is_active and not member.is_expired %}Active{% else %} Inactive {% endif %}</span>
                     </li>
                 {% endfor %}
             </ul>

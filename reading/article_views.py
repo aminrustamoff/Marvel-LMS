@@ -1,3 +1,5 @@
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 
@@ -20,53 +22,46 @@ from django.views.generic import CreateView, UpdateView
 
 @teacher_required
 def article_list(request):
-    articles = models.ReadingArticle.objects.all()
-    return render(request, 'articles/article_list.html', {'articles': articles})
+    articles = models.ReadingArticle.objects.all().order_by('-created_at')
+    paginator = Paginator(articles, 25)
+    page_number = request.GET.get('page')
+    try:
+        page_obj = paginator.get_page(page_number)
+    except PageNotAnInteger:
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
+    return render(request, 'articles/article_list.html', {'page_obj': page_obj})
 
 @teacher_required
 def article_detail(request, pk):
     article = models.ReadingArticle.objects.get(pk=pk)
     return render(request, 'articles/article_detail.html', {'article': article})
 
-@login_required
-def student_article_view(request, assignment_pk, pk):
-    article_task = get_object_or_404(
-        ArticleTask,
-        assignment_id=assignment_pk,
-        task_id=pk,
-    )
-    article = article_task.task
-    assignment = article_task.assignment
-
-    return render(request, 'articles/student_article_view.html', {'article' : article, 'assignment_pk' : assignment_pk, 'assignment' : assignment})
-
-
-@login_required
 @student_required
-def mark_as_read(request, assignment_pk, pk):
-    article = get_object_or_404(models.ReadingArticle, pk=pk)
-    assignment = get_object_or_404(
-                                    ArticleTask, 
-                                    assignment_id=assignment_pk, 
-                                    task=article).assignment
+def student_article_view(request, group_pk, assignment_pk, task_pk):
+    group = request.user.student_groups.get(pk=group_pk)
+    assignment = group.assignment_distributions.get(pk=assignment_pk)
+    task = assignment.assignment.article_tasks.get(task_id=task_pk)
+    article = task.task
+
 
     if request.method == "POST":
-        # ProgressReading modeliga saqlash
-        student_progress, _ = StudentProgress.objects.get_or_create(
-            user=request.user,
-            assignment=assignment,  # sizning bog'lanishingizga moslang
-        )
-        ProgressArticle.objects.update_or_create(
-            progress=student_progress,
-            article=article,
-            defaults={"is_read" : True,  "read_at": timezone.now()},
-        )
+            # ProgressReading modeliga saqlash
+            student_progress, _ = StudentProgress.objects.get_or_create(
+                user=request.user,
+                group=group,
+                assignment=assignment,  # sizning bog'lanishingizga moslang
+            )
+            ProgressArticle.objects.update_or_create(
+                progress=student_progress,
+                article=article,
+                defaults={"is_read" : True,  "read_at": timezone.now()},
+            )
+        
+            return redirect("assignment:student_assignment_detail", group_pk=group.pk , assignment_pk=assignment.pk)
 
-        group = request.user.student_groups.get(pk=pk)
-
-        return redirect("assignment:student_assignment_detail", group_pk=group.pk , pk=pk)
-
-    return render(request, "articles/student_article_view.html", {"article": article})
+    return render(request, 'articles/student_article_view.html', {'article' : article, 'assignment' : assignment, 'group' : group})
 
 
 

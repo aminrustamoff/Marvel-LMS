@@ -1,14 +1,16 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
-from accounts.decorators import teacher_required
+from accounts.decorators import teacher_required, student_required
 from accounts.models import User
 from groups.models import Group
 
-from assignments.models import Assignment
+from assignments.models import Assignment, ArticleTask
 from reading.models import ReadingArticle, ReadingPassage 
 from listening.models import Listening
 from videos.models import ListeningPodcast
+
+from progress.models import StudentProgress
 
 @teacher_required
 def teacher_dashboard(request):
@@ -34,9 +36,18 @@ def teacher_dashboard(request):
         "videos_count": videos_count,
     })
 
-@login_required
+@student_required
 def student_dashboard(request):
     groups = request.user.student_groups.all()
+    # assignments = [item for group in groups for item in group.assignment_distributions.all()]
+    # pending_assignments = [item for item in assignments if not item.is_expired()]
+    # completed_assignments = [item for item in progress if item in assignments]
+    
+    
+    # assigned_artcles = ArticleTask.objects.filter()
+    
+
     return render(request, "dashboard/student_dashboard.html", {
         "groups": groups,
+        # "pending_assignments" : pending_assignments,
     })

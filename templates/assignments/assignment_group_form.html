@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/assignment_group_form.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="card assignment-group-card">
+    <div class="assignment-group-card__header">
+        <h2 class="assignment-group-card__title">
+            {% if form.instance.pk %}Edit Group Assignment{% else %}Assign to a Group{% endif %}
+        </h2>
+        <p class="assignment-group-card__subtitle">
+            For assignment "{{ assignment.title }}"
+        </p>
+    </div>
+
+    {% if form.non_field_errors %}
+        <div class="error error--form">{{ form.non_field_errors|striptags }}</div>
+    {% endif %}
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="{{ form.group.id_for_label }}">Group</label>
+            {{ form.group }}
+            {% if form.group.errors %}<span class="error">{{ form.group.errors|striptags }}</span>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.due_date.id_for_label }}">Due Date</label>
+            {{ form.due_date }}
+            {% if form.due_date.errors %}<span class="error">{{ form.due_date.errors|striptags }}</span>{% endif %}
+        </div>
+
+        <div class="assignment-group-card__actions">
+            {% if form.instance.pk %}
+                <a href="{% url 'assignment:assignment_distribution_delete' assignment.pk form.instance.pk %}" class="btn-danger">
+                    Delete
+                </a>
+            {% endif %}
+            <a href="javascript:history.back()" class="btn-secondary">
+                Cancel
+            </a>
+            <button type="submit" class="btn-primary">
+                {% if form.instance.pk %}Save Changes{% else %}Add Group{% endif %}
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

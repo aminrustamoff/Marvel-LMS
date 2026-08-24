@@ -32,7 +32,7 @@
             </span>
             <span class="profile-card__status {% if student.is_expired %}profile-card__status--inactive{% else %}profile-card__status--active{% endif %}">
                 {% if student.is_expired %}
-                    Expired
+                    Expired on {{ student.active_until|date:"d.m.Y" }}
                 {% elif student.active_until %}
                     Active until {{ student.active_until|date:"d.m.Y" }}
                 {% else %}
@@ -42,6 +42,10 @@
         </div>
 
         <div class="profile-card__info">
+            <div class="info-row">
+                <span class="info-row__label">Username</span>
+                <span class="info-row__value">@{{ student.username|default:"—" }}</span>
+            </div>
             <div class="info-row">
                 <span class="info-row__label">Role</span>
                 <span class="info-row__value">{{ student.role|default:"—" }}</span>
@@ -53,6 +57,14 @@
             <div class="info-row">
                 <span class="info-row__label">Phone</span>
                 <span class="info-row__value">{{ student.phone_number|default:"—" }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-row__label">Joined at</span>
+                <span class="info-row__value">{{ student.date_joined|date:"d M, Y" }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-row__label">Last login</span>
+                <span class="info-row__value">{{ student.last_login|date:"H:i | d M, Y" }}</span>
             </div>
         </div>
     </div>

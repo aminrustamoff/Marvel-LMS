@@ -28,7 +28,7 @@
                         <br/>{{ passage|safe }}</div>
                     <div class="resizer" data-panel="1"></div>
                     <div class="split-right" id="right1">
-                    <form method="post" action="{% url 'reading:submit_answers' assignment.pk reading.pk %}">
+                    <form method="post" action="{% url 'reading:student_reading_view' group.pk assignment.pk reading.pk %}">
                         {% csrf_token %}
                         <div>{{ question|safe }}</div>
                         <button type="submit" class="submit-btn">Submit Answers</button>

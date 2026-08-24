@@ -1,3 +1,5 @@
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 
@@ -20,8 +22,16 @@ from .models import ListeningPodcast
 
 @teacher_required
 def video_list(request):
-    videos = ListeningPodcast.objects.all()
-    return render(request, 'videos/video_list.html', {'videos': videos})
+    videos = ListeningPodcast.objects.all().order_by('-created_at')
+    paginator = Paginator(videos, 25)
+    page_number = request.GET.get('page')
+    try:
+        page_obj = paginator.get_page(page_number)
+    except PageNotAnInteger:
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
+    return render(request, 'videos/video_list.html', {'page_obj': page_obj})
 
 @teacher_required
 def video_detail(request, pk):
@@ -29,21 +39,17 @@ def video_detail(request, pk):
     youtube_id = youtube_id_extracter.extract_youtube_id(video.url)
     return render(request, 'videos/video_detail.html', {'podcast': video, 'youtube_id' : youtube_id})
 
-@login_required
 @student_required
-def student_podcast_view(request, assignment_pk, pk):
-    podcast_task = get_object_or_404(
-        PodcastTask,
-        assignment_id=assignment_pk,
-        task_id = pk,
-    )
-
-    podcast = podcast_task.task
-    assignment = podcast_task.assignment
+def student_podcast_view(request, group_pk, assignment_pk, task_pk):
+    group = request.user.student_groups.get(pk=group_pk)
+    assignment = group.assignment_distributions.get(pk=assignment_pk)
+    task = assignment.assignment.podcast_tasks.get(task_id=task_pk)
+    podcast = task.task
 
     if request.method == "POST":
         student_progress, _ = StudentProgress.objects.get_or_create(
             user=request.user,
+            group=group,
             assignment=assignment_pk
         )
 
@@ -53,14 +59,12 @@ def student_podcast_view(request, assignment_pk, pk):
             defaults={"is_seen" : True, "seen_at" : timezone.now()},        
         )
 
-        group = request.user.student_groups.get(pk=pk)
-
-        return redirect("assignment:student_assignment_detail", group_pk=group.pk, pk=assignment.pk)
+        return redirect("assignment:student_assignment_detail", group_pk=group.pk, assignment_pk=assignment.pk)
 
 
     youtube_id = youtube_id_extracter.extract_youtube_id(podcast.url)
 
-    return render(request, 'videos/student_video_view.html', {'podcast' : podcast, 'youtube_id' : youtube_id, 'assignment' : assignment})
+    return render(request, 'videos/student_video_view.html', {'group' : group, 'podcast' : podcast, 'youtube_id' : youtube_id, 'assignment' : assignment})
 
 
 class VideoCreateView(TeacherRequiredMixin, CreateView):

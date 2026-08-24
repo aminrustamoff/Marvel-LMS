@@ -48,7 +48,7 @@
         </section>
     {% endif %}
 
-    <form method="post" action="{% url 'podcast:student_podcast_view' assignment.pk podcast.pk %}">
+    <form method="post" action="{% url 'podcast:student_podcast_view' group.pk assignment.pk podcast.pk %}">
         {% csrf_token %}
         <button type="submit" class="submit-btn">Submit Answers</button>
     </form>

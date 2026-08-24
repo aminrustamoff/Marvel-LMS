@@ -52,17 +52,24 @@
 
     <section class="group-section">
         <h2 class="group-section__title">Assignments</h2>
-        {% if group.assignments.all %}
+        {% if group.assignment_distributions.all %}
             <ul class="assignment-list">
-                {% for assignment in group.assignments.all %}
+                {% for assignment in group.assignment_distributions.all %}
                     <li class="assignment-card">
-                        <span class="assignment-card__icon">📝</span>
-                        <div class="assignment-card__body">
-                            <span class="assignment-card__title">{{ assignment.title }}</span>
-                            {% if assignment.due_date %}
-                                <span class="assignment-card__due">Due {{ assignment.due_date }}</span>
-                            {% endif %}
+                        <div class="assignment-card__content">
+                            <span class="assignment-card__icon">📝</span>
+                            <div class="assignment-card__body">
+                                <span class="assignment-card__title">{{ assignment.assignment.title }}</span>
+                                {% if assignment.due_date %}
+                                    <span class="assignment-card__due">Due {{ assignment.due_date }}</span>
+                                {% else %}
+                                    <span class="assignment-card__due">No due date</span>
+                                {% endif %}
+                            </div>
                         </div>
+                        <a href="{% url 'assignment:assignment_distribution_update' assignment.assignment.pk assignment.pk %}" class="assignment-card__update-button">
+                            Edit
+                        </a>
                     </li>
                 {% endfor %}
             </ul>

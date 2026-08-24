@@ -40,20 +40,6 @@
             {% if form.description.errors %}<span class="error">{{ form.description.errors|striptags }}</span>{% endif %}
         </div>
 
-        <div class="form-row">
-            <div class="form-group">
-                <label for="{{ form.due_date.id_for_label }}">Due Date</label>
-                {{ form.due_date }}
-                {% if form.due_date.errors %}<span class="error">{{ form.due_date.errors|striptags }}</span>{% endif %}
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="{{ form.groups.id_for_label }}">Groups</label>
-            {{ form.groups }}
-            {% if form.groups.errors %}<span class="error">{{ form.groups.errors|striptags }}</span>{% endif %}
-        </div>
-
         <div class="form-group">
             <label>Tasks</label>
             <div class="task-tabs">

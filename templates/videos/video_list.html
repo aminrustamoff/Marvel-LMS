@@ -15,9 +15,50 @@
         <a href="{% url 'podcast:video_create' %}">Create</a>
     </div>
 
-    {% if videos %}
+    <div class="pagination-container my-4">
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                
+                <!-- Link to the First and Previous pages -->
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1">&laquo; First</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">&laquo; First</span></li>
+                    <li class="page-item disabled"><span class="page-link">Previous</span></li>
+                {% endif %}
+
+                <!-- Current page indicator status -->
+                <li class="page-item active" aria-current="page">
+                    <span class="page-link">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                    </span>
+                </li>
+
+                <!-- Link to the Next and Last pages -->
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">Next</span></li>
+                    <li class="page-item disabled"><span class="page-link">Last &raquo;</span></li>
+                {% endif %}
+                
+            </ul>
+        </nav>
+    </div>
+
+    {% if page_obj %}
         <ul class="content-list">
-            {% for video in videos %}
+            {% for video in page_obj %}
                 <li class="content-card">
                     <a href="{% url 'podcast:video_detail' video.pk %}" class="content-card__link">
                         <div class="content-card__thumb">
@@ -43,6 +84,47 @@
     {% else %}
         <p class="list-page__empty">No podcasts available.</p>
     {% endif %}
+
+    <div class="pagination-container my-4">
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                
+                <!-- Link to the First and Previous pages -->
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1">&laquo; First</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">&laquo; First</span></li>
+                    <li class="page-item disabled"><span class="page-link">Previous</span></li>
+                {% endif %}
+
+                <!-- Current page indicator status -->
+                <li class="page-item active" aria-current="page">
+                    <span class="page-link">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                    </span>
+                </li>
+
+                <!-- Link to the Next and Last pages -->
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">Next</span></li>
+                    <li class="page-item disabled"><span class="page-link">Last &raquo;</span></li>
+                {% endif %}
+                
+            </ul>
+        </nav>
+    </div>
 
 </div>
 {% endblock %}

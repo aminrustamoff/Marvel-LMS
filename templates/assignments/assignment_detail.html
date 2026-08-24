@@ -11,12 +11,7 @@
 <div class="assignment-page">
 
     <header class="assignment-page__header">
-        <div class="assignment-page__head">
-            <h1 class="assignment-page__title">{{ assignment.title }}</h1>
-            <a href="{% url 'assignment:assignment_update' assignment.pk %}">
-                Edit
-            </a>
-        </div>
+        <h1 class="assignment-page__title">{{ assignment.title }}</h1>
         {% if assignment.description %}
             <p class="assignment-page__description">{{ assignment.description }}</p>
         {% endif %}
@@ -37,9 +32,22 @@
             <span>Created: {{ assignment.created_at|date:"d M, Y" }}</span>
             <span>Updated: {{ assignment.updated_at|date:"d M, Y" }}</span>
         </div>
+
+        <p class="action-title">Actions</p>
+        <div class="assignment-page__head">
+            <a href="{% url 'assignment:assignment_distribution_create' assignment.pk %}">
+                Assign a new task
+            </a>
+        </div>
     </header>
 
     <h2 class="assignment-page__tasks-title">Tasks</h2>
+
+    <div class="assignment-page__head">
+        <a href="{% url 'assignment:assignment_update' assignment.pk %}">
+            Edit the content
+        </a>
+    </div>
 
     {% if article_tasks %}
         <section class="task-section">

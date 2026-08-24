@@ -1,3 +1,7 @@
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+from django.http import HttpResponse
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
@@ -20,8 +24,16 @@ from .models import ReadingPassage
 
 @teacher_required
 def reading_list(request):
-    reading = models.ReadingPassage.objects.all()
-    return render(request, 'reading/reading_list.html', {'reading': reading})
+    reading = models.ReadingPassage.objects.all().order_by('-created_at')
+    paginator = Paginator(reading, 25)
+    page_number = request.GET.get('page')
+    try:
+        page_obj = paginator.get_page(page_number)
+    except PageNotAnInteger:
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
+    return render(request, 'reading/reading_list.html', {'page_obj': page_obj})
 
 @teacher_required
 def reading_detail(request, pk):
@@ -31,63 +43,37 @@ def reading_detail(request, pk):
     return render(request, 'reading/reading_detail.html', {'reading': reading, 'question' : question, 'passage' : passage})
 
 @student_required
-def student_reading_test_view(request, assignment_pk, pk):
-    reading_task = get_object_or_404(
-        PassageTask,
-        assignment_id=assignment_pk,
-        task_id=pk,
-        
-    )
-    reading = reading_task.task
-    assignment = reading_task.assignment
-    question = convert(reading.question_text)
-    passage = convert(reading.passage_text)
-
-    return render(request, 'reading/student_reading_view.html', {'reading' : reading, 'question' : question, 'passage' : passage, 'assignment' : assignment})
-
-
-@student_required
-def submit_answers(request, assignment_pk, pk):
-    reading_task = get_object_or_404(
-        PassageTask,
-        assignment_id=assignment_pk,
-        task_id=pk,
-    )
-
-    reading = reading_task.task
+def student_reading_test_view(request, group_pk, assignment_pk, task_pk):
+    group = request.user.student_groups.get(pk=group_pk)
+    assignment = group.assignment_distributions.get(pk=assignment_pk)
+    task = assignment.assignment.passage_tasks.get(task_id=task_pk)
+    reading = task.task
 
     if request.method == "POST":
-        answers = {}
-        for key, value in request.POST.items():
-            if key.startswith("question"):
-                # key masalan: "question1", "question2" ...
-                answers[key] = value
-
-        # ProgressReading modeliga saqlash
-        student_progress, _ = StudentProgress.objects.get_or_create(
-            user=request.user,
-            assignment=reading_task.assignment,  # sizning bog'lanishingizga moslang
-        )
-        ProgressReading.objects.update_or_create(
-            progress=student_progress,
-            passage=reading,
-            defaults={"answers": answers, "submitted_at": timezone.now()},
-        )
-
-        return redirect("reading:result", pk=reading_task.assignment.pk)
-
+            answers = {}
+            for key, value in request.POST.items():
+                if key.startswith("question"):
+                    # key masalan: "question1", "question2" ...
+                    answers[key] = value
     
-    assignment = reading_task.assignment
+            # ProgressReading modeliga saqlash
+            student_progress, _ = StudentProgress.objects.get_or_create(
+                user=request.user,
+                group=group,
+                assignment=assignment,  # sizning bog'lanishingizga moslang
+            )
+            ProgressReading.objects.update_or_create(
+                progress=student_progress,
+                passage=reading,
+                defaults={"answers": answers, "submitted_at": timezone.now()},
+            )
+    
+            return redirect("assignment:student_assignment_detail", group_pk=group.pk , assignment_pk=assignment.pk)
+
     question = convert(reading.question_text)
     passage = convert(reading.passage_text)
 
-    return render(request, 'reading/student_reading_view.html', {'reading' : reading, 'question' : question, 'passage' : passage, 'assignment' : assignment})
-
-
-@student_required
-def student_reading_result(request, pk):
-    group = request.user.student_groups.get(pk=pk)
-    return redirect("assignment:student_assignment_detail", group_pk=group.pk, pk=pk)
+    return render(request, 'reading/student_reading_view.html', {'group' : group, 'reading' : reading, 'question' : question, 'passage' : passage, 'assignment' : assignment})
 
 
 class ReadingPassageFormsetMixin:

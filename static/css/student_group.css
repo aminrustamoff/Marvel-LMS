@@ -129,16 +129,20 @@
     min-width: 10px;
     min-height: 10px;
     border-radius: 999px;
+    padding: 0.2rem 2rem;
+    color:#fff
 }
 
 .task-card__status--placeholder {
     background: transparent;
 }
 
-/* Statusni keyinchalik shu turdagi classlar bilan bog'lash mumkin, masalan:
+/* Statusni keyinchalik shu turdagi classlar bilan bog'lash mumkin, masalan: */
    .task-card__status--done { background: #22c55e; }
    .task-card__status--pending { background: #f59e0b; }
-*/
+   .task-card__status--done-expired { background: #788d6a; }
+   .task-card__status--expired { background: #f81d0e; }
+   
 
 /* ---------- Member cards ---------- */
 .member-list {

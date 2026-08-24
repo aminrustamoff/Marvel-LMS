@@ -31,7 +31,7 @@
                         </div>
                         <div class="person-card__body">
                             <span class="person-card__name">{{ student.first_name }} {{ student.last_name }}</span>
-                            <span class="person-card__status {% if student.is_active %}person-card__status--active{% else %}person-card__status--inactive{% endif %}">
+                            <span class="person-card__status {% if student.is_active and not student.is_expired %}person-card__status--active{% elif student.is_active and student.is_expired %}person-card__status--expired{% else %}person-card__status--inactive{% endif %}">
                                 {{ student.is_active|yesno:"Active,Inactive" }}
                             </span>
                         </div>

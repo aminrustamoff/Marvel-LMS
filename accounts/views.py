@@ -39,28 +39,24 @@ class RoleBasedLoginView(LoginView):
         return reverse("dashboard:student_dashboard")
 
 @teacher_required
-@login_required
 def student_list(request):
     students = User.objects.filter(role=User.Role.STUDENT)
     return render(request, "accounts/student_list.html", {"students": students})
 
 
 @teacher_required
-@login_required
 def student_detail(request, pk):
     student = User.objects.get(pk=pk, role=User.Role.STUDENT)
     return render(request, "accounts/student_detail.html", {"student": student})
 
 
 @teacher_required
-@login_required
 def teacher_list(request):
     teachers = User.objects.filter(role=User.Role.TEACHER)
     return render(request, "accounts/teacher_list.html", {"teachers": teachers})
 
 
 @teacher_required
-@login_required
 def teacher_detail(request, pk):
     teacher = User.objects.get(pk=pk, role=User.Role.TEACHER)
     return render(request, "accounts/teacher_detail.html", {"teacher": teacher})
@@ -109,7 +105,6 @@ class UserUpdateView(UpdateView):
                 return reverse('accounts:teacher_detail', kwargs={'pk': self.object.pk})
 
 
-@login_required
 @teacher_required
 def password_reset(request, pk):
     user = get_object_or_404(User, pk=pk)

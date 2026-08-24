@@ -21,11 +21,11 @@
             <span class="stat-card__label">Groups</span>
         </div>
         <div class="stat-card">
-            <span class="stat-card__value">{{ pending_assignments_count|default:"—" }}</span>
+            <span class="stat-card__value">{{ pending_assignments|length|default:"—" }}</span>
             <span class="stat-card__label">Pending assignments</span>
         </div>
         <div class="stat-card">
-            <span class="stat-card__value">{{ completed_assignments_count|default:"—" }}</span>
+            <span class="stat-card__value">{{ completed_assignments|default:"—" }}</span>
             <span class="stat-card__label">Completed</span>
         </div>
     </div>

@@ -1,7 +1,8 @@
 from django.db import models
 from django.conf import settings
 
-from assignments.models import Assignment
+from assignments.models import Assignment, AssignmentDistribution
+from groups.models import Group
 from reading.models import ReadingPassage, ReadingArticle # sizning haqiqiy nomingizga moslang
 from videos.models import ListeningPodcast
 from listening.models import Listening  # sizning haqiqiy nomingizga moslang
@@ -14,8 +15,14 @@ class StudentProgress(models.Model):
         on_delete=models.CASCADE,
         related_name="progress_records",
     )
+    group = models.ForeignKey(
+        Group,
+        null=True,
+        on_delete=models.PROTECT,
+        related_name="progress_groups",
+    )
     assignment = models.ForeignKey(
-        Assignment,
+        AssignmentDistribution,
         on_delete=models.PROTECT,
         related_name="student_progress",
     )
@@ -23,10 +30,10 @@ class StudentProgress(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = ("user", "assignment")
+        unique_together = ("user", "group", "assignment")
 
     def __str__(self):
-        return f"{self.user} — {self.assignment}"
+        return f"{self.user} — {self.group} — {self.assignment}"
 
 
 class ProgressArticle(models.Model):

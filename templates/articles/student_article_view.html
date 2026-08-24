@@ -76,7 +76,7 @@
     <img class="lightbox__image" id="lightbox-image" src="" alt="">
 </div>
 
-<form method="post" action="{% url 'article:mark_as_read' assignment_pk article.pk %}">
+<form method="post" action="{% url 'article:student_article_view' group.pk assignment.pk article.pk %}">
     {% csrf_token %}
 
     <button type="submit" class="submit-btn">Mark as read</button>

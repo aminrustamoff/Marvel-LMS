@@ -1,3 +1,5 @@
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 
@@ -18,8 +20,16 @@ from .forms import ListeningForm, ListeningImageFormSet, DeleteConfirmForm
 
 @teacher_required
 def listening_list(request):
-    listening = models.Listening.objects.all()
-    return render(request, 'listening/listening_list.html', {'listening': listening})
+    listening = models.Listening.objects.all().order_by('-created_at')
+    paginator = Paginator(listening, 25)
+    page_number = request.GET.get('page')
+    try:
+        page_obj = paginator.get_page(page_number)
+    except PageNotAnInteger:
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
+    return render(request, 'listening/listening_list.html', {'page_obj': page_obj})
 
 @teacher_required
 def listening_detail(request, pk):
@@ -29,16 +39,12 @@ def listening_detail(request, pk):
 
     return render(request, 'listening/listening_detail.html', {'listening' : listening, 'question' : question})
 
-@login_required
-def student_listening_view(request, assignment_pk, pk):
-    listening_task = get_object_or_404(
-        ListeningTask,
-        assignment_id=assignment_pk,
-        task_id=pk
-    )
-
-    assignment = listening_task.assignment
-    listening = listening_task.task
+@student_required
+def student_listening_view(request, group_pk, assignment_pk, task_pk):
+    group = request.user.student_groups.get(pk=group_pk)
+    assignment = group.assignment_distributions.get(pk=assignment_pk)
+    task = assignment.assignment.listening_tasks.get(task_id=task_pk)
+    listening = task.task
 
     if request.method == "POST":
 
@@ -49,7 +55,8 @@ def student_listening_view(request, assignment_pk, pk):
 
         student_progress, _ = StudentProgress.objects.get_or_create(
             user=request.user,
-            assignment=assignment.pk,
+            group=group,
+            assignment=assignment,
         )
 
         ProgressListening.objects.update_or_create(
@@ -58,13 +65,11 @@ def student_listening_view(request, assignment_pk, pk):
             defaults={'answers' : answers, 'submitted_at': timezone.now()}
         )
 
-        group = request.user.student_groups.get(pk=pk)
-
-        return redirect("assignment:student_assignment_detail", group_pk=group.pk, pk=pk)
+        return redirect("assignment:student_assignment_detail", group_pk=group.pk, assignment_pk=assignment_pk )
 
     question = text_to_html.convert(listening.question)
 
-    return render(request, 'listening/student_listening_view.html', {'listening' : listening, 'question' : question, 'assignment' : assignment})
+    return render(request, 'listening/student_listening_view.html', {'group' : group, 'listening' : listening, 'question' : question, 'assignment' : assignment})
 
 
 
