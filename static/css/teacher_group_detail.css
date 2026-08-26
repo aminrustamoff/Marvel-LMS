@@ -232,3 +232,16 @@
     .member-card__avatar { width: 32px; height: 32px; }
     .group-page__title { font-size: 1.35rem; }
 }
+
+.link-text {
+    color: #eb2525;
+}
+
+.link-text:hover {
+    color: #eb9525;
+}
+
+.link-text:visited {
+    color: #ad1919;
+}
+

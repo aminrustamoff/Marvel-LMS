@@ -34,8 +34,10 @@ def listening_list(request):
 @teacher_required
 def listening_detail(request, pk):
     listening = get_object_or_404(models.Listening, pk=pk)
+
+    images = {img.caption: img.image_file.url for img in listening.images.all()}
     
-    question = text_to_html.convert(listening.question)
+    question = text_to_html.convert(listening.question or '', images)
 
     return render(request, 'listening/listening_detail.html', {'listening' : listening, 'question' : question})
 
@@ -67,7 +69,9 @@ def student_listening_view(request, group_pk, assignment_pk, task_pk):
 
         return redirect("assignment:student_assignment_detail", group_pk=group.pk, assignment_pk=assignment_pk )
 
-    question = text_to_html.convert(listening.question)
+    images = {img.caption: img.image_file.url for img in listening.images.all()}
+
+    question = text_to_html.convert(listening.question or '', images)
 
     return render(request, 'listening/student_listening_view.html', {'group' : group, 'listening' : listening, 'question' : question, 'assignment' : assignment})
 

@@ -34,7 +34,7 @@ class Listening(models.Model):
 
 class ListeningImages(models.Model):
     listening = models.ForeignKey(Listening, on_delete=models.CASCADE, related_name='images')
-    caption = models.CharField(max_length=200, blank=True)
+    caption = models.CharField(max_length=200, blank=False)
     image_file = models.ImageField(upload_to='listening/images/')
     created_at = models.DateTimeField(auto_now_add=True)
 

@@ -38,8 +38,10 @@ def reading_list(request):
 @teacher_required
 def reading_detail(request, pk):
     reading = models.ReadingPassage.objects.get(pk=pk)
-    question = convert(reading.question_text)
-    passage = convert(reading.passage_text)
+
+    images = {img.caption: img.image.url for img in reading.images.all()}
+    question = convert(reading.question_text or '', images)
+    passage = convert(reading.passage_text or '', images)
     return render(request, 'reading/reading_detail.html', {'reading': reading, 'question' : question, 'passage' : passage})
 
 @student_required
@@ -70,8 +72,10 @@ def student_reading_test_view(request, group_pk, assignment_pk, task_pk):
     
             return redirect("assignment:student_assignment_detail", group_pk=group.pk , assignment_pk=assignment.pk)
 
-    question = convert(reading.question_text)
-    passage = convert(reading.passage_text)
+    images = {img.caption: img.image.url for img in reading.images.all()}
+
+    question = convert(reading.question_text or "", images)
+    passage = convert(reading.passage_text or "", images)
 
     return render(request, 'reading/student_reading_view.html', {'group' : group, 'reading' : reading, 'question' : question, 'passage' : passage, 'assignment' : assignment})
 

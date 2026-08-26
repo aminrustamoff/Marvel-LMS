@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Group | {{ group.name }}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/teacher_progress_table.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<h2 style="margin-bottom: 2rem; margin-left: 3rem;">{{group.name}} student track.</h2>
+
+<table>
+    <tr>
+        <th style="background-color: white; color: black;">Students</th>
+        {% for assignment in assignments %}
+            <th>{{ assignment.assignment.title }}
+             ({{ assignment.due_date|date:'d M, Y'|default:'No due'}})
+            </th>
+        {% endfor %}
+    </tr>
+    
+    
+    {% for student in students %}
+        <tr>
+            <th>{{ student.first_name }} {{ student.last_name }}</th>
+            {% for assignment in assignments %}
+                <td class="task-done">
+                    {% for progress in progresses %}
+                        {% if progress.user_id == student.id %}
+                            {% if progress.assignment_id == assignment.id %}
+                                {% if progress.article_progress.exists %} 
+                                    📰 - {{progress.article_progress.count}}
+                                {% endif %}    
+                                {% if progress.reading_progress.exists %}
+                                    📚 - {{progress.reading_progress.count}}
+                                {% endif %}    
+                                {% if progress.podcast_progress.exists %}
+                                    🎞 - {{progress.podcast_progress.count}}
+                                {% endif %}    
+                                {% if progress.listening_progress.exists %}
+                                    🎧 - {{progress.listening_progress.count}}
+                                {% endif %}
+                            {% endif %}    
+                        {% endif %}  
+                    {% endfor %}
+                </td>                      
+            {% endfor %}    
+        </tr>
+    {% endfor %}
+
+</table>
+
+<div class="pagination-container">
+    <div class="pagination-wrapper">
+        {% if assignments.has_previous %}
+            <a class="page-link page-action" href="?page=1">&laquo; First</a>
+            <a class="page-link page-action" href="?page={{ assignments.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span class="page-info">
+            Page <strong>{{ assignments.number }}</strong> / {{ assignments.paginator.num_pages }}
+        </span>
+
+        {% if assignments.has_next %}
+            <a class="page-link page-action" href="?page={{ assignments.next_page_number }}">Next</a>
+            <a class="page-link page-action" href="?page={{ assignments.paginator.num_pages }}">Last &raquo;</a>
+        {% endif %}
+    </div>
+</div>
+
+<p>📰 - Articles</p>
+<p>📚 - Reading Passages</p>
+<p>🎞 - Podcasts</p>
+<p>🎧 - Listening Tests</p>
+
+{% endblock %}
