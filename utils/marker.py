@@ -1,5 +1,5 @@
 LISTENING_SCORE_MAP = {
-    "section_1": {
+    "Part 1": {
         0: 2.0,
         1: 2.5,
         2: 3.0,
@@ -13,7 +13,7 @@ LISTENING_SCORE_MAP = {
         10: 9.0,
     },
 
-    "section_2": {
+    "Part 2": {
         0: 2.0,
         1: 2.5,
         2: 3.0,
@@ -27,7 +27,7 @@ LISTENING_SCORE_MAP = {
         10: 9.0,
     },
 
-    "section_3": {
+    "Part 3": {
         0: 2.0,
         1: 2.5,
         2: 3.0,
@@ -41,7 +41,7 @@ LISTENING_SCORE_MAP = {
         10: 9.0,
     },
 
-    "section_4": {
+    "Part 4": {
         0: 2.0,
         1: 2.5,
         2: 3.0,
@@ -57,7 +57,7 @@ LISTENING_SCORE_MAP = {
 }
 
 READING_SCORE_MAP = {
-    "passage_1": {
+    "passage 1": {
         0: 2.0,
         1: 2.5,
         2: 3.0,
@@ -75,7 +75,7 @@ READING_SCORE_MAP = {
         14: 9.0,
     },
 
-    "passage_2": {
+    "passage 2": {
         0: 2.0,
         1: 2.5,
         2: 3.0,
@@ -93,7 +93,7 @@ READING_SCORE_MAP = {
         14: 9.0,
     },
 
-    "passage_3": {
+    "passage 3": {
         0: 2.0,
         1: 2.5,
         2: 3.0,
@@ -112,17 +112,18 @@ READING_SCORE_MAP = {
     },
 }
 
-def get_listening_band(section: int , correct_count: int) -> float|None:
+def get_listening_band(part: str , correct_count: int) -> float|None:
     """Har bir listening sectionlar uchun alohida hisoblangan maxsus hisoblagich"""
     try:
-        return LISTENING_SCORE_MAP[f"section_{section}"][correct_count]
+        return LISTENING_SCORE_MAP[part][correct_count]
     except Exception as e:
         return None
 
-def get_reading_band(passage: int , correct_count: int) -> float|None:
+def get_reading_band(passage: str , correct_count: int) -> float|None:
     """Har bir listening sectionlar uchun alohida hisoblangan maxsus hisoblagich"""
     try:
-        return READING_SCORE_MAP[f"section_{passage}"][correct_count]
+        return READING_SCORE_MAP[passage.lower()][correct_count]
     except Exception as e:
+        print(e)
         return None
     

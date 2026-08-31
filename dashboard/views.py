@@ -39,9 +39,9 @@ def teacher_dashboard(request):
 @student_required
 def student_dashboard(request):
     groups = request.user.student_groups.all()
-    # assignments = [item for group in groups for item in group.assignment_distributions.all()]
-    # pending_assignments = [item for item in assignments if not item.is_expired()]
-    # completed_assignments = [item for item in progress if item in assignments]
+    assignments = [item for group in groups for item in group.assignment_distributions.all()]
+    pending_assignments = [item for item in assignments if not item.is_expired() and not item.is_done(request.user, item.group)]
+    completed_assignments = [item for item in assignments if item.is_done(request.user, item.group)]
     
     
     # assigned_artcles = ArticleTask.objects.filter()
@@ -49,5 +49,6 @@ def student_dashboard(request):
 
     return render(request, "dashboard/student_dashboard.html", {
         "groups": groups,
-        # "pending_assignments" : pending_assignments,
+        "pending_assignments" : pending_assignments,
+        "completed_assignments" : completed_assignments,
     })

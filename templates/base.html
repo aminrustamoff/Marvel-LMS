@@ -29,19 +29,66 @@
                 </a>
             {% endif %}
 
+            <div class="header-actions header-actions--desktop">
+                {% if user.is_authenticated and user.role == "TEACHER" %}
+                <nav class="main-nav">
+                    <a href="{% url 'dashboard:teacher_dashboard' %}">Dashboard</a>
+                    <a href="{% url 'admin:index' %}">Advanced Admin</a>
+                </nav>
+                {% elif user.is_authenticated and user.role == "STUDENT" %}
+                <nav class="main-nav">
+                    <a href="{% url 'dashboard:student_dashboard' %}">Dashboard</a>
+                </nav>
+                {% endif %}
+
+                {% if user.is_authenticated %}
+                <div class="user-box">
+                    <div class="user-box__profile">
+                        <div class="user-box__avatar">
+                            {% if user.avatar %}
+                                <img src="{{ user.avatar.url }}" alt="{{ user.first_name|default:user.username }}">
+                            {% else %}
+                                <span class="user-box__initial">{{ user.first_name|default:user.username|slice:":1"|upper }}</span>
+                            {% endif %}
+                        </div>
+                        <span class="user-box__name">{{ user.first_name|default:user.username }}</span>
+                    </div>
+                    <form method="post" action="{% url 'accounts:logout' %}" class="logout-form">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-btn">Logout</button>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+
+            <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-sidebar" aria-label="Open menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <aside class="mobile-sidebar" id="mobile-sidebar" aria-hidden="true">
+        <div class="mobile-sidebar__header">
+            <span>Menu</span>
+            <button class="mobile-sidebar__close" type="button" aria-label="Close menu">✕</button>
+        </div>
+
+        <div class="mobile-sidebar__content">
             {% if user.is_authenticated and user.role == "TEACHER" %}
-            <nav class="main-nav">
+            <nav class="mobile-nav">
                 <a href="{% url 'dashboard:teacher_dashboard' %}">Dashboard</a>
                 <a href="{% url 'admin:index' %}">Admin</a>
             </nav>
             {% elif user.is_authenticated and user.role == "STUDENT" %}
-            <nav class="main-nav">
+            <nav class="mobile-nav">
                 <a href="{% url 'dashboard:student_dashboard' %}">Dashboard</a>
             </nav>
             {% endif %}
 
             {% if user.is_authenticated %}
-            <div class="user-box">
+            <div class="mobile-user-box">
                 <div class="user-box__profile">
                     <div class="user-box__avatar">
                         {% if user.avatar %}
@@ -59,7 +106,9 @@
             </div>
             {% endif %}
         </div>
-    </header>
+    </aside>
+
+    <div class="mobile-sidebar__overlay" aria-hidden="true"></div>
 
     <main class="container main-content">
         {% if messages %}
@@ -75,5 +124,53 @@
     </main>
 
     {% block extra_js %}{% endblock %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggleButton = document.querySelector('.menu-toggle');
+            const sidebar = document.getElementById('mobile-sidebar');
+            const overlay = document.querySelector('.mobile-sidebar__overlay');
+            const closeButton = document.querySelector('.mobile-sidebar__close');
+
+            if (!toggleButton || !sidebar || !overlay) return;
+
+            const closeSidebar = () => {
+                sidebar.classList.remove('is-open');
+                overlay.classList.remove('is-visible');
+                document.body.classList.remove('sidebar-open');
+                toggleButton.setAttribute('aria-expanded', 'false');
+                sidebar.setAttribute('aria-hidden', 'true');
+            };
+
+            const openSidebar = () => {
+                sidebar.classList.add('is-open');
+                overlay.classList.add('is-visible');
+                document.body.classList.add('sidebar-open');
+                toggleButton.setAttribute('aria-expanded', 'true');
+                sidebar.setAttribute('aria-hidden', 'false');
+            };
+
+            toggleButton.addEventListener('click', function () {
+                const isOpen = sidebar.classList.contains('is-open');
+                if (isOpen) {
+                    closeSidebar();
+                } else {
+                    openSidebar();
+                }
+            });
+
+            if (closeButton) {
+                closeButton.addEventListener('click', closeSidebar);
+            }
+
+            overlay.addEventListener('click', closeSidebar);
+
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape' && sidebar.classList.contains('is-open')) {
+                    closeSidebar();
+                }
+            });
+        });
+    </script>
 </body>
 </html>

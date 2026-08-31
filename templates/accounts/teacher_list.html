@@ -16,9 +16,20 @@
         ➕ Add a new user
     </a>
 
-    {% if teachers %}
+    <form method="GET" class="search-form">
+        <input
+            type="text"
+            name="search"
+            value="{{ search }}"
+            placeholder="Search teacher..."
+        >
+
+        <button type="submit">🔍︎Search</button>
+    </form>
+
+    {% if page_obj %}
         <ul class="person-list">
-            {% for teacher in teachers %}
+            {% for teacher in page_obj %}
                 <li class="person-card {% if not teacher.is_active %}person-card--inactive{% endif %}">
                     <a href="{% url 'accounts:teacher_detail' pk=teacher.pk %}" class="person-card__main">
                         <div class="person-card__avatar">
@@ -39,6 +50,32 @@
                         <span class="person-card__edit person-card__edit--placeholder" title="Edit (coming soon)">✏️</span>
                     </a>
                 </li>
+
+                <div class="pagination">
+
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1&search={{ search }}">First</a>
+
+                        <a href="?page={{ page_obj.previous_page_number }}&search={{ search }}">
+                            Previous
+                        </a>
+                    {% endif %}
+
+                    <span>
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                    </span>
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}&search={{ search }}">
+                            Next
+                        </a>
+
+                        <a href="?page={{ page_obj.paginator.num_pages }}&search={{ search }}">
+                            Last
+                        </a>
+                    {% endif %}
+
+                </div>
             {% empty %}
                 <li class="list-page__empty">No students found.</li>
             {% endfor %}

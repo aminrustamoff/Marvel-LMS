@@ -16,10 +16,21 @@
         ➕ Add a new user
     </a>
 
+    <form method="GET" class="search-form">
+        <input
+            type="text"
+            name="search"
+            value="{{ search }}"
+            placeholder="Search student..."
+        >
 
-    {% if students %}
+        <button type="submit">🔍︎Search</button>
+    </form>
+
+
+    {% if page_obj %}
         <ul class="person-list">
-            {% for student in students %}
+            {% for student in page_obj %}
                 <li class="person-card {% if not student.is_active %}person-card--inactive{% endif %}">
                     <a href="{% url 'accounts:student_detail' pk=student.pk %}" class="person-card__main">
                         <div class="person-card__avatar">
@@ -40,9 +51,37 @@
                         <span class="person-card__edit person-card__edit--placeholder" title="Edit">✏️</span>
                     </a>
                 </li>
+
+                
             {% empty %}
                 <li class="list-page__empty">No students found.</li>
             {% endfor %}
+
+            <div class="pagination">
+
+                {% if page_obj.has_previous %}
+                    <a href="?page=1&search={{ search }}" class="pagination-button button-first">First</a>
+
+                    <a href="?page={{ page_obj.previous_page_number }}&search={{ search }}" class="pagination-button button-prev">
+                        Previous
+                    </a>
+                {% endif %}
+
+                <span class="page-number">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}&search={{ search }}" class="pagination-button button-next">
+                        Next
+                    </a>
+
+                    <a href="?page={{ page_obj.paginator.num_pages }}&search={{ search }}" class="pagination-button button-last">
+                        Last
+                    </a>
+                {% endif %}
+
+            </div>
         </ul>
     {% else %}
         <p class="list-page__empty">No students found.</p>

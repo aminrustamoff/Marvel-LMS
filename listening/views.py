@@ -7,6 +7,8 @@ from django.contrib.auth.decorators import login_required
 from accounts.decorators import teacher_required, student_required, TeacherRequiredMixin
 
 from utils import text_to_html
+from utils.normilizer import get_dict_result
+from utils.marker import get_listening_band
 
 from . import models
 from .models import Listening
@@ -55,6 +57,20 @@ def student_listening_view(request, group_pk, assignment_pk, task_pk):
             if key.startswith("question"):
                 answers[key] = value
 
+        
+
+        dictionary = get_dict_result(listening.answer, answers)
+        score = get_listening_band(listening.part, dictionary["correct_count"])
+
+        context = {
+                    'user_answers' : answers,
+                    'dict_result' : dictionary,
+                    'score' : score,
+                    'listening' : listening,
+                    'group_pk' : group_pk, 
+                    'assignment_pk' : assignment_pk, 
+                }
+        
         student_progress, _ = StudentProgress.objects.get_or_create(
             user=request.user,
             group=group,
@@ -64,10 +80,10 @@ def student_listening_view(request, group_pk, assignment_pk, task_pk):
         ProgressListening.objects.update_or_create(
             progress=student_progress,
             listening_test=listening,
-            defaults={'answers' : answers, 'submitted_at': timezone.now()}
+            defaults={'score' : score, 'answers' : answers, 'submitted_at': timezone.now()}
         )
 
-        return redirect("assignment:student_assignment_detail", group_pk=group.pk, assignment_pk=assignment_pk )
+        return render(request, 'listening/student_listening_result.html', context=context)
 
     images = {img.caption: img.image_file.url for img in listening.images.all()}
 

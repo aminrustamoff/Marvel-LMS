@@ -14,30 +14,66 @@
         <h1 class="list-page__title">Assignments</h1>
         <a href="{% url 'assignment:assignment_create' %}" class="btn-create">Create</a>
     </div>
+    <div class="list-content">
+        <form method="GET" class="search-form">
+            <input
+                type="text"
+                name="search"
+                value="{{ search }}"
+                placeholder="Search assignment..."
+                >
+            <button type="submit">🔍︎Search</button>
+        </form>
 
-    {% if assignments %}
-        <ul class="assignment-list">
-            {% for assignment in assignments %}
-                <li class="assignment-card">
-                    <a href="{% url 'assignment:assignment_detail' assignment.pk %}" class="assignment-card__link">
-                        <span class="assignment-card__icon">📝</span>
-                        <div class="assignment-card__body">
-                            <span class="assignment-card__title">{{ assignment.title }}</span>
-                            <div class="assignment-card__meta">
-                                {% if assignment.assigned_by %}
-                                    <span class="assignment-card__author">Created by {{ assignment.assigned_by }}</span>
-                                {% endif %}
+        {% if page_obj %}
+            <ul class="assignment-list">
+                {% for assignment in page_obj %}
+                    <li class="assignment-card">
+                        <a href="{% url 'assignment:assignment_detail' assignment.pk %}" class="assignment-card__link">
+                            <span class="assignment-card__icon">📝</span>
+                            <div class="assignment-card__body">
+                                <span class="assignment-card__title">{{ assignment.title }}</span>
+                                <div class="assignment-card__meta">
+                                    {% if assignment.assigned_by %}
+                                        <span class="assignment-card__author">Created by {{ assignment.assigned_by }}</span>
+                                    {% endif %}
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                </li>
-            {% empty %}
-                <li class="list-page__empty">No assignments available.</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p class="list-page__empty">No assignments available.</p>
-    {% endif %}
+                        </a>
+                    </li>
+                {% empty %}
+                    <li class="list-page__empty">No assignments available.</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="list-page__empty">No assignments available.</p>
+        {% endif %}
+        <div class="pagination">
+
+            {% if page_obj.has_previous %}
+                <a href="?page=1&search={{ search }}" class="pagination-button button-first">First</a>
+
+                <a href="?page={{ page_obj.previous_page_number }}&search={{ search }}" class="pagination-button button-prev">
+                    Previous
+                </a>
+            {% endif %}
+
+            <span class="page-number">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}&search={{ search }}" class="pagination-button button-next">
+                    Next
+                </a>
+
+                <a href="?page={{ page_obj.paginator.num_pages }}&search={{ search }}" class="pagination-button button-last">
+                    Last
+                </a>
+            {% endif %}
+
+        </div>
+    </div>
 
 </div>
 {% endblock %}

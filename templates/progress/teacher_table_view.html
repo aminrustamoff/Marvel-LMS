@@ -15,7 +15,7 @@
     <tr>
         <th style="background-color: white; color: black;">Students</th>
         {% for assignment in assignments %}
-            <th>{{ assignment.assignment.title }}
+            <th><a style="text-decoration: none; color: blanchedalmond;" href="{% url 'assignment:assignment_detail' assignment.assignment.pk %}">{{ assignment.assignment.title }}</a>
              ({{ assignment.due_date|date:'d M, Y'|default:'No due'}})
             </th>
         {% endfor %}

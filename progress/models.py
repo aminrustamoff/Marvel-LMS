@@ -18,12 +18,13 @@ class StudentProgress(models.Model):
     group = models.ForeignKey(
         Group,
         null=True,
-        on_delete=models.PROTECT,
+        on_delete=models.SET_NULL,
         related_name="progress_groups",
     )
     assignment = models.ForeignKey(
         AssignmentDistribution,
-        on_delete=models.PROTECT,
+        null=True,
+        on_delete=models.SET_NULL,
         related_name="student_progress",
     )
     created_at = models.DateTimeField(auto_now_add=True)
@@ -57,7 +58,7 @@ class ProgressReading(models.Model):
     passage = models.ForeignKey(ReadingPassage, on_delete=models.CASCADE)
 
     answers = models.JSONField(default=dict, blank=True)
-    score = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    score = models.FloatField(null=True, blank=True)
 
     submitted_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -18,7 +18,10 @@
         <div class="group-page__date">Created at {{ group.created_at|date:"d M, Y" }}</div>
         <br/>
         <a href="{% url 'groups:group_update' group.pk %}" class="group-page__update-button">
-            Edit
+            Edit group
+        </a>
+        <a href="{% url 'progress:table_view' group.pk %}"  class="group-page__update-button">
+            Open student tracking
         </a>
 
     </header>
@@ -33,9 +36,7 @@
                             <span class="assignment-card__icon">📝</span>
                             <div class="assignment-card__body">
                                 <span class="assignment-card__title">
-                                    <a href="{% url 'progress:table_view' group.pk assignment.pk %}"  class="link-text">
-                                        {{ assignment.assignment.title }}
-                                    </a>
+                                    {{ assignment.assignment.title }}
                                 </span>
                                 {% if assignment.due_date %}
                                     <span class="assignment-card__due">Due {{ assignment.due_date|date:"d M, Y" }} | Created at {{assignment.assignment.created_at|date:"d M, Y"}}</span>

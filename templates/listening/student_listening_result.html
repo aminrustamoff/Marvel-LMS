@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Reading Results: {{reading.title}}{% endblock %}
+{% block title %}Listening Results: {{listening.title}}{% endblock %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/student_reading_result.css' %}"> 
+    <link rel="stylesheet" href="{% static 'css/student_listening_result.css' %}"> 
 {% endblock extra_css %}
 
 {% block content %}
@@ -24,7 +24,7 @@
         <div class="main-table__table-container">
 
             <span class="main-table__table-title">
-                Reading: {{ reading }}
+                Listening: {{ listening }}
             </span>
 
             <table class="result-table">

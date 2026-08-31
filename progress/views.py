@@ -7,7 +7,7 @@ from .models import StudentProgress
 from assignments.models import Assignment, AssignmentDistribution
 from groups.models import Group
 
-def student_assignment_progress_view(request, group_pk, assignment_pk):
+def student_assignment_progress_view(request, group_pk):
     group = get_object_or_404(Group, pk=group_pk)
     students = group.members.all().order_by('-date_joined')
     progresses = [obj for obj in group.progress_groups.all()]

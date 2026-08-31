@@ -1,6 +1,8 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
+from django.db.models import Q
+from django.core.paginator import Paginator
 
 from django.contrib.auth.decorators import login_required
 from accounts.decorators import student_required, teacher_required, TeacherRequiredMixin    
@@ -17,8 +19,31 @@ from django.views.generic import CreateView, DeleteView, UpdateView
 
 @teacher_required
 def assignment_list(request):
+    search = request.GET.get("search", "").strip()
+
     assignments = Assignment.objects.all()
-    return render(request, 'assignments/assignment_list.html', {'assignments': assignments})
+
+    if search:
+        assignments = assignments.filter(
+            Q(title__icontains=search) |
+            Q(description__icontains=search)
+        )
+
+    assignments = assignments.order_by("-created_at")
+
+    paginator = Paginator(assignments, 20)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    return render(
+        request,
+        'assignments/assignment_list.html',
+        {
+            'assignments': assignments,
+            'page_obj': page_obj,
+            'search': search,
+        }
+    )
 
 @teacher_required
 def assignment_detail(request, pk):

@@ -12,6 +12,8 @@ from progress.models import StudentProgress, ProgressReading
 from assignments.models import PassageTask
 
 from utils.text_to_html import convert
+from utils.normilizer import count_correct, get_dict_result
+from utils.marker import get_reading_band
 
 from django.contrib import messages
 from django.shortcuts import redirect
@@ -52,25 +54,42 @@ def student_reading_test_view(request, group_pk, assignment_pk, task_pk):
     reading = task.task
 
     if request.method == "POST":
-            answers = {}
-            for key, value in request.POST.items():
-                if key.startswith("question"):
-                    # key masalan: "question1", "question2" ...
-                    answers[key] = value
-    
-            # ProgressReading modeliga saqlash
-            student_progress, _ = StudentProgress.objects.get_or_create(
-                user=request.user,
-                group=group,
-                assignment=assignment,  # sizning bog'lanishingizga moslang
-            )
-            ProgressReading.objects.update_or_create(
-                progress=student_progress,
-                passage=reading,
-                defaults={"answers": answers, "submitted_at": timezone.now()},
-            )
-    
-            return redirect("assignment:student_assignment_detail", group_pk=group.pk , assignment_pk=assignment.pk)
+        user_answers = {}
+        for key, value in request.POST.items():
+            if key.startswith("question"):
+                # key masalan: "question1", "question2" ...
+                user_answers[key] = value
+
+
+
+        dictionary = get_dict_result(reading.answers, user_answers)
+        score = get_reading_band(reading.passage, dictionary["correct_count"])
+        
+            
+        context = {
+            'user_answers' : user_answers,
+            'dict_result' : dictionary,
+            'score' : score,
+            'reading' : reading,
+            'group_pk' : group_pk, 
+            'assignment_pk' : assignment_pk, 
+        }
+
+        # ProgressReading modeliga saqlash
+        student_progress, _ = StudentProgress.objects.get_or_create(
+            user=request.user,
+            group=group,
+            assignment=assignment,  # sizning bog'lanishingizga moslang
+        )
+        ProgressReading.objects.update_or_create(
+            progress=student_progress,
+            passage=reading,
+            defaults={"score": score, "answers": user_answers, "submitted_at": timezone.now()},
+        )
+
+
+        # return redirect("assignment:student_assignment_detail", group_pk=group.pk , assignment_pk=assignment.pk)
+        return render(request, 'reading/student_reading_result.html', context=context)
 
     images = {img.caption: img.image.url for img in reading.images.all()}
 

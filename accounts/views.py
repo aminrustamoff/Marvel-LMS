@@ -10,6 +10,8 @@ from django.contrib import messages
 from django.utils.decorators import method_decorator
 from .decorators import teacher_required
 from .forms import UserCreateForm, UserUpdateForm, AdminPasswordResetForm, UserDeleteConfirmForm
+from django.core.paginator import Paginator
+from django.db.models import Q
 
 from django.views.generic.edit import CreateView, UpdateView
 
@@ -40,9 +42,33 @@ class RoleBasedLoginView(LoginView):
 
 @teacher_required
 def student_list(request):
-    students = User.objects.filter(role=User.Role.STUDENT)
-    return render(request, "accounts/student_list.html", {"students": students})
+    search = request.GET.get("search", "").strip()
 
+    students = User.objects.filter(role=User.Role.STUDENT)
+
+    if search:
+        students = students.filter(
+            Q(username__icontains=search) |
+            Q(first_name__icontains=search) |
+            Q(last_name__icontains=search) |
+            Q(email__icontains=search)
+        )
+
+    students = students.order_by("username")
+
+    paginator = Paginator(students, 20) 
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+
+    return render(
+        request,
+        "accounts/student_list.html",
+        {
+            "page_obj": page_obj,
+            "search": search,
+        },
+    )
 
 @teacher_required
 def student_detail(request, pk):
@@ -52,8 +78,32 @@ def student_detail(request, pk):
 
 @teacher_required
 def teacher_list(request):
+    search = request.GET.get("search", "").strip()
+
     teachers = User.objects.filter(role=User.Role.TEACHER)
-    return render(request, "accounts/teacher_list.html", {"teachers": teachers})
+
+    if search:
+        teachers = teachers.filter(
+            Q(username__icontains=search) |
+            Q(first_name__icontains=search) |
+            Q(last_name__icontains=search) |
+            Q(email__icontains=search)
+        )
+
+    teachers = teachers.order_by("username")
+
+    paginator = Paginator(teachers, 20)  # Har sahifada 10 ta teacher
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    return render(
+        request,
+        "accounts/teacher_list.html",
+        {
+            "page_obj": page_obj,
+            "search": search,
+        },
+    )
 
 
 @teacher_required
