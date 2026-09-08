@@ -101,6 +101,8 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
 
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+
     "django.contrib.sessions.middleware.SessionMiddleware",
 
     "django.middleware.common.CommonMiddleware",
@@ -308,8 +310,18 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
-]
+] if (BASE_DIR / "static").exists() else []
 
+
+ 
+# runserver ishlatilmayotganda ham (masalan, gunicorn bilan local test
+# qilinganda) WhiteNoise static fayllarni to'g'ridan-to'g'ri
+# STATICFILES_DIRS/app static papkalaridan topib bera oladi.
+WHITENOISE_USE_FINDERS = True
+ 
+# Manifest'da yo'q fayl (masalan, hali collectstatic qilinmagan holat)
+# uchrasa, 500 xato o'rniga ogohlantirish bilan cheklanadi.
+WHITENOISE_MANIFEST_STRICT = False
 
 # =========================================================
 # MEDIA FILES
