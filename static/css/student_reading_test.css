@@ -22,6 +22,24 @@ main.main-content {
     padding: 0;
 }
 
+.submit-btn {
+    display: inline-flex;
+    justify-content: flex-end;
+    text-decoration: none;
+    border: 1px solid #b91c1c;
+    color: #b91c1c;
+    border-radius: 0.4rem;
+    margin: 1rem 0;
+    padding: 0.1rem 4rem;
+    font-size: 1.2rem;
+    font-family: sans-serif;
+}
+
+.submit-btn:hover {
+    background-color: #b91c1c;
+    color: #f0fdf4;
+}
+
 #test-content,
 #main-wrapper,
 .reading-wrapper,

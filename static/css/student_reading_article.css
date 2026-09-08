@@ -46,6 +46,24 @@
     margin-bottom: 1.5rem;
 }
 
+.submit-btn {
+    display: inline-flex;
+    justify-content: flex-end;
+    text-decoration: none;
+    border: 1px solid #b91c1c;
+    color: #b91c1c;
+    border-radius: 0.4rem;
+    margin-top: 1rem;
+    padding: 0.1rem 4rem;
+    font-size: 1.2rem;
+    font-family: sans-serif;
+}
+
+.submit-btn:hover {
+    background-color: #b91c1c;
+    color: #f0fdf4;
+}
+
 /* ---------- Cover image ---------- */
 .reading-article__cover {
     margin: 0 0 1.5rem;
