@@ -30,16 +30,16 @@
             {% endif %}
 
             <div class="header-actions header-actions--desktop">
-                {% if user.is_authenticated and user.role == "TEACHER" %}
                 <nav class="main-nav">
-                    <a href="{% url 'dashboard:teacher_dashboard' %}">Dashboard</a>
-                    <a href="{% url 'admin:index' %}">Advanced Admin</a>
+                    <a href="{% url 'home' %}">Home Page</a>
+
+                    {% if user.is_authenticated and user.role == "TEACHER" %}
+                        <a href="{% url 'dashboard:teacher_dashboard' %}">Dashboard</a>
+                        <a href="{% url 'admin:index' %}">Advanced Admin</a>
+                    {% elif user.is_authenticated and user.role == "STUDENT" %}
+                        <a href="{% url 'dashboard:student_dashboard' %}">Dashboard</a>
+                    {% endif %}
                 </nav>
-                {% elif user.is_authenticated and user.role == "STUDENT" %}
-                <nav class="main-nav">
-                    <a href="{% url 'dashboard:student_dashboard' %}">Dashboard</a>
-                </nav>
-                {% endif %}
 
                 {% if user.is_authenticated %}
                 <div class="user-box">
