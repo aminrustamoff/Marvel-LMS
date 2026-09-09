@@ -431,8 +431,8 @@ https://templatemo.com/tm-600-prism-flux
 
         // Intersection Observer for stats animation
         const observerOptions = {
-            threshold: 0.5,
-            rootMargin: '0px 0px -100px 0px'
+            threshold: 0.3,
+            rootMargin: '0px 0px -50px 0px'
         };
 
         const observer = new IntersectionObserver((entries) => {
@@ -445,14 +445,15 @@ https://templatemo.com/tm-600-prism-flux
                             animateCounter(number);
                         }
                     });
+                    observer.unobserve(entry.target); // bitta marta ishlagach kuzatishni to'xtatamiz
                 }
             });
         }, observerOptions);
 
-        const statsSection = document.querySelector('.stats-section');
-        if (statsSection) {
-            observer.observe(statsSection);
-        }
+        // Har bir kartani alohida kuzatamiz, butun sectionni emas
+        document.querySelectorAll('.stat-card').forEach(card => {
+            observer.observe(card);
+        });
 
         // Form submission
         const contactForm = document.getElementById('contactForm');
