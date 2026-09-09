@@ -34,6 +34,8 @@ https://templatemo.com/tm-600-prism-flux
 
 html {
 	scroll-behavior: smooth;
+	overflow-x: hidden;   /* YANGI: body bilan birga html darajasida ham cheklash */
+	width: 100%;
 }
 
 body {
@@ -379,6 +381,9 @@ body::after {
 	background: radial-gradient(ellipse at center,
 			rgba(153, 69, 255, 0.1) 0%,
 			transparent 50%);
+	overflow-x: hidden;   /* YANGI */
+	overflow-y: visible;  /* controllar/indikatorlar kesilib qolmasligi uchun */
+	width: 100%;
 }
 
 .carousel-container {
